@@ -37,12 +37,12 @@ const LoginPage = async () => {
               Forget password?
             </Link>
           </div>
-          <div>
+          <div className="flex justify-end gap-2">
             <Button variant="secondary" className="bg-purple border-2">
               Sign in
             </Button>
             <Button variant="outline" className="border-purple border-2">
-              Sign in
+              Sign up
             </Button>
           </div>
         </div>
