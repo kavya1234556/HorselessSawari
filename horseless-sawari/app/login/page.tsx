@@ -17,10 +17,10 @@ const LoginPage: React.FC<SignUpModalProps> = () => {
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
-  const [value, setValue] = useState("");
+  // const [value, setValue ] = useState("");
   return (
     <div>
-      <div className="flex my-9 sm:max-w-[1000px]  m-auto sm:flex-row flex-col">
+      <div className="flex my-9 sm:max-w-[1000px] m-auto sm:flex-row flex-col">
         <div className="text-white flex flex-col sm:w-1/2 bg-purple px-[40px]">
           <Logo />
           <h1 className=" mt-[40px] whitespace-nowrap text-[32px] font-bold">
@@ -35,7 +35,7 @@ const LoginPage: React.FC<SignUpModalProps> = () => {
               Email address
             </label>
             <Input />
-            <Input value={value} onChange={(e) => setValue(e.target.value)} />
+            {/* <Input value={value} onChange={(e) => setValue(e.target.value)} /> */}
           </div>
           <div className="mt-[14px] flex flex-col gap-1 ">
             <label className="capitalize font-normal text-[12px]">

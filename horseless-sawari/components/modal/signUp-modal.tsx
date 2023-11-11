@@ -38,13 +38,16 @@ const SignUpModal: React.FC<IloginType> = ({ handleToggleModal, open }) => {
   return (
     <Modal
       title="Sign Up"
-      className="font-bold"
+      className="font-bold max-w-[750px] sm:h-[] h-[652px] "
       isOpen={open}
       onClose={handleToggleModal}
     >
-      <div>
+      <div className="mt-[30px] max-w-[650px] m-auto sm:p-[0] px-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(submit)}>
+          <form
+            onSubmit={form.handleSubmit(submit)}
+            className="flex flex-col gap-6"
+          >
             <FormField
               control={form.control}
               name="username"
@@ -88,12 +91,41 @@ const SignUpModal: React.FC<IloginType> = ({ handleToggleModal, open }) => {
                 </FormItem>
               )}
             />
-            <Button type="submit">SignIn</Button>
-            <Link href={"./login"}>
-              <Button type="button" onClick={handleToggleModal}>
-                Cancel
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Password"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex gap-6 justify-end">
+              <Button
+                type="submit"
+                className="border border-purple "
+                variant="outline"
+              >
+                SignIn
               </Button>
-            </Link>
+              <Link href={"./login"}>
+                <Button
+                  type="button"
+                  className="bg-purple"
+                  onClick={handleToggleModal}
+                >
+                  Cancel
+                </Button>
+              </Link>
+            </div>
           </form>
         </Form>
       </div>

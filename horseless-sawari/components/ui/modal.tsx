@@ -36,10 +36,10 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onHandleModalChange}>
-      <DialogContent className={cn("p-0 max-w-[1056px]", className)}>
+      <DialogContent className={cn("p-0 max-w-[1056px] ", className)}>
         {showHeader && (
-          <DialogHeader className="pt-[30px] pb-[15px]">
-            <DialogTitle className="text-[22px] pl-[37px] font-medium">
+          <DialogHeader>
+            <DialogTitle className="text-[22px] sm:pl-[37px] pt-[30px] sm:text-left pb-[30px] bg-purple text-center font-medium">
               {title}
             </DialogTitle>
             {description && (
