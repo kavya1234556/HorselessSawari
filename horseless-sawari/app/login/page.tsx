@@ -1,12 +1,23 @@
+"use client";
 import Logo from "@/assests/logo";
+import SignUpModal from "@/components/modal/signUp-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-
-const LoginPage = async () => {
-  // const [value, setValue] = useState("");
+interface SignUpModalProps {
+  handleToggleModal: () => void;
+  open: boolean;
+  active?: string | null;
+  data?: any;
+}
+const LoginPage: React.FC<SignUpModalProps> = () => {
+  const [open, setOpen] = useState(false);
+  const toggleModal = () => {
+    setOpen((prev) => !prev);
+  };
+  const [value, setValue] = useState("");
   return (
     <div>
       <div className="flex my-9 sm:max-w-[1000px]  m-auto sm:flex-row flex-col">
@@ -24,7 +35,7 @@ const LoginPage = async () => {
               Email address
             </label>
             <Input />
-            {/* <Input value={value} onChange={(e) => setValue(e.target.value)} /> */}
+            <Input value={value} onChange={(e) => setValue(e.target.value)} />
           </div>
           <div className="mt-[14px] flex flex-col gap-1 ">
             <label className="capitalize font-normal text-[12px]">
@@ -41,9 +52,14 @@ const LoginPage = async () => {
             <Button variant="secondary" className="bg-purple border-2">
               Sign in
             </Button>
-            <Button variant="outline" className="border-purple border-2">
+            <Button
+              variant="outline"
+              className="border-purple border-2 "
+              onClick={() => setOpen(true)}
+            >
               Sign up
             </Button>
+            <SignUpModal open={open} handleToggleModal={toggleModal} />
           </div>
         </div>
         <div className="relative h-[580px] w-1/2">

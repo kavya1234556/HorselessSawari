@@ -13,6 +13,8 @@ import {
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export interface IloginType {
   email: string;
@@ -26,7 +28,7 @@ export const loginSchema = yup.object().shape({
   username: yup.string().required("username is required"),
 });
 
-const SignUpModal = () => {
+const SignUpModal: React.FC<IloginType> = ({ handleToggleModal, open }) => {
   const form = useForm({
     resolver: yupResolver(loginSchema),
   });
@@ -34,7 +36,12 @@ const SignUpModal = () => {
     console.log("hii");
   };
   return (
-    <Modal title="Sign Up" className="font-bold" isOpen onClose={() => {}}>
+    <Modal
+      title="Sign Up"
+      className="font-bold"
+      isOpen={open}
+      onClose={handleToggleModal}
+    >
       <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(submit)}>
@@ -81,6 +88,12 @@ const SignUpModal = () => {
                 </FormItem>
               )}
             />
+            <Button type="submit">SignIn</Button>
+            <Link href={"./login"}>
+              <Button type="button" onClick={handleToggleModal}>
+                Cancel
+              </Button>
+            </Link>
           </form>
         </Form>
       </div>
