@@ -19,7 +19,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-interface loginType {
+interface IloginType {
   username: string;
   password: string;
 }
@@ -29,7 +29,7 @@ const loginSchema = yup.object().shape({
   password: yup.string().required("Password is required").min(8),
 });
 
-const LoginPage: React.FC<loginType> = () => {
+const LoginPage: React.FC<IloginType> = () => {
   const [open, setOpen] = useState(false);
   const form = useForm({
     resolver: yupResolver(loginSchema),
