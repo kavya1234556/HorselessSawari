@@ -15,22 +15,27 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import InputPassword from "../ui/inputPassword";
 
-export interface IloginType {
-  email: string;
-  password: string;
-  username: string;
-}
+type SignUpModalProps = {
+  handleToggleModal: () => void;
+  open: boolean;
+  active?: string | null;
+  data?: any;
+};
 
-export const loginSchema = yup.object().shape({
+export const signUpSchema = yup.object().shape({
   email: yup.string().required("Email is required"),
   password: yup.string().required("Password is required"),
   username: yup.string().required("username is required"),
 });
 
-const SignUpModal: React.FC<IloginType> = ({ handleToggleModal, open }) => {
+const SignUpModal: React.FC<SignUpModalProps> = ({
+  handleToggleModal,
+  open,
+}) => {
   const form = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(signUpSchema),
   });
   const submit = () => {
     console.log("hii");
@@ -81,11 +86,7 @@ const SignUpModal: React.FC<IloginType> = ({ handleToggleModal, open }) => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter Password"
-                      type="password"
-                      {...field}
-                    />
+                    <InputPassword field={field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,7 +115,7 @@ const SignUpModal: React.FC<IloginType> = ({ handleToggleModal, open }) => {
                 className="border border-purple "
                 variant="outline"
               >
-                SignIn
+                Sign Up
               </Button>
               <Link href={"./login"}>
                 <Button
