@@ -1,10 +1,11 @@
-import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
+import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log("🚀 ~ file: route.ts:8 ~ POST ~ body:", body);
     const { email, username, password } = body;
 
     const existingUserByEmail = await db.user.findUnique({
@@ -42,6 +43,7 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: "something went wrong" },
       { status: 500 }

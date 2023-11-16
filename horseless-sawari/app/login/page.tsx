@@ -23,7 +23,6 @@ interface IloginType {
   username: string;
   password: string;
 }
-
 const loginSchema = yup.object().shape({
   username: yup.string().required("username is required").min(2),
   password: yup.string().required("Password is required").min(8),

@@ -9,13 +9,10 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import InputPassword from "../ui/inputPassword";
+import useSignupForm from "@/app/login/hooks/useSignupForm";
 
 type SignUpModalProps = {
   handleToggleModal: () => void;
@@ -24,22 +21,11 @@ type SignUpModalProps = {
   data?: any;
 };
 
-export const signUpSchema = yup.object().shape({
-  email: yup.string().required("Email is required"),
-  password: yup.string().required("Password is required"),
-  username: yup.string().required("username is required"),
-});
-
 const SignUpModal: React.FC<SignUpModalProps> = ({
   handleToggleModal,
   open,
 }) => {
-  const form = useForm({
-    resolver: yupResolver(signUpSchema),
-  });
-  const submit = () => {
-    console.log("hii");
-  };
+  const { form, submit } = useSignupForm();
   return (
     <Modal
       title="Sign Up"
@@ -94,7 +80,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
             />
             <FormField
               control={form.control}
-              name="password"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
@@ -109,6 +95,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
                 </FormItem>
               )}
             />
+
             <div className="flex gap-6 justify-end">
               <Button
                 type="submit"
