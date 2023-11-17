@@ -18,7 +18,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { signIn } from "next-auth/react";
+// import { useRouter } from "next/navigation";
 interface IloginType {
   username: string;
   password: string;
@@ -29,6 +30,7 @@ const loginSchema = yup.object().shape({
 });
 
 const LoginPage: React.FC<IloginType> = () => {
+  // const router = useRouter();
   const [open, setOpen] = useState(false);
   const form = useForm({
     resolver: yupResolver(loginSchema),
@@ -37,10 +39,26 @@ const LoginPage: React.FC<IloginType> = () => {
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
-  const submit = () => {
-    console.log("hii");
-  };
+  const submit = async (values: IloginType) => {
+    console.log("🚀 ~ file: page.tsx:43 ~ submit ~ values:", values);
+    try {
+      const loginData = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      });
 
+      console.log("🚀 ~ file: page.tsx:45 ~ submit ~ loginData:", loginData);
+
+      if (loginData.error) {
+        console.log(loginData.error);
+      } else {
+        console.log("Success");
+      }
+    } catch (error) {
+      console.error("An error occurred during login:", error);
+    }
+  };
   // const [value, setValue ] = useState("");
 
   return (
@@ -82,7 +100,7 @@ const LoginPage: React.FC<IloginType> = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter yor password" {...field} />
+                        <Input placeholder="Enter your password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
