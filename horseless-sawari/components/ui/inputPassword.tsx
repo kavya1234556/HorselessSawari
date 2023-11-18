@@ -1,11 +1,12 @@
+"use client";   
+
 import React, { useState } from "react";
-import { Form, FormField } from "./form";
 import { Input } from "./input";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const InputPassword = ({ field }: { field: any }) => {
   const [hidden, setHidden] = useState(true);
-  const toggleModal = (prev) => {
+  const toggleModal = (prev: any) => {
     setHidden((prev) => !prev);
   };
   return (

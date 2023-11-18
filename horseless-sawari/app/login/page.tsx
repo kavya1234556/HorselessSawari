@@ -10,56 +10,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import * as yup from "yup";
-
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { signIn } from "next-auth/react";
+import { useState } from "react";
+import useLoginForm, { IloginType } from "./hooks/useLoginForm";
+import InputPassword from "@/components/ui/inputPassword";
+
 // import { useRouter } from "next/navigation";
-interface IloginType {
-  username: string;
-  password: string;
-}
-const loginSchema = yup.object().shape({
-  username: yup.string().required("username is required").min(2),
-  password: yup.string().required("Password is required").min(8),
-});
 
 const LoginPage: React.FC<IloginType> = () => {
-  // const router = useRouter();
   const [open, setOpen] = useState(false);
-  const form = useForm({
-    resolver: yupResolver(loginSchema),
-  });
-
+  const { submit, form } = useLoginForm();
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
-  const submit = async (values: IloginType) => {
-    console.log("🚀 ~ file: page.tsx:43 ~ submit ~ values:", values);
-    try {
-      const loginData = await signIn("credentials", {
-        username: values.username,
-        password: values.password,
-        redirect: false,
-      });
-
-      console.log("🚀 ~ file: page.tsx:45 ~ submit ~ loginData:", loginData);
-
-      if (loginData.error) {
-        console.log(loginData.error);
-      } else {
-        console.log("Success");
-      }
-    } catch (error) {
-      console.error("An error occurred during login:", error);
-    }
-  };
-  // const [value, setValue ] = useState("");
 
   return (
     <div>
@@ -100,7 +65,7 @@ const LoginPage: React.FC<IloginType> = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your password" {...field} />
+                        <InputPassword field={field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -126,7 +91,7 @@ const LoginPage: React.FC<IloginType> = () => {
             <Button
               variant="outline"
               className="border-purple border-2 max-w-[176px] sm:my-[15px] my-[20px] center"
-              onClick={() => setOpen(true)}
+              onClick={() => toggleModal}
             >
               CREATE MY ACCOUNT
             </Button>

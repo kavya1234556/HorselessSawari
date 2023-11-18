@@ -3,11 +3,16 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { IloginType } from "./../../../login/hooks/useLoginForm";
 
 export const options: NextAuthOptions = {
   adapter: PrismaAdapter(db),
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
   },
   providers: [
     CredentialsProvider({
@@ -25,10 +30,6 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        console.log("Received credentials:", credentials);
-
-        console.log("Invalid credentials");
-
         if (!credentials?.username || !credentials?.password) {
           console.log("Missing username or password");
           return null;
@@ -65,4 +66,14 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.role = user.role;
+      return token;
+    },
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role;
+      return session;
+    },
+  },
 };
