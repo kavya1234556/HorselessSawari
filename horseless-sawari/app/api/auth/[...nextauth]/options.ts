@@ -31,7 +31,7 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
-          console.log("Missing username or password");
+          // console.log("Missing username or password");
           return null;
         }
 
@@ -39,7 +39,7 @@ export const options: NextAuthOptions = {
           where: { username: credentials?.username },
         });
 
-        console.log("Existing user:", existingUser);
+        // console.log("Existing user:", existingUser);
 
         if (!existingUser) {
           console.log("User not found");
@@ -51,7 +51,7 @@ export const options: NextAuthOptions = {
           existingUser.password
         );
 
-        console.log("Password match:", passwordMatch);
+        // console.log("Password match:", passwordMatch);
 
         if (!passwordMatch) {
           console.log("Password does not match");
@@ -62,6 +62,7 @@ export const options: NextAuthOptions = {
           id: `${existingUser.id}`,
           username: existingUser.username,
           email: existingUser.email,
+          role: "USER",
         };
       },
     }),
