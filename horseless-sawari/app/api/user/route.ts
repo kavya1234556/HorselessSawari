@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import { hash } from "bcrypt";
-import { db } from "@/lib/db";
+import { NextResponse } from 'next/server';
+import { hash } from 'bcrypt';
+import { db } from '@/lib/db';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("🚀 ~ file: route.ts:8 ~ POST ~ body:", body);
+    console.log('🚀 ~ file: route.ts:8 ~ POST ~ body:', body);
     const { email, username, password } = body;
 
     const existingUserByEmail = await db.user.findUnique({
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     if (existingUserByEmail) {
       return NextResponse.json(
-        { user: null, message: "User this email already exists" },
+        { user: null, message: 'User this email already exists' },
         { status: 409 }
       );
     }
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     if (existingUserByUsername) {
       return NextResponse.json(
-        { user: null, message: "User this username already exists" },
+        { user: null, message: 'User this username already exists' },
         { status: 409 }
       );
     }
@@ -39,13 +39,13 @@ export async function POST(req: Request) {
     });
     const { password: NewUserPassword, ...rest } = newUser;
     return NextResponse.json(
-      { user: rest, message: "User created successfully" },
+      { user: rest, message: 'User created successfully' },
       { status: 201 }
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { message: "something went wrong" },
+      { message: 'something went wrong' },
       { status: 500 }
     );
   }

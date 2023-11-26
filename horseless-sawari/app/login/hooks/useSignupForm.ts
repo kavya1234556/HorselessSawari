@@ -35,6 +35,7 @@ const useSignupForm = ({ handleToggleModal }) => {
     },
   });
   const submit = async (values: ISignUpForm) => {
+    console.log('🚀 ~ file: useSignupForm.ts:38 ~ submit ~ values:', values);
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
@@ -47,6 +48,10 @@ const useSignupForm = ({ handleToggleModal }) => {
           password: values.password,
         }),
       });
+      console.log(
+        '🚀 ~ file: useSignupForm.ts:51 ~ submit ~ response:',
+        response
+      );
 
       if (response.ok) {
         toast({
