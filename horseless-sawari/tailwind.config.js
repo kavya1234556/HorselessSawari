@@ -17,6 +17,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        secondaryPurple: "var(--color-secondaryPurple)",
         purple: "var(--color-purple)",
         gray: "var(--color-gray)",
         white: "var(--color-white)",
@@ -79,4 +80,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-

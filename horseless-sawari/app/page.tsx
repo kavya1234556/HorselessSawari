@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import ReservationPage from "./reservation/page";
 
 export default function Home() {
   const session = useSession();
@@ -18,6 +19,13 @@ export default function Home() {
       router.push("/");
     }
   }, [url, session?.data?.user?.role]);
-
-  return <div>User</div>;
+  if (session?.data) {
+    return (
+      <h1>
+        <ReservationPage />
+      </h1>
+    );
+  } else {
+    return <h1>Not allowed</h1>;
+  }
 }
