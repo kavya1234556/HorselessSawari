@@ -1,17 +1,23 @@
-import Hero from "@/components/hero/hero";
-import { getServerSession } from "next-auth";
-import { options } from "./api/auth/[...nextauth]/options";
+"use client";
 
-export default async function Home() {
-  const session = await getServerSession(options);
-  if (session) {
-    return (
-      <div>
-        Role: {session.user.role}
-        <Hero />
-      </div>
-    );
-  } else {
-    return <div>NOt Allowed</div>;
-  }
+import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+
+export default function Home() {
+  const session = useSession();
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const url = searchParams.has("url");
+
+  useEffect(() => {
+    if (url && session?.data?.user?.role === "ADMIN") {
+      router.push("/dashboard");
+    } else {
+      router.push("/");
+    }
+  }, [url, session?.data?.user?.role]);
+
+  return <div>User</div>;
 }
