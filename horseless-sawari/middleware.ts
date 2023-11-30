@@ -1,15 +1,15 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextRequest } from 'next/server';
+import { withAuth } from "next-auth/middleware";
+import { NextRequest } from "next/server";
 
 export default withAuth(
   function middleware(req: NextRequest) {
-    console.log('middleware', req);
+    console.log("middleware", req);
   },
   {
     callbacks: {
-      authorized: ({ token }) => token?.role === 'ADMIN',
+      authorized: ({ token }) => token?.role === "ADMIN",
     },
   }
 );
 
-export const config = { matcher: ['/dashboard'] };
+export const config = { matcher: ["/dashboard"] };

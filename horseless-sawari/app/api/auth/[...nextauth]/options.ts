@@ -62,7 +62,7 @@ export const options: NextAuthOptions = {
           id: `${existingUser.id}`,
           username: existingUser.username,
           email: existingUser.email,
-          role: "USER",
+          role: existingUser.role,
         };
       },
     }),
