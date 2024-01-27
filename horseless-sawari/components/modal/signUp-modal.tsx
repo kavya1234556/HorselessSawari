@@ -1,6 +1,6 @@
-import React from "react";
-import Modal from "../ui/modal";
-import { Input } from "../ui/input";
+import React from 'react';
+import Modal from '../ui/modal';
+import { Input } from '../ui/input';
 import {
   Form,
   FormControl,
@@ -8,11 +8,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import InputPassword from "../ui/inputPassword";
-import useSignupForm from "@/app/login/hooks/useSignupForm";
+} from '../ui/form';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import InputPassword from '../ui/inputPassword';
+import useSignupForm from '@/app/login/hooks/useSignupForm';
+import { signIn } from 'next-auth/react';
+import GoogleButton from 'react-google-button';
 
 type SignUpModalProps = {
   handleToggleModal: () => void;
@@ -32,25 +34,25 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
   };
   return (
     <Modal
-      title="Sign Up"
-      className="font-bold max-w-[750px] sm:h-[] h-[652px] "
+      title='Sign Up'
+      className='font-bold max-w-[750px] sm:h-[] h-[652px] '
       isOpen={open}
       onClose={handleCLose}
     >
-      <div className="mt-[30px] max-w-[650px] m-auto sm:p-[0] px-4">
+      <div className='mt-[30px] max-w-[650px] m-auto sm:p-[0] px-4'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(submit)}
-            className="flex flex-col gap-6"
+            className='flex flex-col gap-6'
           >
             <FormField
               control={form.control}
-              name="username"
+              name='username'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter username" {...field} />
+                    <Input placeholder='Enter username' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -58,12 +60,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
             />
             <FormField
               control={form.control}
-              name="email"
+              name='email'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter Email" {...field} />
+                    <Input placeholder='Enter Email' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -71,7 +73,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
             />
             <FormField
               control={form.control}
-              name="password"
+              name='password'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
@@ -84,14 +86,14 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
             />
             <FormField
               control={form.control}
-              name="confirmPassword"
+              name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter Password"
-                      type="password"
+                      placeholder='Enter Password'
+                      type='password'
                       {...field}
                     />
                   </FormControl>
@@ -100,18 +102,19 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
               )}
             />
 
-            <div className="flex gap-6 justify-end">
+            <div className='flex gap-6 justify-end'>
               <Button
-                type="submit"
-                className="border border-purple "
-                variant="outline"
+                type='submit'
+                className='border border-purple '
+                variant='outline'
               >
                 Sign Up
               </Button>
-              <Link href={"./login"}>
+
+              <Link href={'./login'}>
                 <Button
-                  type="button"
-                  className="bg-purple"
+                  type='button'
+                  className='bg-purple'
                   onClick={handleCLose}
                 >
                   Cancel
@@ -119,6 +122,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
               </Link>
             </div>
           </form>
+          <GoogleButton onClick={() => signIn('google')} />
         </Form>
       </div>
     </Modal>

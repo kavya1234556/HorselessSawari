@@ -1,4 +1,8 @@
-import { DefaultSession, DefaultUser } from 'next-auth';
+import {
+  DefaultSession,
+  DefaultUser,
+  RedirectCallback as NextAuthRedirectCallback,
+} from 'next-auth';
 import { JWT, DefaultJWT } from 'next-auth/jwt';
 
 declare module 'next-auth' {
