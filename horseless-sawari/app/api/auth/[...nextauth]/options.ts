@@ -1,32 +1,41 @@
-import { db } from "@/lib/db";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { compare } from "bcrypt";
-import type { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { IloginType } from "./../../../login/hooks/useLoginForm";
-
+import { db } from '@/lib/db';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { compare } from 'bcrypt';
+import type { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 export const options: NextAuthOptions = {
   adapter: PrismaAdapter(db),
-  secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
+    }),
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         username: {
-          label: "username",
-          type: "text",
-          placeholder: "Your Username",
+          label: 'username',
+          type: 'text',
+          placeholder: 'Your Username',
         },
         password: {
-          label: "password",
-          type: "password",
-          placeholder: "Your Password",
+          label: 'password',
+          type: 'password',
+          placeholder: 'Your Password',
         },
       },
       async authorize(credentials) {
@@ -42,7 +51,7 @@ export const options: NextAuthOptions = {
         // console.log("Existing user:", existingUser);
 
         if (!existingUser) {
-          console.log("User not found");
+          console.log('User not found');
           return null;
         }
 
@@ -54,7 +63,7 @@ export const options: NextAuthOptions = {
         // console.log("Password match:", passwordMatch);
 
         if (!passwordMatch) {
-          console.log("Password does not match");
+          console.log('Password does not match');
           return null;
         }
 
@@ -67,6 +76,7 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) token.role = user.role;

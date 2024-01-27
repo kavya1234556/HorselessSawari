@@ -18,10 +18,16 @@ model user {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      Role?    @default(USER)
+  resetToken String?
+  resetTokenExpiry DateTime?
 }
 
 enum Role {
   USER
   ADMIN
   MANAGER
+}
+
+model forgotPassword {
+  userid String
 }

@@ -1,8 +1,6 @@
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 
 interface ISignUpForm {
@@ -24,7 +22,6 @@ const signUpSchema = yup.object().shape({
 
 const useSignupForm = ({ handleToggleModal }) => {
   const { toast } = useToast();
-  const router = useRouter();
   const form = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
