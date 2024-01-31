@@ -57,11 +57,6 @@ const ResetPasswordPage = ({ params }: any) => {
     verifyToken(); //calling funtion from within
   }, [params.token]);
 
-  const handleResetPassword = async () => {};
-
-  if (!params.token) {
-    return <p>Loading...</p>; // You might want to add a loading state
-  }
   const Schema = yup.object().shape({
     password: yup.string().required('Password is required').min(8),
   });
@@ -69,10 +64,9 @@ const ResetPasswordPage = ({ params }: any) => {
     resolver: yupResolver(Schema),
   });
   const submit = async (values: IResetPasswordType) => {
-    console.log('🚀 ~ submit ~ values:', values);
     try {
       const response = await fetch('/api/reset-password', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -108,13 +102,15 @@ const ResetPasswordPage = ({ params }: any) => {
     }
   };
   return (
-    <div className='min-h-[100vh] flex items-start justify-center pt-28 sm:px-6 lg:px-8 '>
-      <Logo />
-      <div className='mt-[30px]'>
+    <div className='min-h-[100vh] flex items-start justify-center pt-28 sm:px-6 lg:px-8  '>
+      <div className='bg-purple p-[20px] border-4 shadow-lg w-[40%] h-[45vh] '>
+        <div className='flex justify-center'>
+          <Logo />
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(submit)}
-            className='flex flex-col gap-[8px]'
+            className='flex flex-col gap-[30px]'
           >
             <FormField
               control={form.control}
@@ -129,7 +125,7 @@ const ResetPasswordPage = ({ params }: any) => {
                 </FormItem>
               )}
             />
-            <div className='flex justify-center '>
+            <div className='flex justify-center  mt-[10px] '>
               <Button
                 variant='secondary'
                 className=' bg-purple border-2 sm:mt-[0px] mt-[10px]'

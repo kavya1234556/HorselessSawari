@@ -20,6 +20,8 @@ model user {
   role      Role?    @default(USER)
   resetToken String?
   resetTokenExpiry DateTime?
+  account      account[]
+  car  car[]
 }
 
 enum Role {
@@ -28,6 +30,61 @@ enum Role {
   MANAGER
 }
 
-model forgotPassword {
-  userid String
+model account {
+  acc_id      Int      @id @default(autoincrement())
+  profile_image String
+  first_name  String
+  last_name   String
+  phone_number String
+  user        user     @relation(fields: [user_id], references: [id])
+  user_id     Int
+}
+
+model car {
+  carID                Int             @id @default(autoincrement())
+  onwerName            String
+  manufacture          String
+  registration_num     Int
+  features            String
+  no_of_seats          Int
+  fuel_Type            FuelType        @default(ELECTRIC)
+  color                String
+  Total_km             Float
+  car_images           vehicleImage[]
+  bluebook_img         blubookImage[]
+  insurance_img        insuranceImage[]
+  insurance_valid_date DateTime
+  pricing_per_hour     Int
+  pricing_per_four_hour Int
+  pricing_per_eight_hour Int
+  pricing_per_day      Int
+  isBooked             Boolean         @default(false)
+  isVerified           Boolean         @default(false)
+  user                 user            @relation(fields: [user_id], references: [id])
+  user_id              Int
+}
+
+model vehicleImage {
+  image_id    Int       @id @default(autoincrement())
+  car     car   @relation(fields: [car_id], references: [carID])
+  car_id  Int
+  image_path  String
+}
+model blubookImage {
+  image_id    Int       @id @default(autoincrement())
+  car     car   @relation(fields: [car_id], references: [carID])
+  car_id  Int
+  image_path  String
+}
+model insuranceImage {
+  image_id    Int       @id @default(autoincrement())
+  car     car   @relation(fields: [car_id], references: [carID])
+  car_id  Int
+  image_path  String
+}
+
+enum FuelType {
+  DISEL
+  GAS
+  ELECTRIC
 }
