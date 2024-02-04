@@ -12,34 +12,8 @@ export interface IProfileType {
   user_id: number;
 }
 
-const useAddProfileForm = (user_id: any) => {
-  const router = useRouter();
-
-  const Schema = yup.object().shape({
-    profile_image: yup
-      .mixed()
-      .required('Please select a profile image')
-      .test('empty', 'Please select a profile image', (value: any) => {
-        if (value && value.length > 0) return true;
-        return false;
-      }),
-    first_name: yup.string().required('Required'),
-    last_name: yup.string().required('Required'),
-    phone_number: yup.string().required('A phone number is required'),
-    user_id: yup.number().required('Required'),
-  });
-
-  const form = useForm<IProfileType>({
-    resolver: yupResolver(Schema) as any,
-    defaultValues: {
-      profile_image: null,
-      first_name: '',
-      last_name: '',
-      phone_number: '',
-      user_id: 0,
-    },
-  });
-  const submit = async (values: IProfileType) => {
+const useEditProfileForm = (user_id: any) => {
+  const update = async (values: IProfileType) => {
     const formdata = new FormData();
     formdata.append('profile_image', values.profile_image[0]);
     formdata.append('first_name', values.first_name);
@@ -49,7 +23,7 @@ const useAddProfileForm = (user_id: any) => {
     try {
       console.log(formdata);
       const response = await fetch('/api/account', {
-        method: 'POST',
+        method: 'PUT',
         // headers: {
         //   'Content-Type': 'multipart/form-data;boundary=None',
         // },
@@ -76,7 +50,7 @@ const useAddProfileForm = (user_id: any) => {
     }
   };
 
-  return { form, submit };
+  return { update };
 };
 
-export default useAddProfileForm;
+export default useEditProfileForm;

@@ -13,6 +13,17 @@ const loginSchema = yup.object().shape({
   username: yup.string().required('username is required').min(2),
   password: yup.string().required('Password is required').min(8),
 });
+const getUserEmail = async () => {
+  const response = await fetch('/api/auth/session');
+  const data = await response.json();
+  console.log('🚀 ~ useGetProfileForm ~ data:', data);
+  return data;
+};
+const getUserID = async (email: string) => {
+  const response = await fetch(`/api/user?email=${email}`);
+  const data = await response.json();
+  return data;
+};
 
 const useLoginForm = () => {
   const form = useForm({
@@ -42,6 +53,14 @@ const useLoginForm = () => {
         });
         router.refresh();
         router.push('/?url=login');
+
+        getUserEmail().then((data) => {
+          console.log(data.user.email);
+          localStorage.setItem('email', data.user.email);
+          getUserID(data.user.email).then((data) => {
+            localStorage.setItem('user_id', data.existingUserByEmail.id);
+          });
+        });
       }
     } catch (error) {
       console.error('An error occurred during login:', error);

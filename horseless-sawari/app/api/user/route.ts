@@ -2,6 +2,25 @@ import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 import { db } from '@/lib/db';
 
+export async function GET(req: Request) {
+  try {
+    const email = new URL(req.url).searchParams.get('email');
+    const existingUserByEmail = await db.user.findUnique({
+      where: { email: email },
+    });
+    return NextResponse.json({
+      existingUserByEmail,
+      message: 'User ID retrieved successfully',
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: 'Something went wrong' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();

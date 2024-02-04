@@ -21,9 +21,6 @@ export interface IResetPasswordType {
 }
 const ResetPasswordPage = ({ params }: any) => {
   const router = useRouter();
-  // const { token } = router.query;
-  const [verified, setVerified] = useState(false);
-  // State for managing the new password form
   const [user, setUser] = useState(null);
   useEffect(() => {
     const verifyToken = async () => {
@@ -42,11 +39,9 @@ const ResetPasswordPage = ({ params }: any) => {
             title: 'Error',
             description: 'Invalid Token or has expired',
           });
-          setVerified(true);
         }
 
         if (response.ok) {
-          setVerified(true);
           const userData = await response.json();
           setUser(userData);
         }

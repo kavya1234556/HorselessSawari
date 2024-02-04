@@ -1,3 +1,4 @@
+import { db } from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 

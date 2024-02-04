@@ -20,7 +20,7 @@ model user {
   role      Role?    @default(USER)
   resetToken String?
   resetTokenExpiry DateTime?
-  account      account[]
+  account    account?
   car  car[]
 }
 
@@ -35,9 +35,9 @@ model account {
   profile_image String
   first_name  String
   last_name   String
-  phone_number String
-  user        user     @relation(fields: [user_id], references: [id])
-  user_id     Int
+  phone_number String @unique
+  user        user  @relation(fields: [user_id], references: [id])
+  user_id Int @unique
 }
 
 model car {

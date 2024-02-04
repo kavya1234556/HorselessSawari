@@ -23,6 +23,7 @@ const SingleImageDropzone = ({
   const { name, setValue } = useFormField();
 
   const onDrop = useCallback((acceptedFiles: any) => {
+    console.log(acceptedFiles);
     acceptedFiles.map((file: MediaSource) => {
       const objURL = URL.createObjectURL(file);
       const obj = {
