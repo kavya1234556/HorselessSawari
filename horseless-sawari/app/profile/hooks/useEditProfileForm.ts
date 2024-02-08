@@ -1,6 +1,5 @@
 import { toast } from '@/components/ui/use-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -29,7 +28,7 @@ const useEditProfileForm = (user_id: any) => {
         // },
         body: formdata,
       });
-
+      console.log(response);
       if (response.status === 400) {
         toast({
           title: 'Error',
@@ -39,7 +38,7 @@ const useEditProfileForm = (user_id: any) => {
       if (response.ok) {
         toast({
           title: 'Success',
-          description: 'Your profile is added successfully',
+          description: 'Your profile is updated successfully',
         });
       } else {
         const errorData = await response.json();
