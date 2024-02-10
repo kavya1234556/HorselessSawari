@@ -61,7 +61,7 @@ model car {
   isVerified           Boolean         @default(false)
   user                 user           @relation(fields: [user_id], references: [id])
   user_id  Int
-  Role               user    @relation(fields: [user_role], references[role])
+  user_role            String
 }
 
 model car_image {
