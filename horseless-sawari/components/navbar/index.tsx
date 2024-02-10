@@ -15,6 +15,7 @@ const Navbar = async () => {
 
       {session?.user ? (
         <>
+          <Link href='/car-hosting'>Host Your Car</Link>
           <Link href='/profile'>My Profile</Link>
           <SignOut />
         </>

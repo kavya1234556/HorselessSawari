@@ -1,6 +1,5 @@
 import { toast } from '@/components/ui/use-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -13,8 +12,6 @@ export interface IProfileType {
 }
 
 const useAddProfileForm = (user_id: any) => {
-  const router = useRouter();
-
   const Schema = yup.object().shape({
     profile_image: yup
       .mixed()
@@ -46,13 +43,11 @@ const useAddProfileForm = (user_id: any) => {
     formdata.append('last_name', values.last_name);
     formdata.append('phone_number', values.phone_number);
     formdata.append('user_id', String(user_id));
+    console.log(formdata);
     try {
       console.log(formdata);
       const response = await fetch('/api/account', {
         method: 'POST',
-        // headers: {
-        //   'Content-Type': 'multipart/form-data;boundary=None',
-        // },
         body: formdata,
       });
 

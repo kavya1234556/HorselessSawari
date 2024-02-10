@@ -20,25 +20,34 @@ import SingleImageDropzone from '@/components/ui/image-dropzone/single-image-dro
 import useAddProfileForm from './hooks/useAddProfileForm';
 import useGetProfileForm from './hooks/useGetProfile';
 import useEditProfileForm from './hooks/useEditProfileForm';
+import useGetProfileImage from './hooks/useGetProfileImage';
 
 const ProfilePage = () => {
   const [phone, setPhone] = useState('');
-  const [coverImage, setCoverImage] = useState<PreviewFileType | null>(null);
+  const [profileImage, setProfileImage] = useState<PreviewFileType | null>(
+    null
+  );
   const [user_id, setUserId] = useState(null);
   const [profile_data, setprofileData] = useState(null);
 
   useEffect(() => {
     const UserId = parseInt(localStorage.getItem('user_id'));
+    const profileImage = useGetProfileImage(UserId);
+    profileImage.then((data) => {
+      setProfileImage({
+        id: uuidv4(),
+        image_path: URL.createObjectURL(data),
+        file: null,
+      });
+    });
     const profileData = useGetProfileForm(UserId);
     profileData
       .then((data) => {
         if (data) {
-          setCoverImage({
-            id: uuidv4(),
-            image_path: data?.accountDetails?.profile_image,
-            file: null,
-          });
-          form.setValue('profile_image', data?.accountDetails?.profile_image);
+          form.setValue(
+            'profile_image',
+            data?.accountDetails?.profile_image[0]
+          );
           form.setValue('first_name', data?.accountDetails?.first_name);
           form.setValue('last_name', data?.accountDetails?.last_name);
           form.setValue('phone_number', data?.accountDetails?.phone_number);
@@ -54,20 +63,8 @@ const ProfilePage = () => {
   const { update } = useEditProfileForm(user_id);
   const handleUpdateClick = async () => {
     try {
-      // Validate the form data before submitting
-      const isValid = await form.trigger();
-      if (!isValid) {
-        console.log('Form validation failed');
-        return;
-      }
-
-      // Perform the update using the update function from useEditProfileForm
-      await update(form.getValues());
-
-      // Optionally, you can handle success or navigate to another page
-      console.log('Update successful');
+      update(form.getValues());
     } catch (error) {
-      // Handle the error, e.g., display an error message
       console.error('Update failed', error);
     }
   };
@@ -97,8 +94,8 @@ const ProfilePage = () => {
                           <FormLabel></FormLabel>
                           <FormControl>
                             <SingleImageDropzone
-                              file={coverImage}
-                              setFile={setCoverImage}
+                              file={profileImage}
+                              setFile={setProfileImage}
                               {...field}
                             />
                           </FormControl>
