@@ -32,10 +32,10 @@ interface ICarType {
   car_image: [];
   bluebook_image: [];
   insurance_image: [];
-  // pricing_per_hour: number;
-  // pricing_per_four_hour: number;
-  // pricing_per_eight_hour: number;
-  // pricing_per_day: number;
+  pricing_per_hour: number;
+  pricing_per_four_hour: number;
+  pricing_per_eight_hour: number;
+  pricing_per_day: number;
   is_booked: boolean;
   is_verified: boolean;
   user_id: number;
@@ -79,15 +79,13 @@ const CarHostingPage = () => {
         if (Number(value.length) > 0) return true;
         return false;
       }),
-    // pricing_per_hour: yup.number().required(),
-    // pricing_per_four_hour: yup.number().required(),
-    // pricing_per_eight_hour: yup.number().required(),
-    // pricing_per_day: yup.number().required(),
-    // is_booked: yup.bool().required(),
-    // is_verified: yup.bool().required(),
+    pricing_per_hour: yup.number().required(),
+    pricing_per_four_hour: yup.number().required(),
+    pricing_per_eight_hour: yup.number().required(),
+    pricing_per_day: yup.number().required(),
+    is_booked: yup.bool().required(),
+    is_verified: yup.bool().required(),
     fuel_Type: yup.string().required(),
-    // user_id: yup.number().required(),
-    // user_role: yup.string().required(),
   });
   const form = useForm<ICarType>({
     resolver: yupResolver(carSchema) as any,
@@ -102,10 +100,10 @@ const CarHostingPage = () => {
       car_image: [],
       bluebook_image: [],
       insurance_image: [],
-      // pricing_per_hour: undefined,
-      // pricing_per_four_hour: undefined,
-      // pricing_per_eight_hour: undefined,
-      // pricing_per_day: undefined,
+      pricing_per_hour: undefined,
+      pricing_per_four_hour: undefined,
+      pricing_per_eight_hour: undefined,
+      pricing_per_day: undefined,
       is_booked: false,
       is_verified: false,
       user_id: undefined,
