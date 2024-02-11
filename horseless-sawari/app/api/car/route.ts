@@ -62,8 +62,6 @@ const carSchema = yup.object().shape({
 
 export async function POST(req: Request) {
   try {
-    // const formData = await req.formData();
-    // const formDataEntryValues = Array.from(formData.values());
     const body = await req.formData();
     const ownerName = body.get('ownerName');
     const manufacture = body.get('manufacture');
