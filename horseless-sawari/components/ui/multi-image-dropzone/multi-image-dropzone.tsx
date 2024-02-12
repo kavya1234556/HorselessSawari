@@ -50,12 +50,11 @@ const MultipleImageDropzone = ({
       'image/jpg': [],
       'image/webp': [],
     },
-    // maxFiles: 2,
+    maxFiles: 6,
     noClick: true,
     noKeyboard: true,
     multiple: true,
   });
-  // console.log('🚀 ~ file: dropzone.tsx:70 ~ fileRejections:', fileRejections);
 
   const removeFile = (id: number) => {
     setFiles((files: PreviewFileType[]) => {

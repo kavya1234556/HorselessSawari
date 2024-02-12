@@ -30,7 +30,7 @@ enum Role {
   MANAGER
 }
 
-model account {
+model   {
   acc_id      Int      @id @default(autoincrement())
   profile_image String
   first_name  String

@@ -34,8 +34,33 @@ interface ICarType {
 
 export async function GET(req: Request) {
   try {
-    const user_id = new URL(req.url).searchParams.get('id');
-  } catch (err) {}
+    const car_data = await db.car.findMany();
+    let car_data_final = [];
+
+    car_data.map(async (car, index) => {
+      let car_images_final = [];
+      const car_id = car.carID;
+      const car_images = await db.car_image.findMany({
+        where: {
+          car_id: car_id,
+        },
+      });
+      car_images.map((car_image) => {
+        const image_endpoint = `http://localhost:3000/api/car_image?id=${car_image.car_id}`;
+        car_images_final.push(image_endpoint);
+      });
+      car = { ...car, ...car_images_final };
+      // if (car_data.length === index) {
+
+      // }
+    });
+    return NextResponse.json(
+      { message: 'Car fetched Successfully', car_data },
+      { status: 200 }
+    );
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }
 
 const carSchema = yup.object().shape({
@@ -62,8 +87,6 @@ const carSchema = yup.object().shape({
 
 export async function POST(req: Request) {
   try {
-    // const formData = await req.formData();
-    // const formDataEntryValues = Array.from(formData.values());
     const body = await req.formData();
     const ownerName = body.get('ownerName');
     const manufacture = body.get('manufacture');

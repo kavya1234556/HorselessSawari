@@ -14,26 +14,104 @@ import useAddCarForHosting from './hooks/useAddCarForHosting';
 import InputSelect from '@/components/ui/input-select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { FuelType } from '@prisma/client';
 import MultipleImageDropzone from '@/components/ui/multi-image-dropzone/multi-image-dropzone';
 import { PreviewFileType } from '@/types/preview-file-types';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
+export interface ICarType {
+  onwerName: string;
+  manufacture: string;
+  registration_num: number;
+  features: string;
+  no_of_seats: number;
+  fuel_Type: string;
+  color: string;
+  Total_km: number;
+  car_image: [];
+  bluebook_image: [];
+  insurance_image: [];
+  pricing_per_hour: number;
+  pricing_per_four_hour: number;
+  pricing_per_eight_hour: number;
+  pricing_per_day: number;
+  is_booked: boolean;
+  is_verified: boolean;
+  user_id: number;
+  user_role: string;
+}
 
 const CarHostingPage = () => {
   const [carImage, setCarImage] = useState<PreviewFileType[]>([]);
   const [bluebookImage, setBlueBookImage] = useState<PreviewFileType[]>([]);
   const [insuranceImage, setInsuranceImage] = useState<PreviewFileType[]>([]);
-  const options = [
-    {
-      value: 1,
-      label: 'A/C',
+  const UserId =
+    typeof window !== 'undefined' && localStorage
+      ? parseInt(localStorage.getItem('user_id'))
+      : null;
+  const carSchema = yup.object().shape({
+    onwerName: yup.string().required(),
+    manufacture: yup.string().required(),
+    registration_num: yup.number().required('Registration number is required'),
+    features: yup.string().required(),
+    no_of_seats: yup.number().required(),
+    color: yup.string().required(),
+    Total_km: yup.number().required(),
+    car_image: yup
+      .mixed()
+      .required('Please select car images')
+      .test('empty', 'Please select atleast 5 image', (value: any) => {
+        if (Number(value.length) > 0) return true;
+        return false;
+      }),
+    bluebook_image: yup
+      .mixed()
+      .required('Please select bluebook image')
+      .test('empty', 'Please select atleast 2 image', (value: any) => {
+        if (Number(value.length) > 0) return true;
+        return false;
+      }),
+    insurance_image: yup
+      .mixed()
+      .required('Please select insurance image')
+      .test('empty', 'Please select insurance image', (value: any) => {
+        if (Number(value.length) > 0) return true;
+        return false;
+      }),
+    pricing_per_hour: yup.number().required(),
+    pricing_per_four_hour: yup.number().required(),
+    pricing_per_eight_hour: yup.number().required(),
+    pricing_per_day: yup.number().required(),
+    is_booked: yup.bool().required(),
+    is_verified: yup.bool().required(),
+    fuel_Type: yup.string().required(),
+  });
+  const form = useForm<ICarType>({
+    resolver: yupResolver(carSchema) as any,
+    defaultValues: {
+      onwerName: '',
+      manufacture: '',
+      registration_num: undefined,
+      features: '',
+      no_of_seats: undefined,
+      color: '',
+      Total_km: undefined,
+      car_image: [],
+      bluebook_image: [],
+      insurance_image: [],
+      pricing_per_hour: undefined,
+      pricing_per_four_hour: undefined,
+      pricing_per_eight_hour: undefined,
+      pricing_per_day: undefined,
+      is_booked: false,
+      is_verified: false,
+      user_id: undefined,
+      fuel_Type: 'DISEL',
+      user_role: '',
     },
-    {
-      value: 2,
-      label: 'Music',
-    },
-  ];
-
-  const { form } = useAddCarForHosting();
+  });
+  const { submit } = useAddCarForHosting(UserId);
   return (
     <div className='p-[20px]'>
       <h1 className='text-[24px] font-medium'>Vehicle</h1>
@@ -49,7 +127,7 @@ const CarHostingPage = () => {
         <div className='w-[60%] bg-gray py-[10px]'>
           <Form {...form}>
             <form
-              //onSubmit={form.handleSubmit(submit)}
+              onSubmit={form.handleSubmit(submit)}
               className='flex flex-col gap-[30px]  '
             >
               <div className=' p-[15px] ml-[20px]'>
@@ -109,14 +187,7 @@ const CarHostingPage = () => {
                     <FormItem>
                       <FormLabel> Features </FormLabel>
                       <FormControl>
-                        <InputSelect
-                          placeholder='Search here to add features'
-                          isMulti
-                          {...field}
-                          options={options.map((items) => {
-                            items.label;
-                          })}
-                        />
+                        <Input placeholder='Enter Features' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -135,16 +206,14 @@ const CarHostingPage = () => {
                               defaultValue='DISEL'
                               className='flex gap-9'
                               {...rest}
-                              onValueChange={(val: FuelType) => {
+                              onValueChange={(val: string) => {
+                                console.log(val, 'val');
                                 onChange(val);
                                 //form.setValue('isBrandSelected', val === 'SELECTED');
                               }}
                             >
                               <div className='flex items-center space-x-2'>
-                                <RadioGroupItem
-                                  value='SELECTED'
-                                  id='option-one'
-                                />
+                                <RadioGroupItem value='DISEL' id='option-one' />
                                 <Label
                                   htmlFor='option-one'
                                   className='font-light text-black'
@@ -153,7 +222,7 @@ const CarHostingPage = () => {
                                 </Label>
                               </div>
                               <div className='flex items-center space-x-2'>
-                                <RadioGroupItem value='ALL' id='option-two' />
+                                <RadioGroupItem value='GAS' id='option-two' />
                                 <Label
                                   htmlFor='option-two'
                                   className='font-light text-black'
@@ -163,7 +232,7 @@ const CarHostingPage = () => {
                               </div>
                               <div className='flex items-center space-x-2'>
                                 <RadioGroupItem
-                                  value='OTHERS'
+                                  value='ELECTRIC'
                                   id='option-three'
                                 />
                                 <Label
@@ -278,25 +347,6 @@ const CarHostingPage = () => {
                     </FormItem>
                   )}
                 />
-                {/* <div className='gap-[20px] grid grid-cols-2 my-3'>
-                  <FormField
-                    control={form.control}
-                    name='insurance_valid_date'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Insurance Valid year </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            placeholder='Enter your email'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div> */}
                 <div className='gap-[20px] grid grid-cols-2 my-3'>
                   <FormField
                     control={form.control}
@@ -367,35 +417,6 @@ const CarHostingPage = () => {
                     )}
                   />
                 </div>
-                {/*
-                </div>
-                <FormField
-                  control={form.control}
-                  name='first_name'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter your email' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='last_name'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter your email' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-
                 <div className='flex justify-    center mt-[10px]'>
                   <Button
                     variant='secondary'

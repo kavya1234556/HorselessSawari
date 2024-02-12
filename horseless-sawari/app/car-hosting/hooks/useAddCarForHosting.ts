@@ -1,71 +1,77 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-enum FuelType {
-  DISEL = 'DISEL',
-  GAS = 'GAS',
-  ELECTRIC = 'ELECTRIC',
-}
-type optionType = {
-  value: string | number;
-  label: string;
-};
-import * as yup from 'yup';
-interface ICarType {
-  onwerName: string;
-  manufacture: string;
-  registration_num: number;
-  features: optionType[];
-  no_of_seats: number;
-  fuel_Type: FuelType;
-  color: string;
-  Total_km: number;
-  car_image: string[];
-  bluebook_image: string[];
-  insurance_image: string[];
-  insurance_valid_date: Date;
-  pricing_per_hour: number;
-  pricing_per_four_hour: number;
-  pricing_per_eight_hour: number;
-  pricing_per_day: number;
-  is_booked: boolean;
-  is_verified: boolean;
-  user_id: number;
-}
+import { toast } from '@/components/ui/use-toast';
+import { ICarType } from '../page';
 
-const useAddCarForHosting = () => {
-  const carSchema = yup.object().shape({
-    onwerName: yup.string().required(),
-    manufacture: yup.string().required(),
-    registration_num: yup.number().required(),
-    features: yup
-      .mixed()
-      .required('Please select a feature')
-      .test('empty', 'Please select atleast a feature', (value: any) => {
-        if (Number(value.length) > 0) return true;
-        return false;
-      }),
-    no_of_seats: yup.number().required(),
-    color: yup.string().required(),
-    Total_km: yup.number().required(),
-    car_image: yup.array().of(yup.mixed().required()).required(),
-    bluebook_image: yup.array().of(yup.mixed().required()).required(),
-    insurance_image: yup.array().of(yup.mixed().required()).required(),
-    insurance_valid_date: yup.date().required(),
-    pricing_per_hour: yup.number().required(),
-    pricing_per_four_hour: yup.number().required(),
-    pricing_per_eight_hour: yup.number().required(),
-    pricing_per_day: yup.number().required(),
-    is_booked: yup.bool().required(),
-    is_verified: yup.bool().required(),
-    fuel_Type: yup.mixed<FuelType>().oneOf(Object.values(FuelType)).required(),
-    user_id: yup.number().required(),
-  });
-  const form = useForm<ICarType>({
-    resolver: yupResolver(carSchema) as any,
-  });
+const useAddCarForHosting = (user_id: number) => {
+  const formdata = new FormData();
+  const submit = async (values: ICarType) => {
+    console.log(values);
+    formdata.append('onwerName', values.onwerName);
+    formdata.append('manufacture', values.manufacture);
+    formdata.append('registration_num', String(values.registration_num));
+    formdata.append('features', values.features);
+    formdata.append('no_of_seats', String(values.no_of_seats));
+    formdata.append('color', values.color);
+    formdata.append('Total_km', String(values.Total_km));
+    values.car_image.forEach((img: any) => {
+      if (img.file !== null) {
+        formdata.append('image[]', img);
+      } else {
+        formdata.append('image_path[]', img.image_path);
+      }
+    });
+    values.bluebook_image.forEach((img: any) => {
+      if (img.file !== null) {
+        formdata.append('image[]', img);
+      } else {
+        formdata.append('image_path[]', img.image_path);
+      }
+    });
+    values.insurance_image.forEach((img: any) => {
+      if (img.file !== null) {
+        formdata.append('image[]', img);
+      } else {
+        formdata.append('image_path[]', img.image_path);
+      }
+    });
+    formdata.append('pricing_per_hour', String(values.pricing_per_hour));
+    formdata.append(
+      'pricing_per_four_hour',
+      String(values.pricing_per_four_hour)
+    );
+    formdata.append(
+      'pricing_per_eight_hour',
+      String(values.pricing_per_eight_hour)
+    );
+    formdata.append('pricing_per_day', String(values.pricing_per_day));
 
-  return { form };
+    try {
+      // console.log(formdata);
+      const response = await fetch('/api/car', {
+        method: 'POST',
+        body: formdata,
+      });
+
+      if (response.status === 400) {
+        toast({
+          title: 'Error',
+          description: 'Error has occurred',
+        });
+      }
+      if (response.ok) {
+        toast({
+          title: 'Success',
+          description: 'Your profile is added successfully',
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+    } catch (error) {
+      console.error('An error occurred in your Profile', error);
+    }
+  };
+
+  return { submit };
 };
 
 export default useAddCarForHosting;
