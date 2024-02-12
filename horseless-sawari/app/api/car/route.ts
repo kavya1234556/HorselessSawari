@@ -31,38 +31,42 @@ interface ICarType {
   user_id: number;
   user_role: string;
 }
-
 export async function GET(req: Request) {
   try {
     const car_data = await db.car.findMany();
-    let car_data_final = [];
+    const car_data_final = await Promise.all(
+      car_data.map(async (car) => {
+        let car_images_final = [];
+        const car_id = car.carID;
+        const car_images = await db.car_image.findMany({
+          where: {
+            car_id: car_id,
+          },
+        });
+        console.log(car_images, 'car images');
+        car_images.map((car_image) => {
+          const image_endpoint = `http://localhost:3000/api/car_image?id=${car_image.car_id}`;
+          car_images_final.push(image_endpoint);
+        });
+        console.log(car_images_final, 'car images final');
+        // @ts-ignore
+        car.car_images = car_images_final;
+        console.log(car);
+        return car;
+      })
+    );
 
-    car_data.map(async (car, index) => {
-      let car_images_final = [];
-      const car_id = car.carID;
-      const car_images = await db.car_image.findMany({
-        where: {
-          car_id: car_id,
-        },
-      });
-      car_images.map((car_image) => {
-        const image_endpoint = `http://localhost:3000/api/car_image?id=${car_image.car_id}`;
-        car_images_final.push(image_endpoint);
-      });
-      car = { ...car, ...car_images_final };
-      // if (car_data.length === index) {
-
-      // }
-    });
     return NextResponse.json(
-      { message: 'Car fetched Successfully', car_data },
+      { message: 'Car fetched Successfully', car_data_final },
       { status: 200 }
     );
   } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json(
+      { message: 'An error occurred', error: err.message },
+      { status: 500 }
+    );
   }
 }
-
 const carSchema = yup.object().shape({
   onwerName: yup.string().required(),
   manufacture: yup.string().required(),
