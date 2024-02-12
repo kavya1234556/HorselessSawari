@@ -1,7 +1,7 @@
 import { toast } from '@/components/ui/use-toast';
 import { ICarType } from '../page';
 
-const useAddCarForHosting = (user_id: number) => {
+const useAddCarForHosting = (user_id: number, role: string) => {
   const formdata = new FormData();
   const submit = async (values: ICarType) => {
     console.log(values);
@@ -13,24 +13,25 @@ const useAddCarForHosting = (user_id: number) => {
     formdata.append('color', values.color);
     formdata.append('Total_km', String(values.Total_km));
     values.car_image.forEach((img: any) => {
+      console.log(img);
       if (img.file !== null) {
-        formdata.append('image[]', img);
+        formdata.append('car_images', img.file);
       } else {
-        formdata.append('image_path[]', img.image_path);
+        formdata.append('image_path ', img.image_path);
       }
     });
     values.bluebook_image.forEach((img: any) => {
       if (img.file !== null) {
-        formdata.append('image[]', img);
+        formdata.append('bluebook_img', img.file);
       } else {
-        formdata.append('image_path[]', img.image_path);
+        formdata.append('image_path', img.image_path);
       }
     });
     values.insurance_image.forEach((img: any) => {
       if (img.file !== null) {
-        formdata.append('image[]', img);
+        formdata.append('insurance_img', img.file);
       } else {
-        formdata.append('image_path[]', img.image_path);
+        formdata.append('image_path', img.image_path);
       }
     });
     formdata.append('pricing_per_hour', String(values.pricing_per_hour));
@@ -43,6 +44,8 @@ const useAddCarForHosting = (user_id: number) => {
       String(values.pricing_per_eight_hour)
     );
     formdata.append('pricing_per_day', String(values.pricing_per_day));
+    formdata.append('user_id', String(user_id));
+    formdata.append('user_role', role);
 
     try {
       // console.log(formdata);

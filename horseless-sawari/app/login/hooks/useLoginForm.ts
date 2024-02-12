@@ -55,8 +55,8 @@ const useLoginForm = () => {
         router.push('/?url=login');
 
         getUserEmail().then((data) => {
-          console.log(data.user.email);
           localStorage.setItem('email', data.user.email);
+          localStorage.setItem('role', data.user.role);
           getUserID(data.user.email).then((data) => {
             localStorage.setItem('user_id', data.existingUserByEmail.id);
           });

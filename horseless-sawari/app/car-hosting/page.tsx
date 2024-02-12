@@ -50,6 +50,11 @@ const CarHostingPage = () => {
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
       : null;
+
+  const userRole =
+    typeof window !== 'undefined' && localStorage
+      ? localStorage.getItem('role')
+      : null;
   const carSchema = yup.object().shape({
     onwerName: yup.string().required(),
     manufacture: yup.string().required(),
@@ -111,7 +116,7 @@ const CarHostingPage = () => {
       user_role: '',
     },
   });
-  const { submit } = useAddCarForHosting(UserId);
+  const { submit } = useAddCarForHosting(UserId, userRole);
   return (
     <div className='p-[20px]'>
       <h1 className='text-[24px] font-medium'>Vehicle</h1>
