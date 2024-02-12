@@ -20,7 +20,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-interface ICarType {
+export interface ICarType {
   onwerName: string;
   manufacture: string;
   registration_num: number;

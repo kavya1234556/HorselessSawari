@@ -1,34 +1,54 @@
 import { toast } from '@/components/ui/use-toast';
-
-interface ICarType {
-  onwerName: string;
-  manufacture: string;
-  registration_num: number;
-  features: string;
-  no_of_seats: number;
-  color: string;
-  Total_km: number;
-  car_image: [];
-  bluebook_image: [];
-  insurance_image: [];
-  pricing_per_hour: number;
-  pricing_per_four_hour: number;
-  pricing_per_eight_hour: number;
-  pricing_per_day: number;
-  is_booked: boolean;
-  is_verified: boolean;
-  user_id: number;
-  user_role: string;
-}
+import { ICarType } from '../page';
 
 const useAddCarForHosting = (user_id: number) => {
+  const formdata = new FormData();
   const submit = async (values: ICarType) => {
     console.log(values);
+    formdata.append('onwerName', values.onwerName);
+    formdata.append('manufacture', values.manufacture);
+    formdata.append('registration_num', String(values.registration_num));
+    formdata.append('features', values.features);
+    formdata.append('no_of_seats', String(values.no_of_seats));
+    formdata.append('color', values.color);
+    formdata.append('Total_km', String(values.Total_km));
+    values.car_image.forEach((img: any) => {
+      if (img.file !== null) {
+        formdata.append('image[]', img);
+      } else {
+        formdata.append('image_path[]', img.image_path);
+      }
+    });
+    values.bluebook_image.forEach((img: any) => {
+      if (img.file !== null) {
+        formdata.append('image[]', img);
+      } else {
+        formdata.append('image_path[]', img.image_path);
+      }
+    });
+    values.insurance_image.forEach((img: any) => {
+      if (img.file !== null) {
+        formdata.append('image[]', img);
+      } else {
+        formdata.append('image_path[]', img.image_path);
+      }
+    });
+    formdata.append('pricing_per_hour', String(values.pricing_per_hour));
+    formdata.append(
+      'pricing_per_four_hour',
+      String(values.pricing_per_four_hour)
+    );
+    formdata.append(
+      'pricing_per_eight_hour',
+      String(values.pricing_per_eight_hour)
+    );
+    formdata.append('pricing_per_day', String(values.pricing_per_day));
+
     try {
       // console.log(formdata);
       const response = await fetch('/api/car', {
         method: 'POST',
-        // body: formdata,
+        body: formdata,
       });
 
       if (response.status === 400) {
