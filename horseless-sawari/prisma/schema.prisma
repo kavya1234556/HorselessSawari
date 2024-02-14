@@ -66,6 +66,9 @@ location_id    Int
   user_role            String
 }
 
+
+
+
 model location {
   location_id Int @id @default(autoincrement())
   location_name String

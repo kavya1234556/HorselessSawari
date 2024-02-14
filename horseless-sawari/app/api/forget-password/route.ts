@@ -31,9 +31,8 @@ export async function POST(req: Request) {
       resetTokenExpiry: passwordResetExpires,
     },
   });
-  // Send reset email containing the reset link to the user using Sendinblue
+
   try {
-    // Set the API key directly using ApiClient
     const SibApiV3Sdk = require('sib-api-v3-typescript');
 
     let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
@@ -48,6 +47,7 @@ export async function POST(req: Request) {
     console.log('🚀 ~ POST ~ resetUrl:', resetUrl);
     sendSmtpEmail.htmlContent = sendSmtpEmail.htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      Dear "${existingUserByEmail.username}"
         <p style="line-height: 1.6; color: #333;">
           Trouble signing in? We've received a request to reset the password on Rental Sawari.
           If you didn't ask to reset your password, you can ignore this email.
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
         <p style="line-height: 1.6; color: #333;">Thanks</p>
       </div>
     `;
-
+    console.log('Kavya');
     sendSmtpEmail.sender = {
       name: 'Rental Sawari',
       email: 'kavya.timilsina1230@gmail.com',

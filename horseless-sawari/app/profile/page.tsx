@@ -55,7 +55,7 @@ const ProfilePage = () => {
         setprofileData(data);
       })
       .catch((err) => {
-        console.log('inside catch');
+        console.log('inside catch', err);
       });
     setUserId(UserId);
   }, []);

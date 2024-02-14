@@ -117,16 +117,18 @@ export async function POST(req: Request) {
     let final_car_images = [];
     await Promise.all(
       car_file.map(async (carFile) => {
+        // @ts-ignore
         const ab_car = await carFile.arrayBuffer();
         const bf_car = Buffer.from(ab_car);
         const cwd_car = process.cwd();
 
         await fs.promises.writeFile(
+          // @ts-ignore
           path.join(cwd_car, 'app/api/car/images/car_images', carFile.name),
           bf_car,
           { encoding: 'binary' }
         );
-
+        // @ts-ignore
         const car_images = 'app/api/car/images/car_images/' + carFile.name;
         final_car_images.push(car_images);
         return car_images;
@@ -137,6 +139,7 @@ export async function POST(req: Request) {
     let final_insurance_image = [];
     await Promise.all(
       insurance_file.map(async (insuranceFile) => {
+        // @ts-ignore
         const ab_insurance = await insuranceFile.arrayBuffer();
         const bf_insurance = Buffer.from(ab_insurance);
         const cwd_insurance = process.cwd();
@@ -144,6 +147,7 @@ export async function POST(req: Request) {
           path.join(
             cwd_insurance,
             'app/api/car/images/insurance_images',
+            // @ts-ignore
             insuranceFile.name
           ),
           bf_insurance,
@@ -152,6 +156,7 @@ export async function POST(req: Request) {
           }
         );
         const insurance_images =
+          // @ts-ignore
           'app/api/car/images/insurance_images' + insuranceFile.name;
         final_insurance_image.push(insurance_images);
         return insurance_images;
@@ -166,6 +171,7 @@ export async function POST(req: Request) {
     let final_Bluebook_image = [];
     await Promise.all(
       bluebook_file.map(async (bluebookFile) => {
+        // @ts-ignore
         const ab_bluebook = await bluebookFile.arrayBuffer();
         const bf_bluebook = Buffer.from(ab_bluebook);
         const cwd_bluebook = process.cwd();
@@ -173,6 +179,7 @@ export async function POST(req: Request) {
           path.join(
             cwd_bluebook,
             'app/api/car/images/bluebook_images',
+            // @ts-ignore
             bluebookFile.name
           ),
           bf_bluebook,
@@ -181,12 +188,12 @@ export async function POST(req: Request) {
           }
         );
         const bluebook_images =
+          // @ts-ignore
           'app/api/car/images/bluebook_images' + bluebookFile.name;
         final_Bluebook_image.push(bluebook_images);
         return bluebook_images;
       })
     );
-
     const body_ = {
       onwerName: String(ownerName),
       manufacture: String(manufacture),
