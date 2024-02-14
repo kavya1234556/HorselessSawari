@@ -9,9 +9,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAddCarForHosting from './hooks/useAddCarForHosting';
-import InputSelect from '@/components/ui/input-select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import MultipleImageDropzone from '@/components/ui/multi-image-dropzone/multi-image-dropzone';
@@ -19,9 +18,17 @@ import { PreviewFileType } from '@/types/preview-file-types';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/dropdown';
+import useGetLocation from './hooks/useGetLocation';
 
 export interface ICarType {
-  onwerName: string;
+  ownerName: string;
   manufacture: string;
   registration_num: number;
   features: string;
@@ -29,7 +36,7 @@ export interface ICarType {
   fuel_Type: string;
   color: string;
   Total_km: number;
-  car_image: [];
+  car_images: [];
   bluebook_image: [];
   insurance_image: [];
   pricing_per_hour: number;
@@ -40,12 +47,18 @@ export interface ICarType {
   is_verified: boolean;
   user_id: number;
   user_role: string;
+  location_id: number;
 }
 
 const CarHostingPage = () => {
   const [carImage, setCarImage] = useState<PreviewFileType[]>([]);
   const [bluebookImage, setBlueBookImage] = useState<PreviewFileType[]>([]);
   const [insuranceImage, setInsuranceImage] = useState<PreviewFileType[]>([]);
+  const [location, setLocation] = useState(null);
+  // console.log(
+  //   'Location',
+  //   location?.location.map((item) => item.location_name)
+  // );
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
@@ -55,15 +68,22 @@ const CarHostingPage = () => {
     typeof window !== 'undefined' && localStorage
       ? localStorage.getItem('role')
       : null;
+
+  useEffect(() => {
+    const location_data = useGetLocation();
+    location_data.then((data) => {
+      setLocation(data);
+    });
+  }, []);
   const carSchema = yup.object().shape({
-    onwerName: yup.string().required(),
+    ownerName: yup.string().required(),
     manufacture: yup.string().required(),
     registration_num: yup.number().required('Registration number is required'),
     features: yup.string().required(),
     no_of_seats: yup.number().required(),
     color: yup.string().required(),
     Total_km: yup.number().required(),
-    car_image: yup
+    car_images: yup
       .mixed()
       .required('Please select car images')
       .test('empty', 'Please select atleast 5 image', (value: any) => {
@@ -91,18 +111,19 @@ const CarHostingPage = () => {
     is_booked: yup.bool().required(),
     is_verified: yup.bool().required(),
     fuel_Type: yup.string().required(),
+    location_id: yup.number().required(),
   });
   const form = useForm<ICarType>({
     resolver: yupResolver(carSchema) as any,
     defaultValues: {
-      onwerName: '',
+      ownerName: '',
       manufacture: '',
       registration_num: undefined,
       features: '',
       no_of_seats: undefined,
       color: '',
       Total_km: undefined,
-      car_image: [],
+      car_images: [],
       bluebook_image: [],
       insurance_image: [],
       pricing_per_hour: undefined,
@@ -114,6 +135,7 @@ const CarHostingPage = () => {
       user_id: undefined,
       fuel_Type: 'DISEL',
       user_role: '',
+      location_id: undefined,
     },
   });
   const { submit } = useAddCarForHosting(UserId, userRole);
@@ -140,7 +162,7 @@ const CarHostingPage = () => {
                 <div className='gap-[20px] grid grid-cols-2'>
                   <FormField
                     control={form.control}
-                    name='onwerName'
+                    name='ownerName'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Owner Name</FormLabel>
@@ -272,6 +294,36 @@ const CarHostingPage = () => {
                   />
                   <FormField
                     control={form.control}
+                    name='location_id'
+                    render={({ field: { onChange, ...rest } }) => {
+                      return (
+                        <FormItem>
+                          <FormLabel> Location </FormLabel>
+                          <FormControl>
+                            <Select onValueChange={(value) => onChange(value)}>
+                              <SelectTrigger className='w-[180px]'>
+                                <SelectValue placeholder='Select Location' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {location?.location.map((item: any) => (
+                                  <SelectItem
+                                    {...rest}
+                                    key={item.location_id}
+                                    value={`${item.location_id}`}
+                                  >
+                                    {item.location_name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                  <FormField
+                    control={form.control}
                     name='color'
                     render={({ field }) => (
                       <FormItem>
@@ -303,7 +355,7 @@ const CarHostingPage = () => {
                 </div>
                 <FormField
                   control={form.control}
-                  name='car_image'
+                  name='car_images'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Car image</FormLabel>

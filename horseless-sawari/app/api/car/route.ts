@@ -29,11 +29,16 @@ interface ICarType {
   isBooked: boolean;
   isVerified: boolean;
   user_id: number;
+  location_id: number;
   user_role: string;
 }
 export async function GET(req: Request) {
   try {
-    const car_data = await db.car.findMany();
+    const car_data = await db.car.findMany({
+      where: {
+        isVerified: true,
+      },
+    });
     const car_data_final = await Promise.all(
       car_data.map(async (car) => {
         let car_images_final = [];
@@ -43,15 +48,14 @@ export async function GET(req: Request) {
             car_id: car_id,
           },
         });
-        console.log(car_images, 'car images');
+        console.log('🚀 ~ car_data.map ~ car_images:', car_images);
+
         car_images.map((car_image) => {
-          const image_endpoint = `http://localhost:3000/api/car_image?id=${car_image.car_id}`;
+          const image_endpoint = `${process.env.NEXTAUTH_URL}/api/car_image?id=${car_image.car_image_id}`;
           car_images_final.push(image_endpoint);
         });
-        console.log(car_images_final, 'car images final');
         // @ts-ignore
         car.car_images = car_images_final;
-        console.log(car);
         return car;
       })
     );
@@ -87,6 +91,7 @@ const carSchema = yup.object().shape({
   fuel_Type: yup.mixed<FuelType>().oneOf(Object.values(FuelType)).required(),
   user_id: yup.number().required(),
   user_role: yup.string().required(),
+  location_id: yup.string().required(),
 });
 
 export async function POST(req: Request) {
@@ -107,6 +112,7 @@ export async function POST(req: Request) {
     const isBooked = body.get('isBooked');
     const isVerified = body.get('isVerified');
     const user_id = body.get('user_id');
+    const location_id = body.get('location_id');
     const car_file = body.getAll('car_images');
     let final_car_images = [];
     await Promise.all(
@@ -200,9 +206,10 @@ export async function POST(req: Request) {
       // Car_Images: [],
       // insurance_img: [],
       // bluebook_img: [],
+      location_id: Number(location_id),
       user_role: user.role,
     };
-
+    console.log(body_);
     // await carSchema.validate(body_)
 
     const createdCar: any = await db.car.create({
