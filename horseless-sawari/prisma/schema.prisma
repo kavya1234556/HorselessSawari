@@ -72,6 +72,7 @@ location_id    Int
 model location {
   location_id Int @id @default(autoincrement())
   location_name String
+  location_image String
   car car[]
 }
 

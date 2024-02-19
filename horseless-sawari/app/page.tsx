@@ -22,8 +22,9 @@ export default function Home() {
   return (
     <>
       <h1>
-        {session.data ? <ReservationPage /> : null}
-        <div>Card</div>
+        {/* {session.data ? <ReservationPage /> : null} */}
+        <ReservationPage />
+        <div></div>
       </h1>
     </>
   );

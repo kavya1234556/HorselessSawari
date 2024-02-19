@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import main from 'public/images/main.png';
 
 export interface IRegistrationType {
   pickUp: string;
@@ -40,16 +41,33 @@ const ReservationPage = () => {
     resolver: yupResolver(RegisterSchema),
   });
   return (
-    <div className=' m-[30px]'>
-      <div className='max-w-[1440px] m-auto text-white sm:text-[23px] text-[20px]  p-[27px] font-bold text-center'>
+    <div
+      style={{
+        position: 'relative', // use the src property of the image object
+        backgroundImage: `url(${main.src})`,
+        // other styles
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        width: '100%',
+        height: '75vh',
+        display: 'flex',
+        // alignItems: 'center',
+        // justifyContent: 'space-between',
+        flexDirection: 'column',
+        // zIndex: 9999,
+        zIndex: 40,
+      }}
+    >
+      <div className='m-auto text-white sm:text-[33px] text-[20px] p-[27px] font-bold text-center'>
         Unlock freedom, Get on the Road-Share the Adventure.
-        <div className='sm:text-[15px] text-[20px]'>
+        <div className='sm:text-[24px] text-[20px] text-white'>
           Budget Nepal Car Rental
         </div>
       </div>
-      <button className='bg-purple p-[10px]'>MAKE A RESERVATION </button>
-      <div className='max-w-[1440px] m-auto bg-purple '>
+      <div className='w-[90%] m-auto bg-purple'>
         <Form {...form}>
+          <div className='pt-[10px] pl-[20px]'>Book a vehicle</div>
           <form>
             <div className='grid grid-cols-2 gap-[20px] p-[20px]'>
               <FormField

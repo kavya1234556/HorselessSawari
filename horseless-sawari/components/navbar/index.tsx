@@ -8,7 +8,7 @@ import SignOut from './sign-out';
 const Navbar = async () => {
   const session = await getServerSession(options);
   return (
-    <div className='flex flex-row justify-between items-center shadow-lg px-6 py-4'>
+    <div className='flex flex-row justify-between items-center shadow-lg px-6 py-4 z-1000 sticky'>
       <Link href='/'>
         <Logo />
       </Link>
