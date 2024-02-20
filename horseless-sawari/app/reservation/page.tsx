@@ -50,13 +50,12 @@ const ReservationPage = () => {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         width: '100%',
-        height: '75vh',
+        height: '80vh',
         display: 'flex',
         // alignItems: 'center',
         // justifyContent: 'space-between',
         flexDirection: 'column',
-        // zIndex: 9999,
-        zIndex: 40,
+        // zIndex: 999,
       }}
     >
       <div className='m-auto text-white sm:text-[33px] text-[20px] p-[27px] font-bold text-center'>

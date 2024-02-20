@@ -1,5 +1,4 @@
 import { toast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
 
 const useGetProfileForm = async (id: number) => {
   const response = await fetch(`/api/profile?id=${id}`);

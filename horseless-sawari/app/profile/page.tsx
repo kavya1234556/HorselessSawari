@@ -32,14 +32,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const UserId = parseInt(localStorage.getItem('user_id'));
-    const profileImage = useGetProfileImage(UserId);
-    profileImage.then((data) => {
-      setProfileImage({
-        id: uuidv4(),
-        image_path: URL.createObjectURL(data),
-        file: null,
-      });
-    });
+    const profile_image = useGetProfileImage(UserId);
     const profileData = useGetProfileForm(UserId);
     profileData
       .then((data) => {
@@ -58,6 +51,13 @@ const ProfilePage = () => {
         console.log('inside catch', err);
       });
     setUserId(UserId);
+    profile_image.then((data) => {
+      setProfileImage({
+        id: uuidv4(),
+        image_path: URL.createObjectURL(data),
+        file: null,
+      });
+    });
   }, []);
   const { form, submit } = useAddProfileForm(user_id);
   const { update } = useEditProfileForm(user_id);

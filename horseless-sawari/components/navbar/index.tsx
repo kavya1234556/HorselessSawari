@@ -8,26 +8,36 @@ import SignOut from './sign-out';
 const Navbar = async () => {
   const session = await getServerSession(options);
   return (
-    <div className='flex flex-row justify-between items-center shadow-lg px-6 py-4 z-1000 sticky'>
-      <Link href='/'>
-        <Logo />
-      </Link>
+    <div
+      style={{
+        position: 'sticky',
+        top: 0,
+        width: '100%',
+        zIndex: 1000,
+        backgroundColor: 'white',
+      }}
+    >
+      <div className='flex flex-row justify-between items-center shadow-lg px-6 py-4 '>
+        <Link href='/'>
+          <Logo />
+        </Link>
 
-      {session?.user ? (
-        <>
-          <Link href='/car-hosting'>Host Your Car</Link>
-          <Link href='/profile'>My Profile</Link>
-          <SignOut />
-        </>
-      ) : (
-        <>
-          <Link href='/login'>
-            <Button variant='outline' className='border-2 border-purple'>
-              Sign in
-            </Button>
-          </Link>
-        </>
-      )}
+        {session?.user ? (
+          <>
+            <Link href='/car-hosting'>Host Your Car</Link>
+            <Link href='/profile'>My Profile</Link>
+            <SignOut />
+          </>
+        ) : (
+          <>
+            <Link href='/login'>
+              <Button variant='outline' className='border-2 border-purple'>
+                Sign in
+              </Button>
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   );
 };
