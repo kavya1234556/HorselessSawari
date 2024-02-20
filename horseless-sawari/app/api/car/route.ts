@@ -29,11 +29,16 @@ interface ICarType {
   isBooked: boolean;
   isVerified: boolean;
   user_id: number;
+  location_id: number;
   user_role: string;
 }
 export async function GET(req: Request) {
   try {
-    const car_data = await db.car.findMany();
+    const car_data = await db.car.findMany({
+      where: {
+        isVerified: true,
+      },
+    });
     const car_data_final = await Promise.all(
       car_data.map(async (car) => {
         let car_images_final = [];
@@ -43,15 +48,14 @@ export async function GET(req: Request) {
             car_id: car_id,
           },
         });
-        console.log(car_images, 'car images');
+        console.log('🚀 ~ car_data.map ~ car_images:', car_images);
+
         car_images.map((car_image) => {
-          const image_endpoint = `http://localhost:3000/api/car_image?id=${car_image.car_id}`;
+          const image_endpoint = `${process.env.NEXTAUTH_URL}/api/car_image?id=${car_image.car_image_id}`;
           car_images_final.push(image_endpoint);
         });
-        console.log(car_images_final, 'car images final');
         // @ts-ignore
         car.car_images = car_images_final;
-        console.log(car);
         return car;
       })
     );
@@ -87,6 +91,7 @@ const carSchema = yup.object().shape({
   fuel_Type: yup.mixed<FuelType>().oneOf(Object.values(FuelType)).required(),
   user_id: yup.number().required(),
   user_role: yup.string().required(),
+  location_id: yup.string().required(),
 });
 
 export async function POST(req: Request) {
@@ -107,20 +112,23 @@ export async function POST(req: Request) {
     const isBooked = body.get('isBooked');
     const isVerified = body.get('isVerified');
     const user_id = body.get('user_id');
+    const location_id = body.get('location_id');
     const car_file = body.getAll('car_images');
     let final_car_images = [];
     await Promise.all(
       car_file.map(async (carFile) => {
+        // @ts-ignore
         const ab_car = await carFile.arrayBuffer();
         const bf_car = Buffer.from(ab_car);
         const cwd_car = process.cwd();
 
         await fs.promises.writeFile(
+          // @ts-ignore
           path.join(cwd_car, 'app/api/car/images/car_images', carFile.name),
           bf_car,
           { encoding: 'binary' }
         );
-
+        // @ts-ignore
         const car_images = 'app/api/car/images/car_images/' + carFile.name;
         final_car_images.push(car_images);
         return car_images;
@@ -131,6 +139,7 @@ export async function POST(req: Request) {
     let final_insurance_image = [];
     await Promise.all(
       insurance_file.map(async (insuranceFile) => {
+        // @ts-ignore
         const ab_insurance = await insuranceFile.arrayBuffer();
         const bf_insurance = Buffer.from(ab_insurance);
         const cwd_insurance = process.cwd();
@@ -138,6 +147,7 @@ export async function POST(req: Request) {
           path.join(
             cwd_insurance,
             'app/api/car/images/insurance_images',
+            // @ts-ignore
             insuranceFile.name
           ),
           bf_insurance,
@@ -146,6 +156,7 @@ export async function POST(req: Request) {
           }
         );
         const insurance_images =
+          // @ts-ignore
           'app/api/car/images/insurance_images' + insuranceFile.name;
         final_insurance_image.push(insurance_images);
         return insurance_images;
@@ -160,6 +171,7 @@ export async function POST(req: Request) {
     let final_Bluebook_image = [];
     await Promise.all(
       bluebook_file.map(async (bluebookFile) => {
+        // @ts-ignore
         const ab_bluebook = await bluebookFile.arrayBuffer();
         const bf_bluebook = Buffer.from(ab_bluebook);
         const cwd_bluebook = process.cwd();
@@ -167,6 +179,7 @@ export async function POST(req: Request) {
           path.join(
             cwd_bluebook,
             'app/api/car/images/bluebook_images',
+            // @ts-ignore
             bluebookFile.name
           ),
           bf_bluebook,
@@ -175,12 +188,12 @@ export async function POST(req: Request) {
           }
         );
         const bluebook_images =
+          // @ts-ignore
           'app/api/car/images/bluebook_images' + bluebookFile.name;
         final_Bluebook_image.push(bluebook_images);
         return bluebook_images;
       })
     );
-
     const body_ = {
       onwerName: String(ownerName),
       manufacture: String(manufacture),
@@ -200,9 +213,10 @@ export async function POST(req: Request) {
       // Car_Images: [],
       // insurance_img: [],
       // bluebook_img: [],
+      location_id: Number(location_id),
       user_role: user.role,
     };
-
+    console.log(body_);
     // await carSchema.validate(body_)
 
     const createdCar: any = await db.car.create({

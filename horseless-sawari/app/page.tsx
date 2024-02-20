@@ -1,31 +1,68 @@
-"use client";
+'use client';
 
-import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import ReservationPage from "./reservation/page";
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import ReservationPage from './reservation/page';
 
 export default function Home() {
+  const [locationData, setLocationData] = useState(null);
   const session = useSession();
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const url = searchParams.has("url");
-
+  const url = searchParams.has('url');
   useEffect(() => {
-    if (url && session?.data?.user?.role === "ADMIN") {
-      router.push("/dashboard");
+    const location_data = async () => {
+      const response = await fetch('/api/dashboard/location');
+      const data = await response.json();
+      return data;
+    };
+    const data = location_data();
+    data.then((loc_data) => {
+      if (loc_data) {
+        console.log('loc_data', loc_data);
+        setLocationData(loc_data);
+      }
+    });
+  }, []);
+  useEffect(() => {
+    if (url && session?.data?.user?.role === 'ADMIN') {
+      router.push('/dashboard');
     } else {
-      router.push("/");
+      router.push('/');
     }
   }, [url, session?.data?.user?.role]);
-  if (session?.data) {
-    return (
-      <h1>
-        <ReservationPage />
-      </h1>
-    );
-  } else {
-    return <h1>Not allowed</h1>;
-  }
+  return (
+    <>
+      {/* {session.data ? <ReservationPage /> : null} */}
+      <ReservationPage />
+      <div>
+        <div className='flex items-center flex-col mt-10'>
+          <h1 className='text-[24px] font-semibold'>
+            Find rental cars based on destination.
+          </h1>
+          <p>
+            Discover car rental options in Nepal, always offering the perfect
+            price for you.
+          </p>
+        </div>
+        <div className='grid grid-cols-4 gap-4 mx-10'>
+          {locationData?.location_data_final?.map((data: any) => (
+            <div className='flex flex-col items-center border border-gray-300 rounded-lg  p-4 mt-8 '>
+              <img
+                onClick={() =>
+                  router.push(`/vehicles?location_id=${data.location_id}`)
+                }
+                src={`${data.location_image}`}
+                alt={data.location_name}
+                className='w-full max-w-md rounded-lg'
+              />
+              <div className='mt-4 text-lg font-bold'>{data.location_name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }

@@ -60,8 +60,20 @@ model car {
   isBooked             Boolean         @default(false)
   isVerified           Boolean         @default(false)
   user                 user           @relation(fields: [user_id], references: [id])
+location         location @relation(fields: [location_id], references:[location_id])
+location_id    Int
   user_id  Int
   user_role            String
+}
+
+
+
+
+model location {
+  location_id Int @id @default(autoincrement())
+  location_name String
+  location_image String
+  car car[]
 }
 
 model car_image {

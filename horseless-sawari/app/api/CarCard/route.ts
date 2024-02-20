@@ -6,7 +6,7 @@ export async function GET(req: Request) {
   try {
     const CarDetail = await db.car.findMany({
       where: {
-        isBooked: false,
+        isVerified: false,
       },
     });
 
