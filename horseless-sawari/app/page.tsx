@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReservationPage from './reservation/page';
+import ImageCarousel from '@/components/ui/ImageCarousel/ImageCarousel';
 
 export default function Home() {
   const [locationData, setLocationData] = useState(null);
@@ -47,8 +48,11 @@ export default function Home() {
             price for you.
           </p>
         </div>
-        <div className='grid grid-cols-4 gap-4 mx-10'>
-          {locationData?.location_data_final?.map((data: any) => (
+        {/* <div className='grid grid-cols-4 gap-4 mx-10'> */}
+        <div className='items-center border border-gray-300 rounded-lg  p-4 mt-8 mx-10'>
+          <ImageCarousel itemData={locationData?.location_data_final} />
+        </div>
+        {/* {locationData?.location_data_final?.map((data: any) => (
             <div className='flex flex-col items-center border border-gray-300 rounded-lg  p-4 mt-8 '>
               <img
                 onClick={() =>
@@ -60,8 +64,8 @@ export default function Home() {
               />
               <div className='mt-4 text-lg font-bold'>{data.location_name}</div>
             </div>
-          ))}
-        </div>
+          ))} */}
+        {/* </div> */}
       </div>
     </>
   );

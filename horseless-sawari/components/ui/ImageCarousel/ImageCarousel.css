@@ -1,0 +1,25 @@
+.slick-next {
+  width: 40px;
+  height: 40px;
+}
+.slick-next:before {
+  font-size: 40px;
+  color: gray !important;
+}
+
+.slick-prev:before {
+  font-size: 40px;
+  color: gray !important;
+}
+
+.slick-prev {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  transform: translate(-50%, -50%) !important;
+}
