@@ -9,7 +9,7 @@ interface ImageCarouselProps {
   itemData: any;
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
+const LocationImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
   const router = useRouter();
 
   const settings = {
@@ -50,4 +50,4 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
   );
 };
 
-export default ImageCarousel;
+export default LocationImageCarousel;

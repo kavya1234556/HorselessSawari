@@ -4,7 +4,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReservationPage from './reservation/page';
-import ImageCarousel from '@/components/ui/ImageCarousel/ImageCarousel';
+import LocationImageCarousel from '@/components/ui/ImageCarousel/LocationImageCarousel';
+import Hero from '@/components/hero/hero';
 
 export default function Home() {
   const [locationData, setLocationData] = useState(null);
@@ -38,8 +39,8 @@ export default function Home() {
     <>
       {/* {session.data ? <ReservationPage /> : null} */}
       <ReservationPage />
-      <div>
-        <div className='flex items-center flex-col mt-10'>
+      <div className='bg-gray pb-20'>
+        <div className='flex items-center flex-col pt-10'>
           <h1 className='text-[24px] font-semibold'>
             Find rental cars based on destination.
           </h1>
@@ -50,23 +51,10 @@ export default function Home() {
         </div>
         {/* <div className='grid grid-cols-4 gap-4 mx-10'> */}
         <div className='items-center border border-gray-300 rounded-lg  p-4 mt-8 mx-10'>
-          <ImageCarousel itemData={locationData?.location_data_final} />
+          <LocationImageCarousel itemData={locationData?.location_data_final} />
         </div>
-        {/* {locationData?.location_data_final?.map((data: any) => (
-            <div className='flex flex-col items-center border border-gray-300 rounded-lg  p-4 mt-8 '>
-              <img
-                onClick={() =>
-                  router.push(`/vehicles?location_id=${data.location_id}`)
-                }
-                src={`${data.location_image}`}
-                alt={data.location_name}
-                className='w-full max-w-md rounded-lg'
-              />
-              <div className='mt-4 text-lg font-bold'>{data.location_name}</div>
-            </div>
-          ))} */}
-        {/* </div> */}
       </div>
+      <Hero />
     </>
   );
 }
