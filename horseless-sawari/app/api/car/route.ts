@@ -113,6 +113,7 @@ export async function POST(req: Request) {
     const isVerified = body.get('isVerified');
     const user_id = body.get('user_id');
     const location_id = body.get('location_id');
+    const category_id = body.get('category_id');
     const car_file = body.getAll('car_images');
     let final_car_images = [];
     await Promise.all(
@@ -214,6 +215,7 @@ export async function POST(req: Request) {
       // insurance_img: [],
       // bluebook_img: [],
       location_id: Number(location_id),
+      category_id: Number(category_id),
       user_role: user.role,
     };
     console.log(body_);
