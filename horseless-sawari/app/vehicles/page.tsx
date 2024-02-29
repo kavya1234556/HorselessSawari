@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import BookingCard from '@/components/bookingCard';
 
 const VehiclesPage = () => {
   const [locationData, setLocationData] = useState(null);
@@ -25,28 +26,38 @@ const VehiclesPage = () => {
     });
   }, [searchParams]);
   return (
-    <div className='mt-4 grid grid-cols-4 gap-4 '>
-      {locationData?.car_data_final.map((item: any) => (
-        <Card>
-          <CardHeader>
-            <CardTitle>{item.manufacture}</CardTitle>
-            <CardDescription>
-              <img
-                src={`${item.car_images[0]}`}
-                alt='Car Image'
-                className='w-full max-w-md rounded-lg'
-              />
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+    <>
+      <div className='w-[95%] m-auto bg-white1 p-[15px]'>
+        <BookingCard />
+      </div>
+      <div className='flex w-[100%]'>
+        <div className='w-[30%]'>helooo</div>
+        <div>
+          <div className='mt-4 grid grid-cols-2 gap-4 '>
+            {locationData?.car_data_final.map((item: any) => (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{item.manufacture}</CardTitle>
+                  <CardDescription>
+                    <img
+                      src={`${item.car_images[0]}`}
+                      alt='Car Image'
+                      className='w-full max-w-md rounded-lg'
+                    />
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter>
+                  <p className='text-center'>{`${item.pricing_per_day} per/Day`}</p>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
