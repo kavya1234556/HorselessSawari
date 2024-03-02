@@ -33,7 +33,7 @@ const vehiclePage = () => {
             <div className='flex w-full'>
               <div className='w-[75%]'>
                 <div className='w-full '>
-                  <CarImageCarousel itemData={carData?.car_data_final} />
+                  {/* <CarImageCarousel itemData={carData?.car_data_final} /> */}
                   {/* <img
                     src={`${item.car_images[0]}`}
                     alt='Car Image'

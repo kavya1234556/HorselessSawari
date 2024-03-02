@@ -110,3 +110,8 @@ enum FuelType {
   GAS
   ELECTRIC
 }
+
+model Booking{
+
+}
+
