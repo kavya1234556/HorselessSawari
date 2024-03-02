@@ -19,7 +19,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import generateHoursInterval from '../ui/generateHoursInterval ';
@@ -76,7 +75,7 @@ const BookingCard = () => {
     <Form {...form}>
       <div className='pt-[10px] pl-[20px]'>Book a vehicle</div>
       <form>
-        <div className='flex gap-[20px] p-[20px]'>
+        <div className='flex gap-[10px] p-[20px]'>
           <FormField
             control={form.control}
             name='location_id'
@@ -85,7 +84,7 @@ const BookingCard = () => {
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={(value) => onChange(value)}>
-                      <SelectTrigger className='w-[180px]'>
+                      <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
                         <SelectValue placeholder='Select Location' />
                       </SelectTrigger>
                       <SelectContent>
@@ -154,7 +153,7 @@ const BookingCard = () => {
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={(value) => onChange(value)}>
-                      <SelectTrigger className='w-[180px]'>
+                      <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
                         <SelectValue placeholder='Pick up Time' />
                       </SelectTrigger>
                       <SelectContent>
@@ -219,7 +218,7 @@ const BookingCard = () => {
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={(value) => onChange(value)}>
-                      <SelectTrigger className='w-[180px]'>
+                      <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
                         <SelectValue placeholder='Drop off Time' />
                       </SelectTrigger>
                       <SelectContent>

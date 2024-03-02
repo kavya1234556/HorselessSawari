@@ -1,5 +1,5 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import useGetCarByLocation from './hooks/useGetCarByLocation';
 import {
@@ -13,6 +13,7 @@ import {
 import BookingCard from '@/components/bookingCard';
 
 const VehiclesPage = () => {
+  const router = useRouter();
   const [locationData, setLocationData] = useState(null);
   console.log('🚀 ~ VehiclesPage ~ locationData:', locationData);
 
@@ -31,10 +32,18 @@ const VehiclesPage = () => {
         <BookingCard />
       </div>
       <div className='flex w-[100%]'>
-        <div className='w-[30%]'>helooo</div>
+        <div className='w-[25%] bg-theme my-[15px] p-[18px] mx-[35px]'>
+          <h2 className='text-left text-[20px]  font-medium'>Filters</h2>
+          <p>Vehicle Type</p>
+        </div>
         <div>
-          <div className='mt-4 grid grid-cols-2 gap-4 '>
-            {locationData?.car_data_final.map((item: any) => (
+          {locationData?.car_data_final.map((item: any) => (
+            <div
+              className='mt-4 grid grid-cols-2 gap-4 pr-[20px] '
+              onClick={() => {
+                router.push(`/vehicle/car_id=${item.carID}`);
+              }}
+            >
               <Card>
                 <CardHeader>
                   <CardTitle>{item.manufacture}</CardTitle>
@@ -50,11 +59,14 @@ const VehiclesPage = () => {
                   <p>Card Content</p>
                 </CardContent>
                 <CardFooter>
-                  <p className='text-center'>{`${item.pricing_per_day} per/Day`}</p>
+                  <div className='w-[100%] pr-[10px]'>
+                    <hr />
+                    <p className='text-right'>{`${item.pricing_per_day} per/Day`}</p>
+                  </div>
                 </CardFooter>
               </Card>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </>

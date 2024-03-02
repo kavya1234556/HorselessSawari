@@ -6,7 +6,8 @@
   :root {
     --color-secondaryPurple: #932bec;
     --color-purple: #b5abe3;
-    --color-gray: #cccccc;
+    --color-gray: #dcdcdc;
+    --color-theme: #e7e3e9;
     --color-white: #ffffff;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;

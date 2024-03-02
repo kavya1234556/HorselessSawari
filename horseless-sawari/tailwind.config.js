@@ -19,6 +19,7 @@ module.exports = {
       colors: {
         secondaryPurple: 'var(--color-secondaryPurple)',
         purple: 'var(--color-purple)',
+        theme: 'var(--color-theme)',
         gray: 'var(--color-gray)',
         white1: 'var(--color-white)',
         // blue: "var(--color-blue)",

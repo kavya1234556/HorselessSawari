@@ -77,7 +77,7 @@ const ProfilePage = () => {
         </div>
         <div className='sm:w-3/4 '>
           <h2>Personal Information</h2>
-          <div className='w-[60%] bg-gray flex justify-center items-center'>
+          <div className='w-[60%] bg-theme flex justify-center items-center'>
             <hr />
             <div>
               <Form {...form}>
