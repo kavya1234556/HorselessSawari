@@ -36,12 +36,11 @@ const VehiclesPage = () => {
           <h2 className='text-left text-[20px]  font-medium'>Filters</h2>
           <p>Vehicle Type</p>
         </div>
-        <div>
+        <div className='mt-4 grid grid-cols-2 gap-4'>
           {locationData?.car_data_final.map((item: any) => (
             <div
-              className='mt-4 grid grid-cols-2 gap-4 pr-[20px] '
               onClick={() => {
-                router.push(`/vehicle/car_id=${item.carID}`);
+                router.push(`/vehicle?car_id=${item.carID}`);
               }}
             >
               <Card>
