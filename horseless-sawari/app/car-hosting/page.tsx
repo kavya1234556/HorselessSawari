@@ -160,7 +160,7 @@ const CarHostingPage = () => {
           <label>5. Guest Information</label>
         </div>
 
-        <div className='w-[60%] bg-gray py-[10px]'>
+        <div className='w-[60%] bg-theme py-[10px]'>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(submit)}
