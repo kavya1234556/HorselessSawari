@@ -19,6 +19,9 @@ model user {
   updatedAt DateTime @updatedAt
   role      Role?    @default(USER)
   resetToken String?
+  emailVerificationToken String?
+  emailVerificationTokenExpiry DateTime?
+  isVerified Boolean @default(false)
   resetTokenExpiry DateTime?
   account    account?
   cars  car[]
