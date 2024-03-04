@@ -14,6 +14,7 @@ const useAddCarForHosting = (user_id: number, role: string) => {
     formdata.append('Total_km', String(values.Total_km));
     formdata.append('fuel_Type', values.fuel_Type);
     formdata.append('location_id', String(values.location_id));
+    formdata.append('category_id', String(values.category_id));
     console.log(formdata, 'formdata');
     console.log(formdata, 'values');
     console.log(values.car_images, 'car_images');

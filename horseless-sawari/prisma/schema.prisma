@@ -65,12 +65,20 @@ model car {
   user                 user           @relation(fields: [user_id], references: [id])
 location         location @relation(fields: [location_id], references:[location_id])
 location_id    Int
+category category @relation(fields: [category_id], references:[category_id])
+category_id Int
   user_id  Int
+
   user_role            String
 }
 
 
-
+model category{
+  category_id Int @id @default(autoincrement())
+  category_name String
+  category_image String
+  car car[]
+}
 
 model location {
   location_id Int @id @default(autoincrement())

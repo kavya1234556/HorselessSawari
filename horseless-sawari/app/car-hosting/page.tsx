@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/dropdown';
 import useGetLocation from './hooks/useGetLocation';
+import useGetCatagory from './hooks/useGetCatagory';
 
 export interface ICarType {
   ownerName: string;
@@ -47,6 +48,7 @@ export interface ICarType {
   is_verified: boolean;
   user_id: number;
   user_role: string;
+  category_id: number;
   location_id: number;
 }
 
@@ -55,6 +57,7 @@ const CarHostingPage = () => {
   const [bluebookImage, setBlueBookImage] = useState<PreviewFileType[]>([]);
   const [insuranceImage, setInsuranceImage] = useState<PreviewFileType[]>([]);
   const [location, setLocation] = useState(null);
+  const [category, setCategory] = useState(null);
   // console.log(
   //   'Location',
   //   location?.location.map((item) => item.location_name)
@@ -73,6 +76,10 @@ const CarHostingPage = () => {
     const location_data = useGetLocation();
     location_data.then((data) => {
       setLocation(data);
+    });
+    const category_data = useGetCatagory();
+    category_data.then((data) => {
+      setCategory(data);
     });
   }, []);
   const carSchema = yup.object().shape({
@@ -112,6 +119,7 @@ const CarHostingPage = () => {
     is_verified: yup.bool().required(),
     fuel_Type: yup.string().required(),
     location_id: yup.number().required(),
+    category_id: yup.number().required(),
   });
   const form = useForm<ICarType>({
     resolver: yupResolver(carSchema) as any,
@@ -136,6 +144,7 @@ const CarHostingPage = () => {
       fuel_Type: 'DISEL',
       user_role: '',
       location_id: undefined,
+      category_id: undefined,
     },
   });
   const { submit } = useAddCarForHosting(UserId, userRole);
@@ -185,6 +194,36 @@ const CarHostingPage = () => {
                         <FormMessage />
                       </FormItem>
                     )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='category_id'
+                    render={({ field: { onChange, ...rest } }) => {
+                      return (
+                        <FormItem>
+                          <FormLabel> Manufacture </FormLabel>
+                          <FormControl>
+                            <Select onValueChange={(value) => onChange(value)}>
+                              <SelectTrigger className='w-[180px]'>
+                                <SelectValue placeholder='Select Manufacture' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {category?.Category?.map((item: any) => (
+                                  <SelectItem
+                                    {...rest}
+                                    key={item.category_id}
+                                    value={`${item.category_id}`}
+                                  >
+                                    {item.category_name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                   <FormField
                     control={form.control}

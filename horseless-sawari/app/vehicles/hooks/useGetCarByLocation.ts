@@ -6,13 +6,13 @@ const useGetCarByLocation = async (id: number) => {
   if (response.ok) {
     if (response.status === 200) {
       toast({
-        title: 'success',
+        title: 'Success',
         description: 'Location Change successfully ',
       });
     }
   } else {
     toast({
-      title: 'error',
+      title: 'Error',
       description: 'Something went wrong',
     });
   }
