@@ -29,6 +29,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/dropdown';
+import {
+  setDropOffDate,
+  setDropOffTime,
+  setLocationID,
+  setPickUpDate,
+  setPickUpTime,
+} from '@/redux/reducers/booking';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export interface IRegistrationType {
   location_id: Number;
@@ -46,14 +56,13 @@ const RegisterSchema = yup.object().shape({
   dropOffDate: yup.date().required('Drop off Date is required'),
 });
 const BookingCard = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [location, setLocation] = useState(null);
-  console.log('Location', location);
-  console.log(location);
   const interval = 30;
   const startDate = 60 * 7;
   const endDate = 60 * 21;
   const dateList = generateHoursInterval(startDate, endDate, interval);
-  console.log('dateList', dateList);
   const form = useForm({
     resolver: yupResolver(RegisterSchema),
   });
@@ -66,31 +75,63 @@ const BookingCard = () => {
     const data = location_data();
     data.then((loc_data) => {
       if (loc_data) {
-        console.log('loc_data', loc_data);
         setLocation(loc_data);
       }
     });
   }, []);
+  const submit = (values: IRegistrationType) => {
+    dispatch(setLocationID(values.location_id));
+    dispatch(setPickUpDate(values.pickUpDate));
+    dispatch(setPickUpTime(values.pickUpTime));
+    dispatch(setDropOffDate(values.dropOffDate));
+    dispatch(setDropOffTime(values.dropOffTime));
+
+    router.push(`/vehicles?location_id=${values.location_id}`);
+  };
+
+  const location_id = useSelector(
+    (state: any) => state.booking.value.location_id
+  );
+  const pickUpDate = useSelector(
+    (state: any) => state.booking.value.pickUpDate
+  );
+
+  const pickUpTime = useSelector(
+    (state: any) => state.booking.value.pickUpTime
+  );
+  const dropOffDate = useSelector(
+    (state: any) => state.booking.value.dropOffDate
+  );
+  const dropOffTime = useSelector(
+    (state: any) => state.booking.value.dropOffTime
+  );
+  useEffect(() => {
+    form.setValue('location_id', location_id);
+    form.setValue('pickUpDate', pickUpDate);
+    form.setValue('pickUpTime', pickUpTime);
+    form.setValue('dropOffDate', dropOffDate);
+    form.setValue('dropOffTime', dropOffTime);
+  }, [location_id]);
+
   return (
     <Form {...form}>
       <div className='pt-[10px] pl-[20px]'>Book a vehicle</div>
-      <form>
+      <form onSubmit={form.handleSubmit(submit)}>
         <div className='flex gap-[10px] p-[20px]'>
           <FormField
             control={form.control}
             name='location_id'
-            render={({ field: { onChange, ...rest } }) => {
+            render={({ field }) => {
               return (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={(value) => onChange(value)}>
+                    <Select onValueChange={field.onChange}>
                       <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
                         <SelectValue placeholder='Select Location' />
                       </SelectTrigger>
                       <SelectContent>
                         {location?.location_data_final.map((item: any) => (
                           <SelectItem
-                            {...rest}
                             key={item.location_id}
                             value={`${item.location_id}`}
                           >
@@ -148,17 +189,17 @@ const BookingCard = () => {
           <FormField
             control={form.control}
             name='pickUpTime'
-            render={({ field: { onChange, ...rest } }) => {
+            render={({ field }) => {
               return (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={(value) => onChange(value)}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
                         <SelectValue placeholder='Pick up Time' />
                       </SelectTrigger>
                       <SelectContent>
                         {dateList?.map((time: any, index) => (
-                          <SelectItem {...rest} key={index} value={time}>
+                          <SelectItem {...field} key={index} value={time}>
                             {time}
                           </SelectItem>
                         ))}
@@ -213,17 +254,17 @@ const BookingCard = () => {
           <FormField
             control={form.control}
             name='dropOffTime'
-            render={({ field: { onChange, ...rest } }) => {
+            render={({ field }) => {
               return (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={(value) => onChange(value)}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
                         <SelectValue placeholder='Drop off Time' />
                       </SelectTrigger>
                       <SelectContent>
                         {dateList?.map((time: any, index) => (
-                          <SelectItem {...rest} key={index} value={time}>
+                          <SelectItem {...field} key={index} value={time}>
                             {time}
                           </SelectItem>
                         ))}
