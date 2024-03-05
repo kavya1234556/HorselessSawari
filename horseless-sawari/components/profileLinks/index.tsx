@@ -19,6 +19,7 @@ const ProfileLinks = () => {
           <Link href='/profile/my-transaction-history'>
             My Transaction history
           </Link>
+          <Link href='/profile/change-password'>Change Password</Link>
         </div>
       </div>
     </>
