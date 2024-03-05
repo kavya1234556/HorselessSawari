@@ -43,7 +43,8 @@ const useLoginForm = () => {
       if (loginData?.error) {
         toast({
           title: 'Error',
-          description: 'Invalid username or password',
+          description:
+            'Invalid username or password Or your email is not verified',
           variant: 'destructive',
         });
       } else {

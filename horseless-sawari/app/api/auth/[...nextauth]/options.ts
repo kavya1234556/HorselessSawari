@@ -45,13 +45,13 @@ export const options: NextAuthOptions = {
         }
 
         const existingUser = await db.user.findUnique({
-          where: { username: credentials?.username },
+          where: { username: credentials?.username, isVerified: true },
         });
 
         // console.log("Existing user:", existingUser);
 
         if (!existingUser) {
-          console.log('User not found');
+          console.log('User not found or Email is not verfied');
           return null;
         }
 
