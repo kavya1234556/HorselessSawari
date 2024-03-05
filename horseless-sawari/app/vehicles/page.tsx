@@ -15,11 +15,10 @@ import BookingCard from '@/components/bookingCard';
 const VehiclesPage = () => {
   const router = useRouter();
   const [locationData, setLocationData] = useState(null);
-  console.log('🚀 ~ VehiclesPage ~ locationData:', locationData);
 
   const searchParams = useSearchParams();
   const location_id = parseInt(searchParams.get('location_id'));
-  console.log('🚀 ~ VehiclesPage ~ location_id:', location_id);
+
   useEffect(() => {
     const locationData = useGetCarByLocation(location_id);
     locationData.then((data) => {

@@ -63,12 +63,11 @@ model car {
   isBooked             Boolean         @default(false)
   isVerified           Boolean         @default(false)
   user                 user           @relation(fields: [user_id], references: [id])
-location         location @relation(fields: [location_id], references:[location_id])
-location_id    Int
-category category @relation(fields: [category_id], references:[category_id])
-category_id Int
+  category category @relation(fields: [category_id], references:[category_id])
+  category_id Int
+  location         location @relation(fields: [location_id], references:[location_id])
+  location_id    Int
   user_id  Int
-
   user_role            String
 }
 
@@ -114,7 +113,4 @@ enum FuelType {
   ELECTRIC
 }
 
-model Booking{
-
-}
 

@@ -24,6 +24,9 @@ const CategoryImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
     <div>
       <div>
         <Slider {...settings}>
+          {itemData?.map((item, index) => {
+            console.log('actualData', item.category_image);
+          })}
           {itemData?.map((item, index) => (
             <div
               key={index}
