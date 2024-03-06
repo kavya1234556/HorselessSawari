@@ -71,13 +71,13 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className=' flex gap-24 md:flex-row sm:flex-col lg:flex-row max-w-[1920px] m-auto'>
+      <div className='flex flex-col sm:flex-row gap-24 max-w-[1920px] m-auto'>
         <div className='flex-shrink-0 w-1/4'>
           <ProfileLinks />
         </div>
-        <div className='sm:w-3/4 '>
+        <div className='sm:w-3/4 w-[full]'>
           <h2>Personal Information</h2>
-          <div className='w-[60%] bg-theme flex justify-center items-center'>
+          <div className='sm:w-[60%] w-full bg-theme flex justify-center items-center'>
             <hr />
             <div>
               <Form {...form}>

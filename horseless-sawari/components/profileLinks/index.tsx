@@ -5,7 +5,7 @@ const ProfileLinks = () => {
   return (
     <>
       <div className=' p-[4px] flex flex-col gap-4'>
-        <h1>Profile</h1>
+        <h1 className='font-light text-[20px]'>Profile</h1>
         <div className='border border-purple p-[10px] w-[250px] '>
           <Link href='/profile'>Profile Information</Link>
         </div>

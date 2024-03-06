@@ -83,7 +83,6 @@ export default function Home() {
         <div className='items-center border border-gray-300 rounded-lg  p-4 mt-8 mx-10'>
           <CategoryImageCarousel itemData={categoryData?.category_data_final} />
         </div>
-        4
       </div>
     </>
   );

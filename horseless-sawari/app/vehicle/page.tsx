@@ -38,9 +38,43 @@ const vehiclePage = () => {
   const dropOffDate = useSelector(
     (state: any) => state.booking.value.dropOffDate
   );
+  console.log('dropOffDate', dropOffDate);
   const dropOffTime = useSelector(
     (state: any) => state.booking.value.dropOffTime
   );
+
+  const calculateHours = (pickUpTime, dropOffTime) => {
+    var today = new Date().toISOString().slice(0, 10);
+
+    // Concatenate today's date with pickUpTime and dropOffTime strings
+    var pickupDateTimeString = today + 'T' + pickUpTime + ':00';
+    var dropoffDateTimeString = today + 'T' + dropOffTime + ':00';
+
+    // Parse the date/time strings into Date objects
+    var pickupDateTime = new Date(pickupDateTimeString);
+    var dropoffDateTime = new Date(dropoffDateTimeString);
+
+    console.log('pickupDateTime:', pickupDateTime);
+    console.log('dropoffDateTime:', dropoffDateTime);
+
+    if (pickupDateTime > dropoffDateTime) {
+      var temp = pickupDateTime;
+      pickupDateTime = dropoffDateTime;
+      dropoffDateTime = temp;
+    }
+
+    var differenceMs = dropoffDateTime.getTime() - pickupDateTime.getTime();
+    var totalHours = differenceMs / (1000 * 60 * 60);
+
+    if (pickupDateTime < dropoffDateTime) {
+      totalHours += 12;
+    }
+
+    return totalHours;
+  };
+
+  const result = calculateHours(pickUpTime, dropOffTime);
+  console.log('result', result);
   return (
     <>
       <div className='ml-[20px] p-[20px]'>
@@ -52,8 +86,7 @@ const vehiclePage = () => {
                 <div className='w-[100%] '>
                   <CarImageCarousel itemData={carData?.car_data_final} />
                 </div>
-
-                <Card>
+                <Card className='w-[95%]'>
                   <CardHeader>
                     <CardTitle>Included in the Price</CardTitle>
                     <CardDescription>
@@ -74,69 +107,65 @@ const vehiclePage = () => {
                   </CardFooter>
                 </Card>
               </div>
-              <div className='w-[35%]'>
+              <div className='w-[35%]  '>
                 <div>
                   <Card>
                     <CardHeader>
                       <CardTitle>Pricing Information</CardTitle>
-                      <CardDescription>
-                        <div className='flex flex-col'>
+                      <CardDescription className='flex flex-col gap-4'>
+                        <hr />
+                        <div className=' flex justify-between '>
+                          <label>4 hours</label>
+                          <p>{item.pricing_per_four_hour}</p>
+                        </div>
+                        <label>
                           <hr />
                           <div className=' flex justify-between'>
-                            <label>4 hours</label>
-                            <p>{item.pricing_per_four_hour}</p>
+                            <label>8 hours</label>
+                            <p>{item.pricing_per_eight_hour}</p>
                           </div>
-                          <label>
-                            <hr />
-                            <div className=' flex justify-between'>
-                              <label>8 hours</label>
-                              <p>{item.pricing_per_eight_hour}</p>
-                            </div>
-                          </label>
-                          <label>
-                            <hr />
-                            <div className=' flex justify-between'>
-                              <label>1 Day</label>
-                              <p>{item.pricing_per_day}</p>
-                            </div>
-                          </label>
-                        </div>
+                        </label>
+                        <label>
+                          <hr />
+                          <div className=' flex justify-between'>
+                            <label>1 Day</label>
+                            <p>{item.pricing_per_day}</p>
+                          </div>
+                        </label>
                       </CardDescription>
                     </CardHeader>
                   </Card>
                 </div>
-                <div>
+                <div className='mt-[20px]'>
                   <Card>
                     <CardHeader>
                       <CardTitle>Search Detail</CardTitle>
-                      <CardDescription>
-                        <div className='flex flex-col'>
+                      <CardDescription className='flex flex-col gap-4'>
+                        <hr />
+                        <div className=' flex justify-between'>
+                          <label>City</label>
+                          <p>{location_id}</p>
+                        </div>
+                        <label>
                           <hr />
                           <div className=' flex justify-between'>
-                            <label>City</label>
-                            <p>{location_id}</p>
+                            <label>Pickup Date</label>
+                            <div className='flex gap-2'>
+                              <DateFormatter date={pickUpDate} />
+                              {pickUpTime}
+                            </div>
                           </div>
-                          <label>
-                            <hr />
-                            <div className=' flex justify-between'>
-                              <label>Pickup Date</label>
-                              <div className='flex gap-2'>
-                                <DateFormatter date={pickUpDate} />
-                                {pickUpTime}
-                              </div>
+                        </label>
+                        <label>
+                          <hr />
+                          <div className=' flex justify-between'>
+                            <label>DropOff Date</label>
+                            <div className='flex gap-2'>
+                              <DateFormatter date={dropOffDate} />
+                              {dropOffTime}
                             </div>
-                          </label>
-                          <label>
-                            <hr />
-                            <div className=' flex justify-between'>
-                              <label>DropOff Date</label>
-                              <div className='flex gap-2'>
-                                <DateFormatter date={dropOffDate} />
-                                {dropOffTime}
-                              </div>
-                            </div>
-                          </label>
-                        </div>
+                          </div>
+                        </label>
                       </CardDescription>
                     </CardHeader>
                   </Card>
