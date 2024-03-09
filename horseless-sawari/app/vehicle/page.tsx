@@ -13,9 +13,18 @@ import {
 import CarImageCarousel from '@/components/ui/ImageCarousel/CarImageCarousel';
 import { useSelector } from 'react-redux';
 import DateFormatter from '@/components/ui/DateFormatter';
+import generatePrice from '@/components/ui/generatePrice';
 
 const vehiclePage = () => {
   const [carData, setCarData] = useState(null);
+  const pricing = [];
+  console.log('🚀 ~ vehiclePage ~ pricing:', pricing);
+
+  carData?.car_data_final.map((item: any) => {
+    pricing.push(item.pricing_per_four_hour);
+    pricing.push(item.pricing_per_eight_hour);
+    pricing.push(item.pricing_per_day);
+  });
   const searchParams = useSearchParams();
   const car_id = parseInt(searchParams.get('car_id'));
   useEffect(() => {
@@ -30,7 +39,6 @@ const vehiclePage = () => {
   const pickUpDate = useSelector(
     (state: any) => state.booking.value.pickUpDate
   );
-  console.log('pickUpdate', pickUpDate);
 
   const pickUpTime = useSelector(
     (state: any) => state.booking.value.pickUpTime
@@ -38,43 +46,47 @@ const vehiclePage = () => {
   const dropOffDate = useSelector(
     (state: any) => state.booking.value.dropOffDate
   );
-  console.log('dropOffDate', dropOffDate);
   const dropOffTime = useSelector(
     (state: any) => state.booking.value.dropOffTime
   );
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const isoDate = date.toISOString().split('T')[0]; // Extracting YYYY-MM-DD
 
-  const calculateHours = (pickUpTime, dropOffTime) => {
-    var today = new Date().toISOString().slice(0, 10);
+    return isoDate;
+  }
+  function formatTime(timeString) {
+    const [time, period] = timeString.split(' ');
+    const [hours, minutes] = time.split(':');
+    let formattedHours = parseInt(hours);
 
-    // Concatenate today's date with pickUpTime and dropOffTime strings
-    var pickupDateTimeString = today + 'T' + pickUpTime + ':00';
-    var dropoffDateTimeString = today + 'T' + dropOffTime + ':00';
-
-    // Parse the date/time strings into Date objects
-    var pickupDateTime = new Date(pickupDateTimeString);
-    var dropoffDateTime = new Date(dropoffDateTimeString);
-
-    console.log('pickupDateTime:', pickupDateTime);
-    console.log('dropoffDateTime:', dropoffDateTime);
-
-    if (pickupDateTime > dropoffDateTime) {
-      var temp = pickupDateTime;
-      pickupDateTime = dropoffDateTime;
-      dropoffDateTime = temp;
+    if (period === 'PM' && formattedHours < 12) {
+      formattedHours += 12;
+    } else if (period === 'AM' && formattedHours === 12) {
+      formattedHours = 0;
     }
 
-    var differenceMs = dropoffDateTime.getTime() - pickupDateTime.getTime();
-    var totalHours = differenceMs / (1000 * 60 * 60);
+    const formattedTime = `${formattedHours
+      .toString()
+      .padStart(2, '0')}:${minutes}`;
 
-    if (pickupDateTime < dropoffDateTime) {
-      totalHours += 12;
-    }
+    return formattedTime;
+  }
+  const pickUPDate = formatDate(pickUpDate);
+  const dropOFFDate = formatDate(dropOffDate);
+  const pickUPTime = formatTime(pickUpTime);
+  const dropOFFTime = formatTime(dropOffTime);
 
-    return totalHours;
-  };
+  const { totalPrice, ServiceCharge } = generatePrice(
+    pickUPDate,
+    pickUPTime,
+    dropOFFDate,
+    dropOFFTime,
+    pricing
+  );
+  console.log('totalPrice', totalPrice);
+  console.log('ServiceCharge', ServiceCharge);
 
-  const result = calculateHours(pickUpTime, dropOffTime);
-  console.log('result', result);
   return (
     <>
       <div className='ml-[20px] p-[20px]'>
@@ -164,6 +176,27 @@ const vehiclePage = () => {
                               <DateFormatter date={dropOffDate} />
                               {dropOffTime}
                             </div>
+                          </div>
+                        </label>
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </div>
+                <div className='mt-[20px]'>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Pricing Information</CardTitle>
+                      <CardDescription className='flex flex-col gap-4'>
+                        <hr />
+                        <div className=' flex justify-between '>
+                          <label>Total Amount </label>
+                          <p>{totalPrice}</p>
+                        </div>
+                        <label>
+                          <hr />
+                          <div className=' flex justify-between'>
+                            <label>Payable Amount</label>
+                            <p>{ServiceCharge}</p>
                           </div>
                         </label>
                       </CardDescription>

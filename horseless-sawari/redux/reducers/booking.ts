@@ -15,7 +15,7 @@ const initialDropOffDate = new Date();
 initialDropOffDate.setDate(initialDropOffDate.getDate() + 1);
 const initialState = {
   value: {
-    location_id: 0,
+    location_id: 1,
     pickUpDate: initialPickUpDate,
     pickUpTime: '',
     dropOffDate: initialDropOffDate,

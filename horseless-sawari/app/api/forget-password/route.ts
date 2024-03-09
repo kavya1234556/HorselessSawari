@@ -71,10 +71,7 @@ export async function POST(req: Request) {
     };
     sendSmtpEmail.to = [{ email: email, name: existingUserByEmail.username }];
 
-    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log(
-      'API called successfully. Returned data: ' + JSON.stringify(data)
-    );
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
 
     return NextResponse.json({ message: 'Reset email sent successfully' });
   } catch (error) {
