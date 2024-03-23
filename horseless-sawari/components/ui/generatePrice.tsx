@@ -13,9 +13,7 @@ const generatePrice = (
   const durationInMilliseconds =
     dropoffDateTime.getTime() - pickupDateTime.getTime();
   const durationInHours = durationInMilliseconds / (1000 * 60 * 60);
-  console.log('🚀 ~ calculatePrice ~ durationInHours:', durationInHours);
   const totalDays = dropoffDateTime.getDate() - pickupDateTime.getDate();
-  console.log('🚀 ~ calculatePrice ~ totalDays:', totalDays);
   const days = Math.floor(durationInHours / 24);
   const remainingHours = durationInHours % 24;
   const blocks8Hours = Math.floor(remainingHours / 8);
@@ -26,8 +24,9 @@ const generatePrice = (
       blocks8Hours * pricing[1] +
       blocks4Hours * pricing[0] * totalDays;
 
-    const ServiceCharge = Math.floor(totalPrice * 1.1);
-    return { totalPrice, ServiceCharge };
+    const serviceWithCharge = Math.floor(totalPrice * 1.1);
+    const ServiceCharge = serviceWithCharge - totalPrice;
+    return { totalPrice, ServiceCharge, serviceWithCharge };
   } else {
     const totalPrice =
       days * pricing[2] + blocks8Hours * pricing[1] + blocks4Hours * pricing[0];

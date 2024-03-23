@@ -1,7 +1,6 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import useGetCarByCarID from './hooks/useGetCarByCarID';
+import DateFormatter from '@/components/ui/DateFormatter';
+import CarImageCarousel from '@/components/ui/ImageCarousel/CarImageCarousel';
 import {
   Card,
   CardContent,
@@ -10,15 +9,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import CarImageCarousel from '@/components/ui/ImageCarousel/CarImageCarousel';
-import { useSelector } from 'react-redux';
-import DateFormatter from '@/components/ui/DateFormatter';
 import generatePrice from '@/components/ui/generatePrice';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import useGetCarByCarID from './hooks/useGetCarByCarID';
+import { Button } from '@/components/ui/button';
+import Maps from '@/components/Maps';
+import PickSearchBox from '@/components/PickSearchBox';
+import DropSearchBox from '@/components/DropSearchBox';
+
+export interface IBookingType {
+  pickUpLocation: string;
+  dropOffLocation: string;
+}
 
 const vehiclePage = () => {
   const [carData, setCarData] = useState(null);
+  const [pickUpSelectPostion, setPickUpSelectedPosition] = useState(null);
+  console.log('🚀 ~ vehiclePage ~ pickUpSelectPostion:', pickUpSelectPostion);
+
+  const [selectPostion, setSelectedPosition] = useState(null);
+
+  console.log('🚀 ~ vehiclePage ~ selectPostion:', selectPostion);
+
   const pricing = [];
-  console.log('🚀 ~ vehiclePage ~ pricing:', pricing);
 
   carData?.car_data_final.map((item: any) => {
     pricing.push(item.pricing_per_four_hour);
@@ -77,15 +92,13 @@ const vehiclePage = () => {
   const pickUPTime = formatTime(pickUpTime);
   const dropOFFTime = formatTime(dropOffTime);
 
-  const { totalPrice, ServiceCharge } = generatePrice(
+  const { totalPrice, ServiceCharge, serviceWithCharge } = generatePrice(
     pickUPDate,
     pickUPTime,
     dropOFFDate,
     dropOFFTime,
     pricing
   );
-  console.log('totalPrice', totalPrice);
-  console.log('ServiceCharge', ServiceCharge);
 
   return (
     <>
@@ -111,12 +124,12 @@ const vehiclePage = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>{item.features}</CardContent>
-                  <CardFooter>
-                    <div className='w-[100%] pr-[10px]'>
-                      <hr />
-                      <p>0 trips</p>
-                    </div>
-                  </CardFooter>
+                  {/* <CardFooter>
+                      <div className='w-[100%] pr-[10px]'>
+                        <hr />
+                        <p>0 trips</p>
+                      </div>
+                    </CardFooter> */}
                 </Card>
               </div>
               <div className='w-[35%]  '>
@@ -148,7 +161,7 @@ const vehiclePage = () => {
                     </CardHeader>
                   </Card>
                 </div>
-                <div className='mt-[20px]'>
+                <div className='mt-[40px]'>
                   <Card>
                     <CardHeader>
                       <CardTitle>Search Detail</CardTitle>
@@ -182,10 +195,10 @@ const vehiclePage = () => {
                     </CardHeader>
                   </Card>
                 </div>
-                <div className='mt-[20px]'>
+                <div className='mt-[40px]'>
                   <Card>
                     <CardHeader>
-                      <CardTitle>Pricing Information</CardTitle>
+                      <CardTitle>Pricing Summary </CardTitle>
                       <CardDescription className='flex flex-col gap-4'>
                         <hr />
                         <div className=' flex justify-between '>
@@ -194,9 +207,16 @@ const vehiclePage = () => {
                         </div>
                         <label>
                           <hr />
+                          <div className=' flex justify-between '>
+                            <label>Service Amount </label>
+                            <p>{ServiceCharge}</p>
+                          </div>
+                        </label>
+                        <label>
+                          <hr />
                           <div className=' flex justify-between'>
                             <label>Payable Amount</label>
-                            <p>{ServiceCharge}</p>
+                            <p>{serviceWithCharge}</p>
                           </div>
                         </label>
                       </CardDescription>
@@ -204,6 +224,35 @@ const vehiclePage = () => {
                   </Card>
                 </div>
               </div>
+            </div>
+            <div className='mt-[40px]'>
+              <Card>
+                <CardContent>
+                  <div className='grid grid-cols-2  gap-[40px] pt-[15px]'>
+                    <PickSearchBox
+                      selectPostion={pickUpSelectPostion}
+                      setSelectedPosition={setPickUpSelectedPosition}
+                    />
+                    <DropSearchBox
+                      selectPostion={selectPostion}
+                      setSelectedPosition={setSelectedPosition}
+                    />
+                  </div>
+                  <div
+                    className='w-[100%] h-[250px]'
+                    style={{ border: '2px solid black', marginTop: '40px' }}
+                  >
+                    <Maps
+                      selectPostion={
+                        selectPostion ? selectPostion : pickUpSelectPostion
+                      }
+                    />
+                  </div>
+                  <div className='flex justify-end mt-[20px]'>
+                    <Button className='w-[186px]'>Book Now</Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         ))}
