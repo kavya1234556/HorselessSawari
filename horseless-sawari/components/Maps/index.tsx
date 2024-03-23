@@ -1,7 +1,10 @@
+// @ts-nocheck
 import { MapContainer, TileLayer, Popup, Marker, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect } from 'react';
+import 'leaflet-routing-machine';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
 const icon = L.icon({
   iconUrl: './placeholder.png',
@@ -9,30 +12,34 @@ const icon = L.icon({
 });
 
 let position = [27.7172, 85.324];
-
-function ResetCenterView(selectPostion: any) {
+function ResetCenterView({ pickUpPosition, selectPosition }) {
+  console.log(pickUpPosition, '1');
+  console.log(selectPosition, '2');
   const map = useMap();
 
   useEffect(() => {
-    if (selectPostion) {
+    if (pickUpPosition) {
       map.setView(
-        L.latLng(
-          selectPostion?.selectPosition?.lat,
-          selectPostion?.selectPosition?.lon
-        ),
+        L.latLng(selectPosition.lat, selectPosition.lon),
         map.getZoom(),
         {
           animate: true,
         }
       );
+      L.Routing.control({
+        waypoints: [
+          L.latLng(pickUpPosition.lat, pickUpPosition.lon),
+          L.latLng(selectPosition.lat, selectPosition.lon),
+        ],
+      }).addTo(map);
     }
-  }, [selectPostion]);
+  }, [pickUpPosition, selectPosition]);
 
   return null;
 }
 
-const Maps = ({ selectPostion }) => {
-  const locationSelected = [selectPostion?.lat, selectPostion?.lon];
+const Maps = ({ pickUpPosition, selectPosition }) => {
+  const locationSelected = [selectPosition?.lat, selectPosition?.lon];
   return (
     <>
       <MapContainer
@@ -44,14 +51,17 @@ const Maps = ({ selectPostion }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        {selectPostion && (
+        {selectPosition && (
           <>
             <Marker position={locationSelected} icon={icon}>
               <Popup>
                 A pretty CSS3 popup. <br /> Easily customizable.
               </Popup>
             </Marker>
-            <ResetCenterView selectPosition={selectPostion} />
+            <ResetCenterView
+              pickUpPosition={pickUpPosition}
+              selectPosition={selectPosition}
+            />
           </>
         )}
       </MapContainer>

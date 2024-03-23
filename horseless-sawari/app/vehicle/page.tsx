@@ -18,6 +18,11 @@ import { Button } from '@/components/ui/button';
 import Maps from '@/components/Maps';
 import PickSearchBox from '@/components/PickSearchBox';
 import DropSearchBox from '@/components/DropSearchBox';
+import { useDispatch } from 'react-redux';
+import {
+  setdropOffLoction,
+  setpickUpLocation,
+} from '@/redux/reducers/location';
 
 export interface IBookingType {
   pickUpLocation: string;
@@ -25,13 +30,12 @@ export interface IBookingType {
 }
 
 const vehiclePage = () => {
+  const dispatch = useDispatch();
   const [carData, setCarData] = useState(null);
   const [pickUpSelectPostion, setPickUpSelectedPosition] = useState(null);
-  console.log('🚀 ~ vehiclePage ~ pickUpSelectPostion:', pickUpSelectPostion);
-
+  dispatch(setpickUpLocation(pickUpSelectPostion?.display_name));
   const [selectPostion, setSelectedPosition] = useState(null);
-
-  console.log('🚀 ~ vehiclePage ~ selectPostion:', selectPostion);
+  dispatch(setdropOffLoction(selectPostion?.display_name));
 
   const pricing = [];
 
@@ -240,12 +244,11 @@ const vehiclePage = () => {
                   </div>
                   <div
                     className='w-[100%] h-[250px]'
-                    style={{ border: '2px solid black', marginTop: '40px' }}
+                    style={{ border: '2px solid black' }}
                   >
                     <Maps
-                      selectPostion={
-                        selectPostion ? selectPostion : pickUpSelectPostion
-                      }
+                      selectPosition={selectPostion}
+                      pickUpPosition={pickUpSelectPostion}
                     />
                   </div>
                   <div className='flex justify-end mt-[20px]'>

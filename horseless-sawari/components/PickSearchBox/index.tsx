@@ -81,7 +81,7 @@ const PickSearchBox = ({ selectPostion, setSelectedPosition }) => {
             </div>
             <Button>Search</Button>
           </div>
-          <div className='flex flex-col  h-[100px] overflow-scroll'>
+          <div className='flex flex-col  h-[100px] overflow-auto'>
             {listPlace.map((item) => {
               return (
                 <div
