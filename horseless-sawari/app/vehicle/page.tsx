@@ -23,6 +23,7 @@ import {
   setdropOffLoction,
   setpickUpLocation,
 } from '@/redux/reducers/location';
+import BookingConformation from '@/components/modal/booking-conformation';
 
 export interface IBookingType {
   pickUpLocation: string;
@@ -31,6 +32,7 @@ export interface IBookingType {
 
 const vehiclePage = () => {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
   const [carData, setCarData] = useState(null);
   const [pickUpSelectPostion, setPickUpSelectedPosition] = useState(null);
   dispatch(setpickUpLocation(pickUpSelectPostion?.display_name));
@@ -103,6 +105,10 @@ const vehiclePage = () => {
     dropOFFTime,
     pricing
   );
+  const toggleModal = () => {
+    console.log('clicked');
+    setOpen((prev) => !prev);
+  };
 
   return (
     <>
@@ -244,7 +250,11 @@ const vehiclePage = () => {
                   </div>
                   <div
                     className='w-[100%] h-[250px]'
-                    style={{ border: '2px solid black' }}
+                    style={{
+                      border: '2px solid black',
+                      position: 'relative',
+                      zIndex: 30,
+                    }}
                   >
                     <Maps
                       selectPosition={selectPostion}
@@ -252,11 +262,14 @@ const vehiclePage = () => {
                     />
                   </div>
                   <div className='flex justify-end mt-[20px]'>
-                    <Button className='w-[186px]'>Book Now</Button>
+                    <Button onClick={toggleModal} className='w-[186px]'>
+                      Book Now
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             </div>
+            <BookingConformation open={open} handleToggleModal={toggleModal} />
           </div>
         ))}
       </div>
