@@ -24,6 +24,7 @@ import {
   setpickUpLocation,
 } from '@/redux/reducers/location';
 import BookingConformation from '@/components/modal/booking-conformation';
+import { setPayablePrice } from '@/redux/reducers/booking';
 
 export interface IBookingType {
   pickUpLocation: string;
@@ -105,6 +106,7 @@ const vehiclePage = () => {
     dropOFFTime,
     pricing
   );
+  dispatch(setPayablePrice(serviceWithCharge));
   const toggleModal = () => {
     console.log('clicked');
     setOpen((prev) => !prev);
@@ -113,8 +115,8 @@ const vehiclePage = () => {
   return (
     <>
       <div className='ml-[20px] p-[20px]'>
-        {carData?.car_data_final.map((item: any) => (
-          <div>
+        {carData?.car_data_final.map((item: any, index) => (
+          <div key={index}>
             <h1 className='text-[30px]'>{item.manufacture}</h1>
             <div className='flex w-full gap-4'>
               <div className='w-[65%]'>

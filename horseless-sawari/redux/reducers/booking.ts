@@ -9,6 +9,7 @@ type BookingState = {
   pickUpTime: String;
   dropOffDate: Date;
   dropOffTime: String;
+  payablePrice: Number;
 };
 const initialPickUpDate = new Date();
 const initialDropOffDate = new Date();
@@ -20,6 +21,7 @@ const initialState = {
     pickUpTime: '',
     dropOffDate: initialDropOffDate,
     dropOffTime: '',
+    payablePrice: 0,
   } as BookingState,
 } as InitialState;
 export const booking = createSlice({
@@ -41,6 +43,9 @@ export const booking = createSlice({
     setDropOffTime: (state, action: PayloadAction<String>) => {
       state.value = { ...state.value, dropOffTime: action.payload };
     },
+    setPayablePrice: (state, action: PayloadAction<Number>) => {
+      state.value = { ...state.value, payablePrice: action.payload };
+    },
   },
 });
 
@@ -50,6 +55,7 @@ export const {
   setPickUpTime,
   setDropOffDate,
   setDropOffTime,
+  setPayablePrice,
 } = booking.actions;
 
 export default booking.reducer;
