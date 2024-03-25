@@ -24,7 +24,11 @@ import {
   setpickUpLocation,
 } from '@/redux/reducers/location';
 import BookingConformation from '@/components/modal/booking-conformation';
-import { setPayablePrice } from '@/redux/reducers/booking';
+import {
+  setPayablePrice,
+  setServicePrice,
+  setTotalPrice,
+} from '@/redux/reducers/booking';
 
 export interface IBookingType {
   pickUpLocation: string;
@@ -107,6 +111,8 @@ const vehiclePage = () => {
     pricing
   );
   dispatch(setPayablePrice(serviceWithCharge));
+  dispatch(setTotalPrice(totalPrice));
+  dispatch(setServicePrice(ServiceCharge));
   const toggleModal = () => {
     console.log('clicked');
     setOpen((prev) => !prev);

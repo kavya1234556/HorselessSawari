@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     console.log(sharingCharge);
     const newBooking = await db.booked_car.create({
       data: {
-        location_id: Number(location_id),
+        location_id: location_id,
         pickUpDate: new Date(pickUpDate),
         pickUpTime,
         dropOffDate: new Date(dropOffDate),
