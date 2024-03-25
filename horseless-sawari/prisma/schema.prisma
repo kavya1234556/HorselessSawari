@@ -71,23 +71,26 @@ model car {
   user_id  Int
   user_role            String
   booked_car   booked_car?
+
 }
 
 model booked_car{
 location_id Int
 pickUpDate DateTime
-pickUpTime string
+pickUpTime String
 dropOffDate DateTime
-dropOffTime string
+dropOffTime String
 totalPrice Int
 ServiceCharge Int
 serviceWithCharge Int
-pickUpLocation string
-dropOffLoction string
+pickUpLocation String
+dropOffLoction String
 is_shared Boolean
 sharingCharge Int
 user                 user           @relation(fields: [user_id], references: [id])
 user_id  Int
+  car        car  @relation(fields: [car_id], references: [carID])
+  car_id Int @unique
 
 }
 
