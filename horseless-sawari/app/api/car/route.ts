@@ -37,6 +37,7 @@ export async function GET(req: Request) {
     const car_data = await db.car.findMany({
       where: {
         isVerified: true,
+        isBooked: false,
       },
     });
     const car_data_final = await Promise.all(

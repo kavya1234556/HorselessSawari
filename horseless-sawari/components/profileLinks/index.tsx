@@ -4,7 +4,7 @@ import React from 'react';
 const ProfileLinks = () => {
   return (
     <>
-      <div className=' p-[4px] flex flex-col gap-4'>
+      <div className=' p-[4px] flex flex-col gap-4 bg-zinc-300'>
         <h1 className='font-light text-[20px]'>Profile</h1>
         <div className='border border-purple p-[10px] w-[250px] '>
           <Link href='/profile'>Profile Information</Link>

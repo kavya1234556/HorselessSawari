@@ -21,18 +21,6 @@ export async function POST(req: Request) {
       sharingCharge,
       user_id,
     } = body;
-    console.log(location_id, 'location_id');
-    console.log(pickUpDate);
-    console.log(pickUpTime);
-    console.log(dropOffDate);
-    console.log(dropOffTime);
-    console.log(totalPrice);
-    console.log(ServiceCharge);
-    console.log(serviceWithCharge);
-    console.log(pickUpLocation);
-    console.log(dropOffLoction);
-    console.log(is_shared);
-    console.log(sharingCharge);
     const newBooking = await db.booked_car.create({
       data: {
         location_id: location_id,
@@ -51,7 +39,14 @@ export async function POST(req: Request) {
         car_id: Number(carID),
       },
     });
-    console.log('hello', newBooking);
+
+    await db.car.update({
+      where: {
+        carID: Number(carID),
+      },
+      data: { isBooked: true },
+    });
+
     return NextResponse.json(
       { message: 'Booking Succesfull', newBooking },
       { status: 201 }

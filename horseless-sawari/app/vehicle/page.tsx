@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import generatePrice from '@/components/ui/generatePrice';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useGetCarByCarID from './hooks/useGetCarByCarID';
@@ -29,6 +29,7 @@ import {
   setServicePrice,
   setTotalPrice,
 } from '@/redux/reducers/booking';
+import { toast } from '@/components/ui/use-toast';
 
 export interface IBookingType {
   pickUpLocation: string;
@@ -36,6 +37,13 @@ export interface IBookingType {
 }
 
 const vehiclePage = () => {
+  const router = useRouter();
+  const UserId =
+    typeof window !== 'undefined' && localStorage
+      ? parseInt(localStorage.getItem('user_id'))
+      : null;
+  console.log(UserId);
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [carData, setCarData] = useState(null);
@@ -52,6 +60,7 @@ const vehiclePage = () => {
     pricing.push(item.pricing_per_day);
   });
   const searchParams = useSearchParams();
+
   const car_id = parseInt(searchParams.get('car_id'));
   useEffect(() => {
     const carData = useGetCarByCarID(car_id);
@@ -110,12 +119,20 @@ const vehiclePage = () => {
     dropOFFTime,
     pricing
   );
+  const areValuesValid = () => {
+    isNaN(totalPrice);
+    return toast({
+      title: 'Error',
+      description: 'Please fill all the required value ',
+    });
+  };
   dispatch(setPayablePrice(serviceWithCharge));
   dispatch(setTotalPrice(totalPrice));
   dispatch(setServicePrice(ServiceCharge));
+
   const toggleModal = () => {
-    console.log('clicked');
-    setOpen((prev) => !prev);
+    isNaN(UserId) ? router.push('/login') : setOpen((prev) => !prev);
+    isNaN(totalPrice);
   };
 
   return (
@@ -270,7 +287,11 @@ const vehiclePage = () => {
                     />
                   </div>
                   <div className='flex justify-end mt-[20px]'>
-                    <Button onClick={toggleModal} className='w-[186px]'>
+                    <Button
+                      onClick={toggleModal}
+                      className='w-[186px]'
+                      disabled={!areValuesValid()}
+                    >
                       Book Now
                     </Button>
                   </div>
