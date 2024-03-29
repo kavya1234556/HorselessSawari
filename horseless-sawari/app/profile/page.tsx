@@ -21,6 +21,7 @@ import useAddProfileForm from './hooks/useAddProfileForm';
 import useGetProfileForm from './hooks/useGetProfile';
 import useEditProfileForm from './hooks/useEditProfileForm';
 import useGetProfileImage from './hooks/useGetProfileImage';
+import { usePathname } from 'next/navigation';
 
 const ProfilePage = () => {
   const [phone, setPhone] = useState('');
@@ -71,15 +72,19 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className='flex flex-col sm:flex-row gap-24 max-w-[1920px] m-auto'>
-        <div className='flex-shrink-0 w-1/4'>
+      <div className='w-[25%]'>
+        <h1 className='font-light text-[20px] text-white bg-gray p-[30px] text-center'>
+          Profile
+        </h1>
+      </div>
+      <div className='flex '>
+        <div className='w-[25%]'>
           <ProfileLinks />
         </div>
-        <div className='sm:w-3/4 w-[full]'>
-          <h2>Personal Information</h2>
-          <div className='sm:w-[60%] w-full bg-theme flex justify-center items-center'>
+        <div className='bg-theme w-[75%]'>
+          <div className=' flex justify-center items-center'>
             <hr />
-            <div>
+            <div className='bg-white p-[20px] m-[30px]'>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(submit)}

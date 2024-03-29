@@ -75,6 +75,7 @@ model car {
 }
 
 model booked_car{
+booked_car_id Int @id @default(autoincrement())
 location_id Int
 pickUpDate DateTime
 pickUpTime String
