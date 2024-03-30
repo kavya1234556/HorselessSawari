@@ -10,16 +10,24 @@ export async function GET(req: Request) {
         isVerified: true,
       },
     });
-    const BookindDetail = await db.booked_car.findUnique({
-      where: {
-        car_id: Number(car_data_old.map((item) => item.carID)),
-      },
-    });
+
+    // Fetch booking details for each car
+    const car_data_final = await Promise.all(
+      car_data_old.map(async (car) => {
+        const bookingDetail = await db.booked_car.findUnique({
+          where: {
+            car_id: car.carID,
+          },
+        });
+        return bookingDetail;
+      })
+    );
+
     return NextResponse.json(
-      { message: 'Car fetched Successfully', BookindDetail },
+      { message: 'Car fetched Successfully', car_data_final },
       { status: 200 }
     );
   } catch (e) {
-    console.log(e);
+    console.error('Error:', e);
   }
 }
