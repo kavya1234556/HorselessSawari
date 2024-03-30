@@ -14,10 +14,15 @@ import React, { useEffect, useState } from 'react';
 import useGetUserBooking from './hooks/useGetUserBooking';
 import { Button } from '@/components/ui/button';
 import ViewBooking from '@/components/modal/view-booking';
+import DeleteModal from '@/components/modal/delete-modal';
+import useDeleteBooking from './hooks/useDeleteBooking';
 
 const MyBookingPage = () => {
   const [bookData, setBookData] = useState(null);
+  // console.log(bookData.share_car_data.map((item) => item.booked_car_id));
+
   const [open, setOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
@@ -29,6 +34,16 @@ const MyBookingPage = () => {
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
+  function handleDeleteModalToggle() {
+    setDeleteOpen((prev) => !prev);
+  }
+  function handleDeleteOffers(item) {
+    console.log('I am clicked');
+    console.log(item);
+    useDeleteBooking(item.booked_car_id);
+    handleDeleteModalToggle();
+    window.location.reload();
+  }
   return (
     <>
       <div className='w-[25%]'>
@@ -45,7 +60,7 @@ const MyBookingPage = () => {
             <TableCaption>A list of your bookings.</TableCaption>
             <TableHeader className='border border-black'>
               <TableRow>
-                <TableHead className='w-[100px] '>Location</TableHead>
+                <TableHead className='w-[100px] '>S.N</TableHead>
                 <TableHead>Pick Up Date</TableHead>
                 <TableHead>Drop Off Date</TableHead>
                 <TableHead className='text-right'>Total Amount</TableHead>
@@ -55,7 +70,7 @@ const MyBookingPage = () => {
               {bookData?.share_car_data?.map((item, index) => (
                 <TableRow key={index} className='border border-black'>
                   <TableCell className='font-medium'>
-                    {item.location_id}
+                    {item.booked_car_id}
                   </TableCell>
                   <TableCell>{item.pickUpDate.split('T')[0]}</TableCell>
                   <TableCell>{item.dropOffDate.split('T')[0]}</TableCell>
@@ -66,12 +81,20 @@ const MyBookingPage = () => {
                       <ViewBooking
                         handleToggleModal={toggleModal}
                         open={open}
-                        data={bookData}
+                        data={item}
                       />
                     </TableCell>
                     <TableCell className='text-right'>
                       <div className='flex gap-3'>
-                        <Button>Cancel Booking</Button>
+                        <Button onClick={handleDeleteModalToggle}>
+                          Cancel Booking
+                        </Button>
+                        <DeleteModal
+                          onClose={handleDeleteModalToggle}
+                          open={deleteOpen}
+                          title='booking'
+                          onDelete={() => handleDeleteOffers(item)}
+                        />
                         <Button>Make Payment</Button>
                       </div>
                     </TableCell>

@@ -80,7 +80,6 @@ export async function GET(req: Request) {
             car_id: car_id,
           },
         });
-        console.log('🚀 ~ car_data.map ~ car_images:', car_images);
 
         car_images.map((car_image) => {
           const image_endpoint = `${process.env.NEXTAUTH_URL}/api/car_image?id=${car_image.car_image_id}`;
@@ -94,6 +93,28 @@ export async function GET(req: Request) {
 
     return NextResponse.json(
       { message: 'Car fetched Successfully', car_data_final },
+      { status: 200 }
+    );
+  } catch (e) {}
+}
+export async function DELETE(req: Request) {
+  const booking_id = new URL(req.url).searchParams.get('booking_id');
+  try {
+    const deleteBooking = await db.booked_car.delete({
+      where: {
+        booked_car_id: Number(booking_id),
+      },
+    });
+    await db.car.update({
+      where: {
+        carID: deleteBooking.car_id,
+      },
+      data: {
+        isBooked: false,
+      },
+    });
+    return NextResponse.json(
+      { message: 'Your Booking is Cancelled' },
       { status: 200 }
     );
   } catch (e) {}
