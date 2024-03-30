@@ -32,7 +32,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "components/ui/ImageCarousel/LocationImageCarousel.tsx"
+    "components/ui/ImageCarousel/LocationImageCarousel.tsx",
+    "app/api/myVehicleBooking"
   ],
   "exclude": [
     "node_modules"
