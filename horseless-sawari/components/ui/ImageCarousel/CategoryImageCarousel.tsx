@@ -10,7 +10,7 @@ interface ImageCarouselProps {
 }
 
 const CategoryImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
-  // const router = useRouter();
+  const router = useRouter();
 
   const settings = {
     dots: false,
@@ -30,9 +30,9 @@ const CategoryImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
           {itemData?.map((item, index) => (
             <div
               key={index}
-              // onClick={() =>
-              //   router.push(`/vehicles?location_id=${item.location_id}`)
-              // }
+              onClick={() =>
+                router.push(`/vehicles?category_id=${item.category_id}`)
+              }
             >
               <img
                 style={{

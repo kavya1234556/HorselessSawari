@@ -19,8 +19,6 @@ import useDeleteBooking from './hooks/useDeleteBooking';
 
 const MyBookingPage = () => {
   const [bookData, setBookData] = useState(null);
-  // console.log(bookData.share_car_data.map((item) => item.booked_car_id));
-
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const UserId =
