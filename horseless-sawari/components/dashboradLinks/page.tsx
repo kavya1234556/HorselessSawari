@@ -9,7 +9,7 @@ const DashboardLink = () => {
           <Link href='/dashboard/location'>Add Location</Link>
         </div>
         <div className='p-[10px]  border bottom-2 border-gray '>
-          <Link href='/profile/my-booking'>My Bookings</Link>
+          <Link href='/dashboard/manufacture'>Add Manufacture</Link>
         </div>
         <div className='p-[10px] border bottom-2 border-gray'>
           <Link href='/profile/my-vehicle-booking'>My Vehicle Booking</Link>
