@@ -30,8 +30,10 @@ const generatePrice = (
   } else {
     const totalPrice =
       days * pricing[2] + blocks8Hours * pricing[1] + blocks4Hours * pricing[0];
-    const ServiceCharge = Math.floor(totalPrice * 1.1);
-    return { totalPrice, ServiceCharge };
+    const serviceWithCharge = Math.floor(totalPrice * 1.1);
+    const ServiceCharge = serviceWithCharge - totalPrice;
+
+    return { totalPrice, ServiceCharge, serviceWithCharge };
   }
 };
 

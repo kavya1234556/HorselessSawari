@@ -16,6 +16,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { IoEyeOutline } from 'react-icons/io5';
 import useGetMyVehicleBooking from './hooks/useGetMyVehicleBooking';
+import ViewMyVehichleBooking from '@/components/modal/view-myVehicle-booking';
 
 const VehicleBookingPage = () => {
   const [bookData, setBookData] = useState(null);
@@ -66,27 +67,22 @@ const VehicleBookingPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody className='border border-black'>
-              {bookData?.share_car_data?.map((item, index) => (
+              {bookData?.car_data_final?.map((item, index) => (
                 <TableRow key={index} className='border border-black'>
                   <TableCell className='font-medium'>
-                    {item.booked_car_id}
+                    {item?.location_id}
                   </TableCell>
-                  <TableCell>{item.pickUpDate.split('T')[0]}</TableCell>
-                  <TableCell>{item.dropOffDate.split('T')[0]}</TableCell>
-                  <TableCell className='text-right'>{`${item.totalPrice}`}</TableCell>
+                  <TableCell>{item?.pickUpDate.split('T')[0]}</TableCell>
+                  <TableCell>{item?.dropOffDate.split('T')[0]}</TableCell>
+                  <TableCell className='text-right'>{`${item?.totalPrice}`}</TableCell>
                   <div className=' flex justify-end gap-4 items-center'>
                     <TableCell className='text-right'>
                       <IoEyeOutline size={24} onClick={toggleModal} />
-                      <ViewBooking
+                      <ViewMyVehichleBooking
                         handleToggleModal={toggleModal}
                         open={open}
                         data={item}
                       />
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      <div className='flex gap-3'>
-                        <Button>Make Payment</Button>
-                      </div>
                     </TableCell>
                   </div>
                 </TableRow>

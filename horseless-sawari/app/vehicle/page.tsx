@@ -119,6 +119,7 @@ const vehiclePage = () => {
     dropOFFTime,
     pricing
   );
+  console.log(serviceWithCharge);
   const areValuesValid = () => {
     isNaN(totalPrice);
     return toast({
