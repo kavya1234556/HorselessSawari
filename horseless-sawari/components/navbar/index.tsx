@@ -25,7 +25,7 @@ const Navbar = async () => {
         </div>
 
         <div className='flex flex-row justify-end items-center px-4 py-3 gap-6 '>
-          {session?.user ? (
+          {session?.user?.role == 'USER' ? (
             <>
               <Link href='/car-hosting'>Host Your Car</Link>
               <Link href='/profile'>My Profile</Link>
@@ -34,11 +34,15 @@ const Navbar = async () => {
             </>
           ) : (
             <>
-              <Link href='/login'>
-                <Button variant='outline' className='border-2 border-purple'>
-                  Sign in
-                </Button>
-              </Link>
+              {session ? (
+                <SignOut />
+              ) : (
+                <Link href='/login'>
+                  <Button variant='outline' className='border-2 border-purple'>
+                    Sign in
+                  </Button>
+                </Link>
+              )}
             </>
           )}
         </div>
