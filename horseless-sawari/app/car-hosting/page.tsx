@@ -150,17 +150,24 @@ const CarHostingPage = () => {
   const { submit } = useAddCarForHosting(UserId, userRole);
   return (
     <div className='p-[20px]'>
-      <h1 className='text-[24px] font-medium'>Vehicle</h1>
+      <h1 className='text-[24px] font-medium'>Topics</h1>
       <div className='flex my-[10px] gap-8'>
-        <div className='flex flex-col gap-4 w-[30%]'>
-          <label>1. General Information</label>
-          <label>2. Vehicle Image</label>
-          <label>3. Address Information</label>
-          <label>4. Pricing Information</label>
-          <label>5. Guest Information</label>
+        <div className='flex flex-col gap-4 w-[30%] bg-gray h-[40%] p-4'>
+          <label className='font-semibold text-[16px]'>
+            1. General Information
+          </label>
+          <label className='font-semibold text-[16px]'>2. Vehicle Image</label>
+          <label className='font-semibold text-[16px]'>
+            3. Address Information
+          </label>
+          <label className='font-semibold text-[16px]'>
+            4. Pricing Information
+          </label>
+          <label className='font-semibold text-[16px]'>
+            5. Guest Information
+          </label>
         </div>
-
-        <div className='w-[60%] bg-theme py-[10px]'>
+        <div className='w-[60%] bg-gray py-[10px]'>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(submit)}
@@ -514,10 +521,7 @@ const CarHostingPage = () => {
                   />
                 </div>
                 <div className='flex justify-    center mt-[10px]'>
-                  <Button
-                    variant='secondary'
-                    className=' bg-purple border-2 sm:mt-[0px] mt-[10px]'
-                  >
+                  <Button className='  border-2 sm:mt-[0px] mt-[10px]'>
                     Submit
                   </Button>
                 </div>
