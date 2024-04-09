@@ -19,10 +19,12 @@ import useDeleteBooking from './hooks/useDeleteBooking';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import handlePayment from './hooks/handlePayment';
+import { useDispatch } from 'react-redux';
+import { setCarBookedId } from '@/redux/reducers/payment_booking';
 
 const MyBookingPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [bookData, setBookData] = useState(null);
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -60,7 +62,7 @@ const MyBookingPage = () => {
 
   const confirmPayment = async (item: any) => {
     console.log('hello', item);
-
+    dispatch(setCarBookedId(item.booked_car_id));
     if (account_id === 0) {
       router.push('/profile');
       return; // End function execution early if account_id is 0
