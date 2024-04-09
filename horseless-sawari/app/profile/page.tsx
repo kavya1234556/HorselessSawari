@@ -21,9 +21,15 @@ import useAddProfileForm from './hooks/useAddProfileForm';
 import useGetProfileForm from './hooks/useGetProfile';
 import useEditProfileForm from './hooks/useEditProfileForm';
 import useGetProfileImage from './hooks/useGetProfileImage';
-import { usePathname } from 'next/navigation';
+import {
+  setAcountID,
+  setFirstName,
+  setPhoneNumber,
+} from '@/redux/reducers/account';
+import { useDispatch } from 'react-redux';
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
   const [phone, setPhone] = useState('');
   const [profileImage, setProfileImage] = useState<PreviewFileType | null>(
     null
@@ -37,14 +43,17 @@ const ProfilePage = () => {
     const profileData = useGetProfileForm(UserId);
     profileData
       .then((data) => {
+        dispatch(setAcountID(data?.accountDetails?.acc_id));
         if (data) {
           form.setValue(
             'profile_image',
             data?.accountDetails?.profile_image[0]
           );
           form.setValue('first_name', data?.accountDetails?.first_name);
+          dispatch(setFirstName(data?.accountDetails?.first_name));
           form.setValue('last_name', data?.accountDetails?.last_name);
           form.setValue('phone_number', data?.accountDetails?.phone_number);
+          dispatch(setPhoneNumber(data?.accountDetails?.phone_number));
         }
         setprofileData(data);
       })
@@ -59,7 +68,7 @@ const ProfilePage = () => {
         file: null,
       });
     });
-  }, []);
+  }, [user_id]);
   const { form, submit } = useAddProfileForm(user_id);
   const { update } = useEditProfileForm(user_id);
   const handleUpdateClick = async () => {

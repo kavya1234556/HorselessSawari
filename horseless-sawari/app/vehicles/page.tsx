@@ -39,10 +39,6 @@ const VehiclesPage = () => {
         <BookingCard />
       </div>
       <div className='flex w-[100%]'>
-        <div className='w-[25%] bg-theme my-[15px] p-[18px] mx-[35px]'>
-          <h2 className='text-left text-[20px]  font-medium'>Filters</h2>
-          <p>Vehicle Type</p>
-        </div>
         <div className='mt-4 grid grid-cols-2 gap-4'>
           {locationData?.car_data_final?.map((item: any) => (
             <div

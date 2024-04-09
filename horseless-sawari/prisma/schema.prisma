@@ -74,6 +74,21 @@ model car {
 
 }
 
+
+enum PaymentMethod {
+  CASH
+  KHALTI
+}
+
+enum Status {
+  NOTINTIATED
+  INITIATED
+  PENDING
+  COMPLETED
+  REFUNDED
+  EXPIRED
+  CANCELED
+}
 model booked_car{
 booked_car_id Int @id @default(autoincrement())
 location_id Int
@@ -90,8 +105,10 @@ is_shared Boolean
 sharingCharge Int
 user                 user           @relation(fields: [user_id], references: [id])
 user_id  Int
-  car        car  @relation(fields: [car_id], references: [carID])
-  car_id Int @unique
+car        car  @relation(fields: [car_id], references: [carID])
+status      Status   @default(NOTINTIATED)
+paymentMethod PaymentMethod @default(CASH)
+car_id Int @unique
 
 }
 

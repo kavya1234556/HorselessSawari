@@ -16,7 +16,6 @@ const loginSchema = yup.object().shape({
 const getUserEmail = async () => {
   const response = await fetch('/api/auth/session');
   const data = await response.json();
-  console.log('🚀 ~ useGetProfileForm ~ data:', data);
   return data;
 };
 const getUserID = async (email: string) => {
@@ -52,8 +51,8 @@ const useLoginForm = () => {
           title: 'Success',
           description: 'Logged In successfully',
         });
+        router.push('/profile/?url=login');
         router.refresh();
-        router.push('/?url=login');
 
         getUserEmail().then((data) => {
           localStorage.setItem('email', data.user.email);

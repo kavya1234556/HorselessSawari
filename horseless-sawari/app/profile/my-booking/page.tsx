@@ -16,15 +16,32 @@ import { Button } from '@/components/ui/button';
 import ViewBooking from '@/components/modal/view-booking';
 import DeleteModal from '@/components/modal/delete-modal';
 import useDeleteBooking from './hooks/useDeleteBooking';
+import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import handlePayment from './hooks/handlePayment';
 
 const MyBookingPage = () => {
+  const router = useRouter();
   const [bookData, setBookData] = useState(null);
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const account_id = useSelector((state: any) => state.account.value.acc_id);
+  const phoneNumber = useSelector(
+    (state: any) => state.account.value.phone_number
+  );
+  const name = useSelector((state: any) => state.account.value.first_name);
+  console.log('🚀 ~ MyBookingPage ~ account_id:', account_id);
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
       : null;
+
+  const email =
+    typeof window !== 'undefined' && localStorage
+      ? localStorage.getItem('email')
+      : null;
+
   useEffect(() => {
     const BookingDetail = useGetUserBooking(UserId);
     BookingDetail.then((data) => setBookData(data));
@@ -36,12 +53,53 @@ const MyBookingPage = () => {
     setDeleteOpen((prev) => !prev);
   }
   function handleDeleteOffers(item) {
-    console.log('I am clicked');
-    console.log(item);
     useDeleteBooking(item.booked_car_id);
     handleDeleteModalToggle();
     window.location.reload();
   }
+
+  const confirmPayment = async (item: any) => {
+    console.log('hello', item);
+
+    if (account_id === 0) {
+      router.push('/profile');
+      return; // End function execution early if account_id is 0
+    }
+
+    const payload = {
+      return_url: 'http://localhost:3000/success',
+      website_url: 'http://localhost:3000/',
+      amount: item.totalPrice,
+      purchase_order_id: uuidv4(),
+      purchase_order_name: String(item.registration_num),
+      customer_info: {
+        name: name,
+        email: email,
+        phone: phoneNumber,
+      },
+    };
+
+    try {
+      const response = await fetch('/api/Khalti', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to process payment');
+      }
+
+      const responseData = await response.json();
+      window.location.href = `${responseData?.responseData.payment_url}`;
+      return responseData; // Return response data
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      throw error;
+    }
+  };
   return (
     <>
       <div className='w-[25%]'>
@@ -93,7 +151,9 @@ const MyBookingPage = () => {
                           title='booking'
                           onDelete={() => handleDeleteOffers(item)}
                         />
-                        <Button>Make Payment</Button>
+                        <Button onClick={() => confirmPayment(item)}>
+                          Make Payment
+                        </Button>
                       </div>
                     </TableCell>
                   </div>

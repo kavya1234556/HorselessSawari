@@ -14,11 +14,18 @@ export async function GET(req: Request) {
       share_car_data.map(async (sharingDetail) => {
         let car_image = [];
         const car_id = sharingDetail.car_id;
+        const car_detail = await db.car.findUnique({
+          where: {
+            carID: car_id,
+          },
+        });
         const car_images = await db.car_image.findMany({
           where: {
             car_id: car_id,
           },
         });
+        // @ts-ignore
+        sharingDetail.registration_num = car_detail.registration_num;
 
         car_images.map((image) => {
           const image_endpoint = `${process.env.NEXTAUTH_URL}/api/car_image?id=${image.car_image_id}`;
