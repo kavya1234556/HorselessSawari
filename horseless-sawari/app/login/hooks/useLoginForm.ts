@@ -51,7 +51,7 @@ const useLoginForm = () => {
           title: 'Success',
           description: 'Logged In successfully',
         });
-        router.push('/profile/?url=login');
+        router.push('/?url=login');
         router.refresh();
 
         getUserEmail().then((data) => {

@@ -26,6 +26,7 @@ model user {
   account    account?
   cars  car[]
   booked_car booked_car[]
+  transaction transaction[]
 }
 
 enum Role {
@@ -80,15 +81,7 @@ enum PaymentMethod {
   KHALTI
 }
 
-enum Status {
-  NOTINTIATED
-  INITIATED
-  PENDING
-  COMPLETED
-  REFUNDED
-  EXPIRED
-  CANCELED
-}
+
 model booked_car{
 booked_car_id Int @id @default(autoincrement())
 location_id Int
@@ -106,9 +99,8 @@ sharingCharge Int
 user                 user           @relation(fields: [user_id], references: [id])
 user_id  Int
 car        car  @relation(fields: [car_id], references: [carID])
-status      Status   @default(NOTINTIATED)
-paymentMethod PaymentMethod @default(CASH)
 car_id Int @unique
+transaction transaction?
 
 }
 
@@ -156,3 +148,17 @@ enum FuelType {
 }
 
 
+model transaction {
+    transaction_id  String  @id
+    pidx String? @unique
+    total_amount Int
+    status String
+    fee Int?
+    refunded Boolean?  @default(false)
+     booked_car        booked_car  @relation(fields: [bookedCarId], references: [booked_car_id])
+    bookedCarId Int @unique
+    user                 user           @relation(fields: [user_id], references: [id])
+    Date              DateTime
+    paymentMethod PaymentMethod @default(CASH)
+    user_id  Int
+}
