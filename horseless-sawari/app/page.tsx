@@ -45,6 +45,8 @@ export default function Home() {
   useEffect(() => {
     if (url && session?.data?.user?.role === 'ADMIN') {
       router.push('/dashboard');
+    } else if (url && session?.data?.user?.role === 'MANAGER') {
+      router.push('/dashboardM');
     } else {
       router.push('/');
     }

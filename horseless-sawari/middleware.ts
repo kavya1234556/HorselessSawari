@@ -1,9 +1,23 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextRequest } from 'next/server';
+import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
 export default withAuth(
-  function middleware(req: NextRequest) {
-    // console.log('middleware', req);
+  function middleware(req: NextRequestWithAuth) {
+    console.log('middleware', req.nextUrl.pathname);
+    console.log('middleware', req.nextauth.token);
+
+    if (
+      req.nextUrl.pathname.startsWith('/dashboard') &&
+      req.nextauth.token?.role !== 'ADMIN'
+    ) {
+      return NextResponse.rewrite(new URL('/denied', req.url));
+    }
+    if (
+      req.nextUrl.pathname.startsWith('/dashboardM') &&
+      req.nextauth.token?.role !== 'MANAGER'
+    ) {
+      return NextResponse.rewrite(new URL('/denied', req.url));
+    }
   },
   {
     callbacks: {
@@ -12,4 +26,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ['/dashboard'] };
+export const config = { matcher: ['/dashboard', '/dashboardM'] };
