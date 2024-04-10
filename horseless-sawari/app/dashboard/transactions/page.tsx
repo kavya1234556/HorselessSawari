@@ -1,6 +1,5 @@
 'use client';
-
-import ProfileLinks from '@/components/profileLinks';
+import DashboardLink from '@/components/dashboradLinks/page';
 import {
   Table,
   TableBody,
@@ -11,33 +10,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import React, { useEffect, useState } from 'react';
-import useGetTransactionDetail from './hooks/useGetTransactionDetail';
+import useGetAllTransactions from './hooks/useGetAllTransactions';
 
-const TransactionHistoryPage = () => {
-  const [detail, setDetail] = useState(null);
-  console.log(detail);
-  const UserId =
-    typeof window !== 'undefined' && localStorage
-      ? parseInt(localStorage.getItem('user_id'))
-      : null;
+const TransactionPage = () => {
+  const [transac, setTransac] = useState(null);
+  console.log('🚀 ~ TransactionPage ~ transac:', transac?.UserTransaction);
   useEffect(() => {
-    const TransacDetail = useGetTransactionDetail(UserId);
-    TransacDetail.then((data) => setDetail(data));
+    const Detail = useGetAllTransactions();
+    Detail.then((data) => setTransac(data));
   }, []);
   return (
     <>
-      <div className='w-[25%]'>
-        <h1 className='font-light text-[20px] text-white bg-gray p-[30px] text-center'>
-          Profile
-        </h1>
-      </div>
       <div className='flex '>
         <div className='w-[25%]'>
-          <ProfileLinks />
+          <DashboardLink />
         </div>
-        <div className='bg-theme w-[75%]'>
+        <div className='sm:w-3/4 bg-theme p-[20px] gap-[50px] flex flex-col'>
           <Table className='m-[10px]'>
-            <TableCaption>A list of your Transaction.</TableCaption>
+            <TableCaption> List of Users.</TableCaption>
             <TableHeader className='border border-black'>
               <TableRow>
                 <TableHead className='w-[100px] '>S.N</TableHead>
@@ -46,10 +36,12 @@ const TransactionHistoryPage = () => {
                 <TableHead>Total Amount</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Payment Method</TableHead>
+                <TableHead>User ID</TableHead>
+                <TableHead>Username</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className='border border-black'>
-              {detail?.transactions?.map((item, index) => (
+              {transac?.UserTransaction?.map((item, index) => (
                 <TableRow key={index} className='border border-black'>
                   <TableCell className='font-medium'>{index + 1}</TableCell>
                   <TableCell>{item.Date.split('T')[0]}</TableCell>
@@ -57,6 +49,8 @@ const TransactionHistoryPage = () => {
                   <TableCell>{item.total_amount}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>{item.paymentMethod}</TableCell>
+                  <TableCell>{item.user.id}</TableCell>
+                  <TableCell>{item.user.username}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -67,4 +61,4 @@ const TransactionHistoryPage = () => {
   );
 };
 
-export default TransactionHistoryPage;
+export default TransactionPage;

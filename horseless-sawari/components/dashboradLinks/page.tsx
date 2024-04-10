@@ -6,18 +6,19 @@ const DashboardLink = () => {
     <>
       <div className='  h-[100vh] flex flex-col '>
         <div className=' p-[10px]  border bottom-2 border-gray '>
-          <Link href='/dashboard/location'>Add Location</Link>
+          <Link href='/dashboard'>Dashboard</Link>
+        </div>
+        <div className=' p-[10px]  border bottom-2 border-gray '>
+          <Link href='/dashboard/users'>Users</Link>
+        </div>
+        <div className=' p-[10px]  border bottom-2 border-gray '>
+          <Link href='/dashboard/location'>Location</Link>
         </div>
         <div className='p-[10px]  border bottom-2 border-gray '>
-          <Link href='/dashboard/manufacture'>Add Manufacture</Link>
+          <Link href='/dashboard/manufacture'> Category</Link>
         </div>
-        <div className='p-[10px] border bottom-2 border-gray'>
-          <Link href='/profile/my-vehicle-booking'>My Vehicle Booking</Link>
-        </div>
-        <div className=' p-[10px] border bottom-2 border-gray '>
-          <Link href='/profile/my-transaction-history'>
-            My Transaction history
-          </Link>
+        <div className='p-[10px]  border bottom-2 border-gray '>
+          <Link href='/dashboard/transactions'> Transactions</Link>
         </div>
         <div className=' p-[10px] border bottom-2 border-gray'>
           <Link
