@@ -22,7 +22,7 @@ const DashboardLink = () => {
         </div>
         <div className=' p-[10px] border bottom-2 border-gray'>
           <Link
-            href='/profile/change-password'
+            href='/dashboard/change-password'
             className='flex gap-4 items-center'
           >
             Change Password
