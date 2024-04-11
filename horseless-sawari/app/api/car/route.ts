@@ -159,7 +159,7 @@ export async function POST(req: Request) {
         );
         const insurance_images =
           // @ts-ignore
-          'app/api/car/images/insurance_images' + insuranceFile.name;
+          'app/api/car/images/insurance_images/' + insuranceFile.name;
         final_insurance_image.push(insurance_images);
         return insurance_images;
       })
@@ -191,7 +191,7 @@ export async function POST(req: Request) {
         );
         const bluebook_images =
           // @ts-ignore
-          'app/api/car/images/bluebook_images' + bluebookFile.name;
+          'app/api/car/images/bluebook_images/' + bluebookFile.name;
         final_Bluebook_image.push(bluebook_images);
         return bluebook_images;
       })

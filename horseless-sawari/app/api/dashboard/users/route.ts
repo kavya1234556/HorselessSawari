@@ -5,7 +5,9 @@ export async function GET(req: Request) {
   const AllUsers = await db.user.findMany({
     where: {
       isVerified: true,
-      role: 'MANAGER' || 'USER',
+      NOT: {
+        role: 'ADMIN',
+      },
     },
   });
   return NextResponse.json(

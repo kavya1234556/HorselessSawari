@@ -30,7 +30,7 @@ const LoginPage = () => {
   return (
     <div>
       <div className='flex sm:my-9 sm:max-w-[1000px] m-auto sm:flex-row flex-col'>
-        <div className='text-white flex flex-col sm:w-1/2 bg-purple px-[40px]'>
+        <div className='flex flex-col sm:w-1/2 bg-purple px-[40px]'>
           <div className='flex justify-center'>
             <Logo />
           </div>

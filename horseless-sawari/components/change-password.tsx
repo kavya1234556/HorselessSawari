@@ -29,11 +29,6 @@ const ChangePassword = ({ submit }) => {
   const form = useForm({
     resolver: yupResolver(Schema),
   });
-  const UserId =
-    typeof window !== 'undefined' && localStorage
-      ? parseInt(localStorage.getItem('user_id'))
-      : null;
-
   return (
     <>
       <div className='bg-white p-[20px] border-4 shadow-lg w-[40%] h-[60vh] '>
