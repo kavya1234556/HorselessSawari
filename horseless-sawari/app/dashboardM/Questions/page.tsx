@@ -1,6 +1,7 @@
 'use client';
+import React, { useEffect, useState } from 'react';
+import useGetAllQuestion from './hooks/useGetAllQuestion';
 import DashboradMLinks from '@/components/dashboardMLinks/page';
-import VerifyHostiong from '@/components/modal/verify-hosting';
 import {
   Table,
   TableBody,
@@ -10,25 +11,20 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import React, { useEffect, useState } from 'react';
 import { IoEyeOutline } from 'react-icons/io5';
-import useGetCarDetail from './hooks/useGetCarDetail';
 import { Button } from '@/components/ui/button';
-import useEditVerfication from './hooks/useEditVerfication';
+import AnswerModal from '@/components/modal/answer-modal';
 
-const DashboradMPage = () => {
+const QuestionPage = () => {
+  const [ques, setQues] = useState(null);
   const [open, setOpen] = useState(false);
-  const [carDetail, setCarDetail] = useState(null);
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
   useEffect(() => {
-    const car_detail = useGetCarDetail();
-    car_detail.then((data) => setCarDetail(data));
+    const Questions = useGetAllQuestion();
+    Questions.then((data) => setQues(data));
   }, []);
-  const handleVerification = (id: number) => {
-    useEditVerfication(id);
-  };
   return (
     <div className='flex '>
       <div className='w-[25%]'>
@@ -40,29 +36,28 @@ const DashboradMPage = () => {
           <TableHeader className='border border-black'>
             <TableRow>
               <TableHead className='w-[100px] '>S.N</TableHead>
-              <TableHead>Owner Name</TableHead>
-              <TableHead>Manufacture</TableHead>
-              <TableHead>Fuel Type</TableHead>
+              <TableHead>Question</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className='border border-black'>
-            {carDetail?.car_data_final?.map((item, index) => (
+            {ques?.questionData?.map((item, index) => (
               <TableRow key={index} className='border border-black'>
                 <TableCell className='font-medium'>{index + 1}</TableCell>
-                <TableCell>{item.onwerName}</TableCell>
-                <TableCell>{item.manufacture}</TableCell>
-                <TableCell>{item.fuel_Type}</TableCell>
+                <TableCell>{item.question}</TableCell>
+
                 <div className=' flex justify-end gap-4 items-center'>
                   <TableCell>
                     <IoEyeOutline size={24} onClick={toggleModal} />
-                    <VerifyHostiong
+                    <AnswerModal
                       handleToggleModal={toggleModal}
                       open={open}
                       data={item}
                     />
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleVerification(item.carID)}>
+                    <Button
+                    // onClick={() => handleVerification(item.carID)}
+                    >
                       Verify
                     </Button>
                   </TableCell>
@@ -76,4 +71,4 @@ const DashboradMPage = () => {
   );
 };
 
-export default DashboradMPage;
+export default QuestionPage;

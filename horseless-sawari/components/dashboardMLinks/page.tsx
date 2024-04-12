@@ -14,6 +14,9 @@ const DashboradMLinks = () => {
         <div className=' p-[10px]  border bottom-2 border-gray '>
           <Link href='/dashboardM/change-password'>Change Password</Link>
         </div>
+        <div className=' p-[10px]  border bottom-2 border-gray '>
+          <Link href='/dashboardM/Questions'>Question</Link>
+        </div>
       </div>
     </>
   );

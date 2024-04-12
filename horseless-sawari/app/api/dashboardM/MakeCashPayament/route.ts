@@ -3,12 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
   try {
-    const user_id = new URL(req.url).searchParams.get('user_id');
-    const share_car_data = await db.booked_car.findMany({
-      where: {
-        user_id: Number(user_id),
-      },
-    });
+    const share_car_data = await db.booked_car.findMany();
     await Promise.all(
       share_car_data.map(async (sharingDetail) => {
         let car_image = [];

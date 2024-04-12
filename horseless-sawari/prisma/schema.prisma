@@ -25,6 +25,7 @@ model user {
   resetTokenExpiry DateTime?
   account    account?
   cars  car[]
+  question question[]
   booked_car booked_car[]
   transaction transaction[]
 }
@@ -71,6 +72,7 @@ model car {
   location_id    Int
   user_id  Int
   user_role            String
+  isPaid        Boolean @default(false)
   booked_car   booked_car?
 
 }
@@ -100,7 +102,7 @@ user                 user           @relation(fields: [user_id], references: [id
 user_id  Int
 car        car  @relation(fields: [car_id], references: [carID])
 car_id Int @unique
-transaction transaction?
+
 
 }
 
@@ -155,10 +157,24 @@ model transaction {
     status String
     fee Int?
     refunded Boolean?  @default(false)
-     booked_car        booked_car  @relation(fields: [bookedCarId], references: [booked_car_id])
-    bookedCarId Int @unique
     user                 user           @relation(fields: [user_id], references: [id])
     Date              DateTime
     paymentMethod PaymentMethod @default(CASH)
     user_id  Int
+}
+
+
+model question {
+  quest_id Int @id @default(autoincrement())
+  question String
+  user                 user           @relation(fields: [user_id], references: [id])
+  user_id  Int
+  answer   Answer?
+}
+
+model Answer {
+  answer_id Int @id @default(autoincrement())
+  answer    String
+  question  question @relation(fields: [question_id], references: [quest_id])
+  question_id Int @unique
 }

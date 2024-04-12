@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
   const pidx = new URL(req.url).searchParams.get('pidx');
-  const bookedCarId = new URL(req.url).searchParams.get('booked_car_id');
   console.log(pidx);
   const user_id = new URL(req.url).searchParams.get('user_id');
 
@@ -43,9 +42,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
           refunded: responseData.refunded,
           Date: NewDate,
           paymentMethod: 'KHALTI',
-          booked_car: {
-            connect: { booked_car_id: Number(bookedCarId) },
-          },
           user: {
             connect: { id: Number(user_id) },
           },

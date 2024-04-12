@@ -67,3 +67,32 @@ export async function GET(req: Request) {
     );
   }
 }
+export async function PATCH(req: Request) {
+  try {
+    const id = new URL(req.url).searchParams.get('id');
+    const UpdateCarDetail = await db.car.update({
+      where: {
+        carID: Number(id),
+      },
+      data: {
+        isVerified: true,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: 'Car Verified',
+        UpdateCarDetail,
+      },
+      { status: 200 }
+    );
+  } catch (e) {
+    return NextResponse.json(
+      {
+        message: 'Internal Server Error',
+        e,
+      },
+      { status: 500 }
+    );
+  }
+}

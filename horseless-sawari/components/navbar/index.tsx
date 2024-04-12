@@ -30,6 +30,7 @@ const Navbar = async () => {
               <Link href='/car-hosting'>Host Your Car</Link>
               <Link href='/profile'>My Profile</Link>
               <Link href='/car-pooling'>Carpool</Link>
+              <Link href='/faq'>FAQ</Link>
               <SignOut />
             </>
           ) : (

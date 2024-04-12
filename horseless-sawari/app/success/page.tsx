@@ -3,14 +3,11 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { NextResponse } from 'next/server';
 
 const Success = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [responseData, setResponseData] = useState(null);
-  const carBookedId = useSelector(
-    (state: any) => state.payment_booking.value.car_booked_id
-  );
   const searchParams = useSearchParams();
   const pidx = searchParams.get('pidx');
 
@@ -23,7 +20,7 @@ const Success = () => {
             : null;
 
         const response = await fetch(
-          `/api/payment-conformation?pidx=${pidx}&booked_car_id=${carBookedId}&user_id=${UserId}`,
+          `/api/payment-conformation?pidx=${pidx}&user_id=${UserId}`,
           {
             method: 'POST',
             headers: {
@@ -36,8 +33,11 @@ const Success = () => {
           throw new Error('Failed to process payment');
         }
 
-        const responseData = await response.json();
-        setResponseData(responseData);
+        const responseNewData = await response.json();
+        return NextResponse.json(
+          { masseage: 'Transaction created', responseNewData },
+          { status: 200 }
+        );
       } catch (error) {
         console.error('Error processing payment:', error);
         setError(error.message);
@@ -47,7 +47,7 @@ const Success = () => {
     };
 
     processPayment();
-  }, [pidx, carBookedId]);
+  }, [pidx]);
 
   if (loading) {
     return <div>Loading...</div>;
