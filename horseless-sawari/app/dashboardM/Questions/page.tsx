@@ -43,25 +43,22 @@ const QuestionPage = () => {
             {ques?.questionData?.map((item, index) => (
               <TableRow key={index} className='border border-black'>
                 <TableCell className='font-medium'>{index + 1}</TableCell>
-                <TableCell>{item.question}</TableCell>
-
-                <div className=' flex justify-end gap-4 items-center'>
-                  <TableCell>
-                    <IoEyeOutline size={24} onClick={toggleModal} />
-                    <AnswerModal
-                      handleToggleModal={toggleModal}
-                      open={open}
-                      data={item}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                    // onClick={() => handleVerification(item.carID)}
-                    >
-                      Verify
-                    </Button>
-                  </TableCell>
-                </div>
+                <TableCell className='truncate'>{item.question}</TableCell>
+                <TableCell>
+                  <IoEyeOutline size={24} onClick={toggleModal} />
+                  <AnswerModal
+                    handleToggleModal={toggleModal}
+                    open={open}
+                    data={item}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Button
+                  // onClick={() => handleVerification(item.carID)}
+                  >
+                    Verify
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

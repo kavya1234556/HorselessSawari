@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     },
   });
   return NextResponse.json(
-    { message: 'Question created successfully', NewAnswer },
+    { message: 'Answer submitted successfully', NewAnswer },
     { status: 200 }
   );
 }

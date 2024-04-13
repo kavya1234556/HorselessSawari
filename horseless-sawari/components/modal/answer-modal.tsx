@@ -13,6 +13,7 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import Modal from '../ui/modal';
+import useAddAnswer from '@/app/dashboardM/Questions/hooks/useAddAnswer';
 
 type AnswerModalProps = {
   handleToggleModal: () => void;
@@ -26,6 +27,7 @@ export type IQuestionType = {
 };
 
 const AnswerModal = ({ handleToggleModal, open, data }: AnswerModalProps) => {
+  console.log('🚀 ~ AnswerModal ~ data:', data);
   const answerSchema = yup.object().shape({
     answer: yup.string().required(),
   });
@@ -41,7 +43,7 @@ const AnswerModal = ({ handleToggleModal, open, data }: AnswerModalProps) => {
     handleToggleModal();
     window.location.reload();
   };
-
+  const { submit } = useAddAnswer(data.quest_id);
   return (
     <Modal
       title='Change User Role'
@@ -50,7 +52,7 @@ const AnswerModal = ({ handleToggleModal, open, data }: AnswerModalProps) => {
       onClose={handleClose}
     >
       <Form {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(submit)}>
           <FormField
             control={form.control}
             name='answer'

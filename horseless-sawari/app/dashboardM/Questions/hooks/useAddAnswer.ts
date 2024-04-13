@@ -1,17 +1,17 @@
 import { toast } from '@/components/ui/use-toast';
 import React from 'react';
 
-const useAddQuestion = (id) => {
+const useAddAnswer = (id) => {
   const submit = async (values) => {
     console.log('🚀 ~ file: useSignupForm.ts:38 ~ submit ~ values:', values);
     try {
-      const response = await fetch(`/api/question?id=${id}`, {
+      const response = await fetch(`/api/answer?id=${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          question: values.question,
+          answer: values.answer,
         }),
       });
       if (response.status === 400) {
@@ -23,9 +23,8 @@ const useAddQuestion = (id) => {
       if (response.ok) {
         toast({
           title: 'Success',
-          description: 'Your Question is submitted',
+          description: 'Your Answer is submitted',
         });
-        window.location.reload();
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Something went wrong');
@@ -36,4 +35,5 @@ const useAddQuestion = (id) => {
   };
   return { submit };
 };
-export default useAddQuestion;
+
+export default useAddAnswer;

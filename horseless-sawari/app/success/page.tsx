@@ -12,6 +12,7 @@ const Success = () => {
   const pidx = searchParams.get('pidx');
 
   useEffect(() => {
+    console.log('Heloo');
     const processPayment = async () => {
       try {
         const UserId =
