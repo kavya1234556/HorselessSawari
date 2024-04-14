@@ -2,6 +2,7 @@ import { toast } from '@/components/ui/use-toast';
 import React from 'react';
 
 const useAddAnswer = (id) => {
+  console.log(id);
   const submit = async (values) => {
     console.log('🚀 ~ file: useSignupForm.ts:38 ~ submit ~ values:', values);
     try {

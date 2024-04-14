@@ -19,15 +19,14 @@ type AnswerModalProps = {
   handleToggleModal: () => void;
   open: boolean;
   active?: string | null;
-  data?: any;
+  id?: number;
 };
 
 export type IQuestionType = {
   answer: string;
 };
 
-const AnswerModal = ({ handleToggleModal, open, data }: AnswerModalProps) => {
-  console.log('🚀 ~ AnswerModal ~ data:', data);
+const AnswerModal = ({ handleToggleModal, open, id }: AnswerModalProps) => {
   const answerSchema = yup.object().shape({
     answer: yup.string().required(),
   });
@@ -43,7 +42,8 @@ const AnswerModal = ({ handleToggleModal, open, data }: AnswerModalProps) => {
     handleToggleModal();
     window.location.reload();
   };
-  const { submit } = useAddAnswer(data.quest_id);
+  const { submit } = useAddAnswer(id);
+
   return (
     <Modal
       title='Change User Role'

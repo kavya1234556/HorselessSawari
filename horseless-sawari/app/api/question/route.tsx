@@ -35,3 +35,27 @@ export async function POST(req: Request) {
     { status: 200 }
   );
 }
+export async function DELETE(req: Request) {
+  try {
+    const questionID = new URL(req.url).searchParams.get('id');
+    const questionWithAnswer = await db.question.findUnique({
+      where: { quest_id: Number(questionID) },
+      include: { answer: true },
+    });
+    if (questionWithAnswer.answer) {
+      await db.answer.delete({
+        where: { answer_id: questionWithAnswer.answer.answer_id },
+      });
+    }
+    await db.question.delete({ where: { quest_id: Number(questionID) } });
+    return NextResponse.json(
+      { message: 'Question deleted Successfully' },
+      { status: 200 }
+    );
+  } catch (e) {
+    return NextResponse.json(
+      { message: 'Question was not deleted', e },
+      { status: 500 }
+    );
+  }
+}
