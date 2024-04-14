@@ -60,6 +60,7 @@ export async function POST(req: Request) {
         booked_car_id: Number(booked_car_id),
       },
       data: {
+        is_shared: false,
         is_shared_accepted: true,
       },
     });

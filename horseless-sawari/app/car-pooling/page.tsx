@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import useGetSharingDetail from './hooks/useGetSharingDetail';
 import { Button } from '@/components/ui/button';
+import useAddSharingDetail from './hooks/useAddSharingDetail';
 
 const CarpoolPage = () => {
   const [shareData, setShareData] = useState(null);
@@ -20,7 +21,13 @@ const CarpoolPage = () => {
       setShareData(data);
     });
   }, []);
-
+  const handleSharing = (item) => {
+    const UserId =
+      typeof window !== 'undefined' && localStorage
+        ? parseInt(localStorage.getItem('user_id'))
+        : null;
+    useAddSharingDetail(item, UserId);
+  };
   return (
     <div className='bg-theme p-[20px]'>
       <div className='py-[30px]'>
@@ -91,7 +98,7 @@ const CarpoolPage = () => {
               </div>
             </CardFooter>
             <div className='flex justify-end p-[20px]'>
-              <Button>Accept</Button>
+              <Button onClick={() => handleSharing(item)}>Accept</Button>
             </div>
           </Card>
         ))}
