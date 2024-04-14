@@ -28,6 +28,7 @@ model user {
   question question[]
   booked_car booked_car[]
   transaction transaction[]
+  car_shared     car_shared[]
 }
 
 enum Role {
@@ -96,7 +97,8 @@ ServiceCharge Int
 serviceWithCharge Int
 pickUpLocation String
 dropOffLoction String
-is_shared Boolean
+is_shared Boolean @default(false)
+is_shared_accepted Boolean @default(false)
 sharingCharge Int
 user                 user           @relation(fields: [user_id], references: [id])
 user_id  Int
@@ -104,7 +106,7 @@ user_id  Int
 car        car  @relation(fields: [car_id], references: [carID])
 car_id Int @unique
 transaction transaction?
-
+car_shared      car_shared?
 
 }
 
@@ -181,4 +183,13 @@ model Answer {
   answer    String
   question  question @relation(fields: [question_id], references: [quest_id])
   question_id Int @unique
+}
+
+model car_shared{
+  share_car_id Int @id @default(autoincrement())
+  sharind_price Int
+  user   user    @relation(fields: [user_id], references: [id])
+  user_id Int
+  booked_car booked_car  @relation(fields:[bookedCarID], references:[booked_car_id])
+  bookedCarID    Int @unique
 }

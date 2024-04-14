@@ -46,7 +46,7 @@ export default function Home() {
     if (url && session?.data?.user?.role === 'ADMIN') {
       router.push('/dashboard');
     } else if (url && session?.data?.user?.role === 'MANAGER') {
-      router.push('/dashboardM');
+      router.push('/ManagerD');
     } else {
       router.push('/');
     }

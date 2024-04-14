@@ -13,7 +13,7 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import Modal from '../ui/modal';
-import useAddAnswer from '@/app/dashboardM/Questions/hooks/useAddAnswer';
+import useAddAnswer from '@/app/ManagerD/Questions/hooks/useAddAnswer';
 
 type AnswerModalProps = {
   handleToggleModal: () => void;

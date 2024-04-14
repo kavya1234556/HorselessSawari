@@ -3,18 +3,16 @@ import { NextResponse } from 'next/server';
 export default withAuth(
   function middleware(req: NextRequestWithAuth) {
     console.log('middleware', req.nextUrl.pathname);
-    const role = String(req.nextauth.token.role);
-    console.log(role);
     if (
-      req.nextUrl.pathname.startsWith('/dashboardM') &&
-      req.nextauth.token?.role !== role
+      req.nextUrl.pathname.startsWith('/ManagerD') &&
+      req.nextauth.token?.role !== 'MANAGER'
     ) {
-      console.log('Access denied for /dashboardM');
+      console.log('Access denied for /ManagerD');
       return NextResponse.rewrite(new URL('/denied', req.url));
     }
     if (
       req.nextUrl.pathname.startsWith('/dashboard') &&
-      req.nextauth.token?.role !== role
+      req.nextauth.token?.role !== 'ADMIN'
     ) {
       return NextResponse.rewrite(new URL('/denied', req.url));
     }
@@ -26,4 +24,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ['/dashboard', '/dashboardM'] };
+export const config = { matcher: ['/dashboard', '/ManagerD'] };
