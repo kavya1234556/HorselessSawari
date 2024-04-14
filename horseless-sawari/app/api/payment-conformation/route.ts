@@ -6,7 +6,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
   const pidx = new URL(req.url).searchParams.get('pidx');
   console.log(pidx);
   const user_id = new URL(req.url).searchParams.get('user_id');
-
+  const car_booking_id = new URL(req.url).searchParams.get('bookId');
   // if (message) {
   //   return res.status(400).json({ message: 'Error processing Khalti payment' });
   // }
@@ -31,23 +31,26 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const responseData = await khaltiResponse.json();
-    if (responseData) {
-      await db.transaction.create({
-        data: {
-          pidx: responseData.pidx,
-          total_amount: responseData.total_amount,
-          status: responseData.status,
-          transaction_id: responseData.transaction_id,
-          fee: responseData.fee,
-          refunded: responseData.refunded,
-          Date: NewDate,
-          paymentMethod: 'KHALTI',
-          user: {
-            connect: { id: Number(user_id) },
-          },
-        },
-      });
-    }
+    console.log('🚀 ~ POST ~ responseData:', responseData);
+    await db.transaction.create({
+      data: {
+        pidx: responseData.pidx,
+        total_amount: responseData.total_amount,
+        status: responseData.status,
+        transaction_id: responseData.transaction_id,
+        fee: responseData.fee,
+        refunded: responseData.refunded,
+        Date: new Date(), // Use current date
+        paymentMethod: 'KHALTI',
+        user: { connect: { id: Number(user_id) } },
+        booked_car: { connect: { booked_car_id: Number(car_booking_id) } },
+      },
+    });
+
+    await db.booked_car.update({
+      where: { booked_car_id: Number(car_booking_id) },
+      data: { isPaid: true },
+    });
     return NextResponse.json(
       { message: 'Car added Successfully', responseData },
       { status: 200 }

@@ -10,7 +10,7 @@ const Success = () => {
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const pidx = searchParams.get('pidx');
-
+  const bookingId = searchParams.get('purchase_order_id');
   useEffect(() => {
     console.log('Heloo');
     const processPayment = async () => {
@@ -21,7 +21,7 @@ const Success = () => {
             : null;
 
         const response = await fetch(
-          `/api/payment-conformation?pidx=${pidx}&user_id=${UserId}`,
+          `/api/payment-conformation?pidx=${pidx}&user_id=${UserId}&bookId=${bookingId}`,
           {
             method: 'POST',
             headers: {

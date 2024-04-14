@@ -72,7 +72,7 @@ model car {
   location_id    Int
   user_id  Int
   user_role            String
-  isPaid        Boolean @default(false)
+
   booked_car   booked_car?
 
 }
@@ -100,8 +100,10 @@ is_shared Boolean
 sharingCharge Int
 user                 user           @relation(fields: [user_id], references: [id])
 user_id  Int
+  isPaid        Boolean @default(false)
 car        car  @relation(fields: [car_id], references: [carID])
 car_id Int @unique
+transaction transaction?
 
 
 }
@@ -161,6 +163,8 @@ model transaction {
     Date              DateTime
     paymentMethod PaymentMethod @default(CASH)
     user_id  Int
+    booked_car booked_car  @relation(fields:[bookedCarID], references:[booked_car_id])
+    bookedCarID    Int @unique
 }
 
 

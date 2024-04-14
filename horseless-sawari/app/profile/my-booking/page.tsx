@@ -16,7 +16,6 @@ import { Button } from '@/components/ui/button';
 import ViewBooking from '@/components/modal/view-booking';
 import DeleteModal from '@/components/modal/delete-modal';
 import useDeleteBooking from './hooks/useDeleteBooking';
-import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
@@ -59,7 +58,7 @@ const MyBookingPage = () => {
   }
 
   const confirmPayment = async (item: any) => {
-    console.log('hello', item);
+    console.log('hello', item.booked_car_id);
     if (account_id === 0) {
       router.push('/profile');
       return; // End function execution early if account_id is 0
@@ -69,7 +68,7 @@ const MyBookingPage = () => {
       return_url: 'http://localhost:3000/success',
       website_url: 'http://localhost:3000/',
       amount: item.totalPrice,
-      purchase_order_id: uuidv4(),
+      purchase_order_id: item.booked_car_id,
       purchase_order_name: String(item.registration_num),
       customer_info: {
         name: name,
@@ -150,7 +149,10 @@ const MyBookingPage = () => {
                           title='booking'
                           onDelete={() => handleDeleteOffers(item)}
                         />
-                        <Button onClick={() => confirmPayment(item)}>
+                        <Button
+                          disabled={item.isPaid}
+                          onClick={() => confirmPayment(item)}
+                        >
                           Make Payment
                         </Button>
                       </div>
