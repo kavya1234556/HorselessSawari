@@ -42,25 +42,20 @@ const DashboardPage = () => {
   const [location, setLocation] = useState(null);
   const [category, setCategory] = useState(null);
 
+  const transaction = useGetTotalTransaction();
+  const Users = useGetTotalUser();
+  const BookedCars = useGetTotalBookedCar();
+  const Cars = useGetTotalVerifiedCar();
+  const locations = useGetTotalLocation();
+  const categories = useGetTotalCategory();
   useEffect(() => {
-    const transaction = useGetTotalTransaction();
     transaction.then((data) => settran(data));
-
-    const Users = useGetTotalUser();
     Users.then((data) => setUser(data));
-
-    const BookedCars = useGetTotalBookedCar();
     BookedCars.then((data) => setBookedCar(data));
-
-    const Cars = useGetTotalVerifiedCar();
     Cars.then((data) => setCar(data));
-
-    const locations = useGetTotalLocation();
     locations.then((data) => setLocation(data));
-
-    const categories = useGetTotalCategory();
     categories.then((data) => setCategory(data));
-  }, []);
+  });
   return (
     <div className='flex '>
       <div className='w-[25%]'>

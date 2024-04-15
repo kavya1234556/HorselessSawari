@@ -27,10 +27,10 @@ const VehicleBookingPage = () => {
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
       : null;
+  const BookingDetail = useGetMyVehicleBooking(UserId);
   useEffect(() => {
-    const BookingDetail = useGetMyVehicleBooking(UserId);
     BookingDetail.then((data) => setBookData(data));
-  }, []);
+  });
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };

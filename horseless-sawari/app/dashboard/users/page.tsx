@@ -18,10 +18,10 @@ const UserPage = () => {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
   console.log('🚀 ~ UserPage ~ users:', users?.data?.AllUsers);
+  const AllUserData = useGettAllUsers();
   useEffect(() => {
-    const AllUserData = useGettAllUsers();
     AllUserData.then((data) => setUsers(data));
-  }, []);
+  });
   const handleToggleModal = () => {
     setOpen((prev) => !prev);
   };

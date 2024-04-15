@@ -41,17 +41,17 @@ const MyBookingPage = () => {
       ? localStorage.getItem('email')
       : null;
 
+  const BookingDetail = useGetUserBooking(UserId);
   useEffect(() => {
-    const BookingDetail = useGetUserBooking(UserId);
     BookingDetail.then((data) => setBookData(data));
-  }, []);
+  });
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
   function handleDeleteModalToggle() {
     setDeleteOpen((prev) => !prev);
   }
-  function handleDeleteOffers(item) {
+  function HandleDeleteOffers(item) {
     useDeleteBooking(item.booked_car_id);
     handleDeleteModalToggle();
     window.location.reload();
@@ -147,7 +147,7 @@ const MyBookingPage = () => {
                           onClose={handleDeleteModalToggle}
                           open={deleteOpen}
                           title='booking'
-                          onDelete={() => handleDeleteOffers(item)}
+                          onDelete={() => HandleDeleteOffers(item)}
                         />
                         <Button
                           disabled={item.isPaid}

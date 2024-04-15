@@ -19,12 +19,12 @@ import useMakeCashPayment from './hooks/useMakeCashPayment';
 const CashPaymentPage = () => {
   const [bookData, setBookData] = useState(null);
 
+  const BookingDetail = useGetAllBooking();
   useEffect(() => {
-    const BookingDetail = useGetAllBooking();
     BookingDetail.then((data) => setBookData(data));
-  }, []);
+  });
 
-  const confirmPayment = (item) => {
+  const ConfirmPayment = (item) => {
     useMakeCashPayment(item);
   };
   return (
@@ -61,7 +61,7 @@ const CashPaymentPage = () => {
                 <div className=' flex justify-end gap-4 items-center'>
                   <TableCell className='text-right'>
                     <div className='flex gap-3'>
-                      <Button onClick={() => confirmPayment(item)}>
+                      <Button onClick={() => ConfirmPayment(item)}>
                         Cash Payment
                       </Button>
                     </div>

@@ -36,21 +36,28 @@ export interface IBookingType {
   dropOffLocation: string;
 }
 
-const vehiclePage = () => {
+const VehiclePage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+  const [open, setOpen] = useState(false);
+  const [carData, setCarData] = useState(null);
+  const [pickUpSelectPostion, setPickUpSelectedPosition] = useState(null);
+  const [selectPostion, setSelectedPosition] = useState(null);
+  const car_id = parseInt(searchParams.get('car_id'));
+  const carDatas = useGetCarByCarID(car_id);
+  useEffect(() => {
+    carDatas.then((data) => {
+      setCarData(data);
+    });
+  }, [searchParams]);
+  dispatch(setpickUpLocation(pickUpSelectPostion?.display_name));
+  dispatch(setdropOffLoction(selectPostion?.display_name));
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
       : null;
   console.log(UserId);
-
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [carData, setCarData] = useState(null);
-  const [pickUpSelectPostion, setPickUpSelectedPosition] = useState(null);
-  dispatch(setpickUpLocation(pickUpSelectPostion?.display_name));
-  const [selectPostion, setSelectedPosition] = useState(null);
-  dispatch(setdropOffLoction(selectPostion?.display_name));
 
   const pricing = [];
 
@@ -59,15 +66,7 @@ const vehiclePage = () => {
     pricing.push(item.pricing_per_eight_hour);
     pricing.push(item.pricing_per_day);
   });
-  const searchParams = useSearchParams();
 
-  const car_id = parseInt(searchParams.get('car_id'));
-  useEffect(() => {
-    const carData = useGetCarByCarID(car_id);
-    carData.then((data) => {
-      setCarData(data);
-    });
-  }, [searchParams]);
   const location_id = useSelector(
     (state: any) => state.booking.value.location_id
   );
@@ -307,4 +306,4 @@ const vehiclePage = () => {
   );
 };
 
-export default vehiclePage;
+export default VehiclePage;

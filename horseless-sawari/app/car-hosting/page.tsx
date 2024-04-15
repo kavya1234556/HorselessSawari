@@ -62,6 +62,22 @@ const CarHostingPage = () => {
   //   'Location',
   //   location?.location.map((item) => item.location_name)
   // );
+  //   useEffect(function persistForm() {
+  //   // 👍 We're not breaking the first rule anymore
+  //   if (name !== '') {
+  //     localStorage.setItem('formData', name);
+  //   }
+  // });
+  const location_data = useGetLocation();
+  const category_data = useGetCatagory();
+  useEffect(() => {
+    location_data.then((data) => {
+      setLocation(data);
+    });
+    category_data.then((data) => {
+      setCategory(data);
+    });
+  }, [location_data, category_data]);
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
@@ -72,16 +88,6 @@ const CarHostingPage = () => {
       ? localStorage.getItem('role')
       : null;
 
-  useEffect(() => {
-    const location_data = useGetLocation();
-    location_data.then((data) => {
-      setLocation(data);
-    });
-    const category_data = useGetCatagory();
-    category_data.then((data) => {
-      setCategory(data);
-    });
-  }, []);
   const carSchema = yup.object().shape({
     ownerName: yup.string().required(),
     manufacture: yup.string().required(),

@@ -20,10 +20,10 @@ const TransactionHistoryPage = () => {
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
       : null;
+  const TransacDetail = useGetTransactionDetail(UserId);
   useEffect(() => {
-    const TransacDetail = useGetTransactionDetail(UserId);
     TransacDetail.then((data) => setDetail(data));
-  }, []);
+  });
   return (
     <>
       <div className='w-[25%]'>

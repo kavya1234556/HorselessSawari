@@ -13,10 +13,10 @@ const FAQPage = () => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
+  const QuestionAnswers = useGetQuestionAnswsers();
   useEffect(() => {
-    const QuestionAnswers = useGetQuestionAnswsers();
     QuestionAnswers.then((data) => setData(data));
-  }, []);
+  });
   return (
     <div className='p-[40px]'>
       <h1 className='text-center text-[40px] text-slate-600 font-bold'>
