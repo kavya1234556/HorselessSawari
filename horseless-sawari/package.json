@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -33,6 +34,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/react-redux": "^7.1.33",
     "@types/uuid": "^9.0.8",
+    "@vercel/postgres": "^0.8.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
