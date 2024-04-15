@@ -21,8 +21,15 @@ import useAddProfileForm from './hooks/useAddProfileForm';
 import useGetProfileForm from './hooks/useGetProfile';
 import useEditProfileForm from './hooks/useEditProfileForm';
 import useGetProfileImage from './hooks/useGetProfileImage';
+import {
+  setAcountID,
+  setFirstName,
+  setPhoneNumber,
+} from '@/redux/reducers/account';
+import { useDispatch } from 'react-redux';
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
   const [phone, setPhone] = useState('');
   const [profileImage, setProfileImage] = useState<PreviewFileType | null>(
     null
@@ -36,14 +43,17 @@ const ProfilePage = () => {
     const profileData = useGetProfileForm(UserId);
     profileData
       .then((data) => {
+        dispatch(setAcountID(data?.accountDetails?.acc_id));
         if (data) {
           form.setValue(
             'profile_image',
             data?.accountDetails?.profile_image[0]
           );
           form.setValue('first_name', data?.accountDetails?.first_name);
+          dispatch(setFirstName(data?.accountDetails?.first_name));
           form.setValue('last_name', data?.accountDetails?.last_name);
           form.setValue('phone_number', data?.accountDetails?.phone_number);
+          dispatch(setPhoneNumber(data?.accountDetails?.phone_number));
         }
         setprofileData(data);
       })
@@ -58,7 +68,7 @@ const ProfilePage = () => {
         file: null,
       });
     });
-  }, []);
+  }, [user_id]);
   const { form, submit } = useAddProfileForm(user_id);
   const { update } = useEditProfileForm(user_id);
   const handleUpdateClick = async () => {
@@ -71,15 +81,19 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className=' flex gap-24 md:flex-row sm:flex-col lg:flex-row max-w-[1920px] m-auto'>
-        <div className='flex-shrink-0 w-1/4'>
+      <div className='w-[25%]'>
+        <h1 className='font-light text-[20px] text-white bg-gray p-[30px] text-center'>
+          Profile
+        </h1>
+      </div>
+      <div className='flex '>
+        <div className='w-[25%]'>
           <ProfileLinks />
         </div>
-        <div className='sm:w-3/4 '>
-          <h2>Personal Information</h2>
-          <div className='w-[60%] bg-theme flex justify-center items-center'>
+        <div className='bg-theme w-[75%]'>
+          <div className=' flex justify-center items-center'>
             <hr />
-            <div>
+            <div className='bg-white p-[20px] m-[30px]'>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(submit)}

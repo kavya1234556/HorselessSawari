@@ -11,7 +11,12 @@ const generateHoursInterval = (
     const hh = Math.floor(startHourInMinute / 60);
     const mm = startHourInMinute % 60;
 
-    times[i] = ('0' + (hh % 24)).slice(-2) + ':' + ('0' + mm).slice(-2);
+    const hour12 = hh % 12 || 12;
+
+    const ampm = hh < 12 ? 'AM' : 'PM';
+
+    times[i] =
+      ('0' + hour12).slice(-2) + ':' + ('0' + mm).slice(-2) + ' ' + ampm;
 
     startHourInMinute = startHourInMinute + interval;
   }

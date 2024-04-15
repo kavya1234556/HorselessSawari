@@ -17,26 +17,36 @@ const Navbar = async () => {
         backgroundColor: 'white',
       }}
     >
-      <div className='flex flex-row justify-between items-center shadow-lg px-6 py-4 '>
-        <Link href='/'>
-          <Logo />
-        </Link>
+      <div className='flex justify-between items-center shadow-lg px-4 py-3 '>
+        <div>
+          <Link href='/'>
+            <Logo />
+          </Link>
+        </div>
 
-        {session?.user ? (
-          <>
-            <Link href='/car-hosting'>Host Your Car</Link>
-            <Link href='/profile'>My Profile</Link>
-            <SignOut />
-          </>
-        ) : (
-          <>
-            <Link href='/login'>
-              <Button variant='outline' className='border-2 border-purple'>
-                Sign in
-              </Button>
-            </Link>
-          </>
-        )}
+        <div className='flex flex-row justify-end items-center px-4 py-3 gap-6 '>
+          {session?.user?.role == 'USER' ? (
+            <>
+              <Link href='/car-hosting'>Host Your Car</Link>
+              <Link href='/profile'>My Profile</Link>
+              <Link href='/car-pooling'>Carpool</Link>
+              <Link href='/faq'>FAQ</Link>
+              <SignOut />
+            </>
+          ) : (
+            <>
+              {session ? (
+                <SignOut />
+              ) : (
+                <Link href='/login'>
+                  <Button variant='outline' className='border-2 border-purple'>
+                    Sign in
+                  </Button>
+                </Link>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

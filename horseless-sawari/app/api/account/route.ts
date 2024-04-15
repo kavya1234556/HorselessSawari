@@ -1,3 +1,13 @@
+// @ts-nocheck
+/**
+ * @swagger
+ * /api/account:
+ *   post:
+ *     description: gets values and files from the user and stores the images in the images folder and image path with other details in the account table
+ *     responses:
+ *       200:
+ *         description: using this in user-dasborad in my profile page
+ */
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import * as yup from 'yup';
@@ -70,7 +80,16 @@ export async function POST(req: Request) {
     }
   }
 }
-
+// @ts-nocheck
+/**
+ * @swagger
+ * /api/account:
+ *   get:
+ *     description: gets account values from the account table using user_id
+ *     responses:
+ *       200:
+ *         description: using this in user-dasborad in my profile page
+ */
 export async function GET(req: Request) {
   console.log('Get Request');
   try {
@@ -104,6 +123,17 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+// @ts-nocheck
+/**
+ * @swagger
+ * /api/account:
+ *   put:
+ *     description: edits the existing account values from the account table using the user_id
+ *     responses:
+ *       200:
+ *         description: using this in user-dasborad in my profile page
+ */
 
 export async function PUT(req: Request) {
   console.log('Put Request');

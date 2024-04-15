@@ -17,7 +17,7 @@ const signUpSchema = yup.object().shape({
     .string()
     .required('Password is required')
     .oneOf([yup.ref('password')], 'Password must match with password'),
-  username: yup.string().required('username is required'),
+  username: yup.string().required('Username is required'),
 });
 
 const useSignupForm = ({ handleToggleModal }) => {
@@ -31,6 +31,7 @@ const useSignupForm = ({ handleToggleModal }) => {
       confirmPassword: '',
     },
   });
+
   const submit = async (values: ISignUpForm) => {
     console.log('🚀 ~ file: useSignupForm.ts:38 ~ submit ~ values:', values);
     try {
@@ -45,21 +46,46 @@ const useSignupForm = ({ handleToggleModal }) => {
           password: values.password,
         }),
       });
-      console.log(
-        '🚀 ~ file: useSignupForm.ts:51 ~ submit ~ response:',
-        response
-      );
 
       if (response.ok) {
         toast({
           title: 'Success',
-          description: 'Registation Completed',
+          description: 'Registration Completed',
         });
         handleToggleModal();
         form.reset();
+
+        try {
+          const emailResponse = await fetch('/api/email-verification', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: values.email,
+            }),
+          });
+
+          if (emailResponse.ok) {
+            toast({
+              title: 'Success',
+              description: 'Email Verification Sent',
+            });
+          } else {
+            const errorData = await emailResponse.json();
+            throw new Error(
+              errorData.message ||
+                'Something went wrong with email verification'
+            );
+          }
+        } catch (err) {
+          console.error('An error occurred during email verification:', err);
+        }
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong');
+        throw new Error(
+          errorData.message || 'Something went wrong with user registration'
+        );
       }
     } catch (error) {
       console.error('An error occurred during registration:', error);

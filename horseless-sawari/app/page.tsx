@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReservationPage from './reservation/page';
@@ -11,7 +11,6 @@ import CategoryImageCarousel from '@/components/ui/ImageCarousel/CategoryImageCa
 export default function Home() {
   const [locationData, setLocationData] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
-  console.log('categoryData', categoryData);
   const session = useSession();
   const router = useRouter();
 
@@ -26,7 +25,6 @@ export default function Home() {
     const data = location_data();
     data.then((loc_data) => {
       if (loc_data) {
-        console.log('loc_data', loc_data);
         setLocationData(loc_data);
       }
     });
@@ -40,7 +38,6 @@ export default function Home() {
     const CData = category_data();
     CData.then((cat_data) => {
       if (cat_data) {
-        console.log('cat_data', cat_data);
         setCategoryData(cat_data);
       }
     });
@@ -48,6 +45,8 @@ export default function Home() {
   useEffect(() => {
     if (url && session?.data?.user?.role === 'ADMIN') {
       router.push('/dashboard');
+    } else if (url && session?.data?.user?.role === 'MANAGER') {
+      router.push('/ManagerD');
     } else {
       router.push('/');
     }

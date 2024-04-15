@@ -1,8 +1,8 @@
-"use client";   
+'use client';
 
-import React, { useState } from "react";
-import { Input } from "./input";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import React, { useState } from 'react';
+import { Input } from './input';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 const InputPassword = ({ field }: { field: any }) => {
   const [hidden, setHidden] = useState(true);
@@ -10,12 +10,12 @@ const InputPassword = ({ field }: { field: any }) => {
     setHidden((prev) => !prev);
   };
   return (
-    <div className="relative">
-      <Input {...field} type={hidden ? "password" : "text"} />
+    <div className='relative'>
+      <Input {...field} type={hidden ? 'password' : 'text'} />
       <button
-        className="absolute right-0 -translate-y-1/2 shrink-0 top-1/2"
+        className='absolute right-0 -translate-y-1/2 shrink-0 top-1/2'
         onClick={toggleModal}
-        type="button"
+        type='button'
       >
         {hidden ? (
           <AiOutlineEyeInvisible fontSize={26} />

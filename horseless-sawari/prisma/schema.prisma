@@ -25,6 +25,10 @@ model user {
   resetTokenExpiry DateTime?
   account    account?
   cars  car[]
+  question question[]
+  booked_car booked_car[]
+  transaction transaction[]
+  car_shared     car_shared[]
 }
 
 enum Role {
@@ -63,14 +67,49 @@ model car {
   isBooked             Boolean         @default(false)
   isVerified           Boolean         @default(false)
   user                 user           @relation(fields: [user_id], references: [id])
-location         location @relation(fields: [location_id], references:[location_id])
-location_id    Int
-category category @relation(fields: [category_id], references:[category_id])
-category_id Int
+  category category @relation(fields: [category_id], references:[category_id])
+  category_id Int
+  location         location @relation(fields: [location_id], references:[location_id])
+  location_id    Int
   user_id  Int
-
   user_role            String
+
+  booked_car   booked_car?
+
 }
+
+
+enum PaymentMethod {
+  CASH
+  KHALTI
+}
+
+
+model booked_car{
+booked_car_id Int @id @default(autoincrement())
+location_id Int
+pickUpDate DateTime
+pickUpTime String
+dropOffDate DateTime
+dropOffTime String
+totalPrice Int
+ServiceCharge Int
+serviceWithCharge Int
+pickUpLocation String
+dropOffLoction String
+is_shared Boolean @default(false)
+is_shared_accepted Boolean @default(false)
+sharingCharge Int
+user                 user           @relation(fields: [user_id], references: [id])
+user_id  Int
+  isPaid        Boolean @default(false)
+car        car  @relation(fields: [car_id], references: [carID])
+car_id Int @unique
+transaction transaction?
+car_shared      car_shared?
+
+}
+
 
 
 model category{
@@ -114,7 +153,43 @@ enum FuelType {
   ELECTRIC
 }
 
-model Booking{
 
+model transaction {
+    transaction_id  String  @id
+    pidx String? @unique
+    total_amount Int
+    status String
+    fee Int?
+    refunded Boolean?  @default(false)
+    user                 user           @relation(fields: [user_id], references: [id])
+    Date              DateTime
+    paymentMethod PaymentMethod @default(CASH)
+    user_id  Int
+    booked_car booked_car  @relation(fields:[bookedCarID], references:[booked_car_id])
+    bookedCarID    Int @unique
 }
 
+
+model question {
+  quest_id Int @id @default(autoincrement())
+  question String
+  user                 user           @relation(fields: [user_id], references: [id])
+  user_id  Int
+  answer   Answer?
+}
+
+model Answer {
+  answer_id Int @id @default(autoincrement())
+  answer    String
+  question  question @relation(fields: [question_id], references: [quest_id])
+  question_id Int @unique
+}
+
+model car_shared{
+  share_car_id Int @id @default(autoincrement())
+  sharind_price Int
+  user   user    @relation(fields: [user_id], references: [id])
+  user_id Int
+  booked_car booked_car  @relation(fields:[bookedCarID], references:[booked_car_id])
+  bookedCarID    Int @unique
+}

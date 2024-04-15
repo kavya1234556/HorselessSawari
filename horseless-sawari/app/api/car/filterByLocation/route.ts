@@ -8,6 +8,7 @@ export async function GET(req: Request) {
       where: {
         location_id: Number(id),
         isVerified: true,
+        isBooked: false,
       },
     });
     const car_data_final = await Promise.all(

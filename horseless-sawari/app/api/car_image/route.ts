@@ -22,8 +22,8 @@ export async function GET(req: Request, res: NextResponse) {
     console.log(car_image, 'car image');
     const CarImage = car_image.car_image;
     const filePath = path.resolve('.', CarImage);
+    console.log('🚀 ~ GET ~ filePath:', filePath);
     const imageBuffer = fs.readFileSync(filePath);
-
     console.log(imageBuffer, 'imageBuffer');
     console.log(CarImage, 'CarImage');
     let contentType = 'image/jpeg';

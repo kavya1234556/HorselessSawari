@@ -16,7 +16,6 @@ const loginSchema = yup.object().shape({
 const getUserEmail = async () => {
   const response = await fetch('/api/auth/session');
   const data = await response.json();
-  console.log('🚀 ~ useGetProfileForm ~ data:', data);
   return data;
 };
 const getUserID = async (email: string) => {
@@ -43,7 +42,8 @@ const useLoginForm = () => {
       if (loginData?.error) {
         toast({
           title: 'Error',
-          description: 'Invalid username or password',
+          description:
+            'Invalid username or password Or your email is not verified',
           variant: 'destructive',
         });
       } else {
@@ -51,8 +51,8 @@ const useLoginForm = () => {
           title: 'Success',
           description: 'Logged In successfully',
         });
-        router.refresh();
         router.push('/?url=login');
+        router.refresh();
 
         getUserEmail().then((data) => {
           localStorage.setItem('email', data.user.email);

@@ -14,28 +14,32 @@ const CarImageCarousel: React.FC<ImageCarouselProps> = ({ itemData }) => {
 
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
   };
 
+  const imageUrls: string[] = [];
+  itemData?.forEach((item) => {
+    item.car_images.forEach((image) => {
+      imageUrls.push(image);
+    });
+  });
+
   return (
     <div>
       <div>
         <Slider {...settings}>
-          {itemData?.map((item, index) => (
+          {imageUrls.map((imageUrl, index) => (
             <div key={index}>
-              {item.car_images.map((image, imageIndex) => (
-                <img
-                  key={imageIndex}
-                  srcSet={image}
-                  src={image}
-                  alt='Car Image'
-                  className='w-[90%] max-h-[450px] rounded-lg'
-                  style={{ objectFit: 'fill' }}
-                />
-              ))}
+              <img
+                srcSet={imageUrl}
+                src={imageUrl}
+                alt='Car Image'
+                className='w-[95%] max-h-[450px] rounded-lg'
+                style={{ objectFit: 'fill' }}
+              />
             </div>
           ))}
         </Slider>
