@@ -16,6 +16,7 @@ import useGetCarByCategory from './hooks/useGetCarByCategory';
 const VehiclesPage = () => {
   const router = useRouter();
   const [locData, setLocData] = useState(null);
+  console.log('🚀 ~ VehiclesPage ~ locData:', locData);
   const [catData, setCatData] = useState(null);
 
   const searchParams = useSearchParams();
@@ -39,7 +40,7 @@ const VehiclesPage = () => {
         <BookingCard />
       </div>
       <div className='flex w-[100%]'>
-        <div className='mt-4 grid grid-cols-2 gap-4'>
+        <div className=' w-[100%] mx-[55px] mb-7 grid grid-cols-2 gap-4'>
           {locData?.car_data_final?.map((item: any, index) => (
             <div
               key={index}
@@ -59,7 +60,11 @@ const VehiclesPage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Card Content</p>
+                  <div className='grid grid-cols-2'>
+                    <p>Feature: {item.features}</p>
+                    <p>Fuel Type: {item.fuel_Type}</p>
+                    <p>Color: {item.color}</p>
+                  </div>
                 </CardContent>
                 <CardFooter>
                   <div className='w-[100%] pr-[10px]'>
@@ -89,7 +94,11 @@ const VehiclesPage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Card Content</p>
+                  <div className='grid grid-cols-2'>
+                    <p>Feature: {item.features}</p>
+                    <p>Fuel Type: {item.fuel_Type}</p>
+                    <p>Color: {item.color}</p>
+                  </div>
                 </CardContent>
                 <CardFooter>
                   <div className='w-[100%] pr-[10px]'>
