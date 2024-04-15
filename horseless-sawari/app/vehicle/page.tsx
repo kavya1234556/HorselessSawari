@@ -30,6 +30,11 @@ import {
   setTotalPrice,
 } from '@/redux/reducers/booking';
 import { toast } from '@/components/ui/use-toast';
+import dynamic from 'next/dynamic';
+
+const DynamicMap = dynamic(() => import('@/components/Maps'), {
+  ssr: false,
+});
 
 export interface IBookingType {
   pickUpLocation: string;
@@ -281,7 +286,7 @@ const VehiclePage = () => {
                       zIndex: 30,
                     }}
                   >
-                    <Maps
+                    <DynamicMap
                       selectPosition={selectPostion}
                       pickUpPosition={pickUpSelectPostion}
                     />

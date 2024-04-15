@@ -1,8 +1,8 @@
+export const dynamic = 'force-dynamic';
 import { db } from '@/lib/db';
 import { NextResponse } from 'next/server';
-import { NextApiRequest } from 'next';
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: Request) {
   try {
     const userId = new URL(req.url).searchParams.get('user_id');
     if (!userId) {

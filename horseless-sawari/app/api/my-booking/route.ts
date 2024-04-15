@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { db } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
@@ -40,6 +41,9 @@ export async function GET(req: Request) {
       { status: 200 }
     );
   } catch (err) {
-    console.log(err);
+    return NextResponse.json(
+      { message: 'Internal Server Error ', err },
+      { status: 200 }
+    );
   }
 }

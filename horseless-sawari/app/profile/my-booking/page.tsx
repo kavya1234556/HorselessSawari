@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux';
 const MyBookingPage = () => {
   const router = useRouter();
   const [bookData, setBookData] = useState(null);
+  console.log('🚀 ~ MyBookingPage ~ bookData:', bookData);
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const account_id = useSelector((state: any) => state.account.value.acc_id);
@@ -44,7 +45,7 @@ const MyBookingPage = () => {
   const BookingDetail = useGetUserBooking(UserId);
   useEffect(() => {
     BookingDetail.then((data) => setBookData(data));
-  });
+  }, [UserId]);
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };

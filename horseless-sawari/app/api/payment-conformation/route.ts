@@ -1,8 +1,7 @@
 import { db } from '@/lib/db';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request, res: Response) {
   const pidx = new URL(req.url).searchParams.get('pidx');
   console.log(pidx);
   const user_id = new URL(req.url).searchParams.get('user_id');

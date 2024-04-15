@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../ui/modal';
-import useGetEachBookingDetail from '@/app/profile/my-booking/hooks/useGetEachBookingDetail';
+// import useGetEachBookingDetail from '@/app/profile/my-booking/hooks/useGetEachBookingDetail';
 
 const ViewBooking = ({ handleToggleModal, open, data }) => {
-  console.log(data);
-  const [BookData, setBookData] = useState(null);
-  console.log('BookData', BookData);
-  const BookingData = useGetEachBookingDetail(data.car_id);
-  useEffect(() => {
-    BookingData.then((item) => {
-      setBookData(item);
-    });
-  }, []);
+  // console.log(data);
+  // const [BookData, setBookData] = useState(null);
+  // console.log('BookData', BookData);
+  // useEffect(() => {
+  //   const BookingData = useGetEachBookingDetail(data.car_id);
+  //   BookingData.then((item) => {
+  //     setBookData(item);
+  //   });
+  // }, [data]);
   const handleCLose = () => {
     handleToggleModal();
   };
