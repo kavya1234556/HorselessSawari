@@ -22,11 +22,11 @@ const DashboradMPage = () => {
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
+  const car_detail = useGetCarDetail();
   useEffect(() => {
-    const car_detail = useGetCarDetail();
     car_detail.then((data) => setCarDetail(data));
-  }, []);
-  const handleVerification = (id: number) => {
+  });
+  const HandleVerification = (id: number) => {
     useEditVerfication(id);
   };
   return (
@@ -62,7 +62,7 @@ const DashboradMPage = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleVerification(item.carID)}>
+                    <Button onClick={() => HandleVerification(item.carID)}>
                       Verify
                     </Button>
                   </TableCell>

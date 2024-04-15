@@ -37,10 +37,10 @@ const ProfilePage = () => {
   const [user_id, setUserId] = useState(null);
   const [profile_data, setprofileData] = useState(null);
 
+  const UserId = parseInt(localStorage.getItem('user_id'));
+  const profile_image = useGetProfileImage(UserId);
+  const profileData = useGetProfileForm(UserId);
   useEffect(() => {
-    const UserId = parseInt(localStorage.getItem('user_id'));
-    const profile_image = useGetProfileImage(UserId);
-    const profileData = useGetProfileForm(UserId);
     profileData
       .then((data) => {
         dispatch(setAcountID(data?.accountDetails?.acc_id));

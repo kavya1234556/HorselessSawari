@@ -15,21 +15,21 @@ import useGetCarByCategory from './hooks/useGetCarByCategory';
 
 const VehiclesPage = () => {
   const router = useRouter();
-  const [locationData, setLocationData] = useState(null);
-  const [categoryData, setCategoryData] = useState(null);
+  const [locData, setLocData] = useState(null);
+  const [catData, setCatData] = useState(null);
 
   const searchParams = useSearchParams();
   const location_id = parseInt(searchParams.get('location_id'));
   const category_id = parseInt(searchParams.get('category_id'));
 
+  const locationData = useGetCarByLocation(location_id);
+  const categoryData = useGetCarByCategory(category_id);
   useEffect(() => {
-    const locationData = useGetCarByLocation(location_id);
     locationData.then((data) => {
-      setLocationData(data);
+      setLocData(data);
     });
-    const categoryData = useGetCarByCategory(category_id);
     categoryData.then((data) => {
-      setCategoryData(data);
+      setCatData(data);
     });
   }, [searchParams]);
 
@@ -40,8 +40,9 @@ const VehiclesPage = () => {
       </div>
       <div className='flex w-[100%]'>
         <div className='mt-4 grid grid-cols-2 gap-4'>
-          {locationData?.car_data_final?.map((item: any) => (
+          {locData?.car_data_final?.map((item: any, index) => (
             <div
+              key={index}
               onClick={() => {
                 router.push(`/vehicle?car_id=${item.carID}`);
               }}
@@ -69,8 +70,9 @@ const VehiclesPage = () => {
               </Card>
             </div>
           ))}
-          {categoryData?.car_data_final?.map((item: any) => (
+          {catData?.car_data_final?.map((item: any, index) => (
             <div
+              key={index}
               onClick={() => {
                 router.push(`/vehicle?car_id=${item.carID}`);
               }}

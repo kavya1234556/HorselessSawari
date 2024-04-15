@@ -15,8 +15,8 @@ import useGetAllTransactions from './hooks/useGetAllTransactions';
 const TransactionPage = () => {
   const [transac, setTransac] = useState(null);
   console.log('🚀 ~ TransactionPage ~ transac:', transac?.UserTransaction);
+  const Detail = useGetAllTransactions();
   useEffect(() => {
-    const Detail = useGetAllTransactions();
     Detail.then((data) => setTransac(data));
   }, []);
   return (

@@ -26,12 +26,12 @@ const QuestionPage = () => {
   function handleDeleteModalToggle() {
     setDeleteOpen((prev) => !prev);
   }
+  const Questions = useGetAllQuestion();
   useEffect(() => {
-    const Questions = useGetAllQuestion();
     Questions.then((data) => setQues(data));
-  }, []);
+  });
 
-  const handleViewQuestion = (questionId) => {
+  const HandleViewQuestion = (questionId) => {
     console.log('🚀 ~ handleViewQuestion ~ questionId:', questionId);
     setSelectedQuestion(questionId);
     setOpen((prev) => !prev);
@@ -41,7 +41,7 @@ const QuestionPage = () => {
     setSelectedQuestion(null);
     setOpen(false);
   };
-  const handleDelete = (id: number) => {
+  const HandleDelete = (id: number) => {
     useDeleteQuestion(id);
     handleDeleteModalToggle();
     window.location.reload();
@@ -69,7 +69,7 @@ const QuestionPage = () => {
                 <TableCell>
                   <IoEyeOutline
                     size={24}
-                    onClick={() => handleViewQuestion(item.quest_id)}
+                    onClick={() => HandleViewQuestion(item.quest_id)}
                     style={{ cursor: 'pointer' }}
                   />
                 </TableCell>
@@ -80,7 +80,7 @@ const QuestionPage = () => {
                   onClose={handleDeleteModalToggle}
                   open={deleteOpen}
                   title='Question'
-                  onDelete={() => handleDelete(item.quest_id)}
+                  onDelete={() => HandleDelete(item.quest_id)}
                 />
               </TableRow>
             ))}

@@ -14,6 +14,8 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import useAddQuestion from './hooks/useAddQuestion';
 import { useSession } from 'next-auth/react';
+import Navbar from '../navbar';
+import Link from 'next/link';
 export type IQusetionType = {
   question: string;
 };
@@ -36,29 +38,37 @@ const Footer = () => {
   const { submit } = useAddQuestion(id);
   return (
     <>
-      {session.status === 'authenticated' ? (
-        <div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(submit)}>
-              <FormField
-                control={form.control}
-                name='question'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Question</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter your question' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button>Submit</Button>
-            </form>
-          </Form>
+      {session?.data?.user?.role === 'USER' ? (
+        <div className='flex flex-row justify-around text-neutral-500 items-center'>
+          <div className='flex flex-col'>
+            <Link href='/car-hosting'>Host Your Car</Link>
+            <Link href='/profile'>My Profile</Link>
+            <Link href='/car-pooling'>Carpool</Link>
+            <Link href='/faq'>FAQ</Link>
+          </div>
+          <div className='p-[10px]'>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(submit)}>
+                <FormField
+                  control={form.control}
+                  name='question'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Question</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Enter your question' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button className='mt-[5px]'>Submit</Button>
+              </form>
+            </Form>
+          </div>
         </div>
       ) : (
-        <div>Footer</div>
+        <div></div>
       )}
     </>
   );
