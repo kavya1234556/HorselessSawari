@@ -6,29 +6,30 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      Role?    @default(USER)
-  resetToken String?
-  emailVerificationToken String?
+  id                           Int           @id @default(autoincrement())
+  email                        String        @unique
+  username                     String        @unique
+  password                     String
+  createdAt                    DateTime      @default(now())
+  updatedAt                    DateTime      @updatedAt
+  role                         Role?         @default(USER)
+  resetToken                   String?
+  emailVerificationToken       String?
   emailVerificationTokenExpiry DateTime?
-  isVerified Boolean @default(false)
-  resetTokenExpiry DateTime?
-  account    account?
-  cars  car[]
-  question question[]
-  booked_car booked_car[]
-  transaction transaction[]
-  car_shared     car_shared[]
+  isVerified                   Boolean       @default(false)
+  resetTokenExpiry             DateTime?
+  account                      account?
+  cars                         car[]
+  question                     question[]
+  booked_car                   booked_car[]
+  transaction                  transaction[]
+  car_shared                   car_shared[]
 }
 
 enum Role {
@@ -38,158 +39,150 @@ enum Role {
 }
 
 model account {
-  acc_id      Int      @id @default(autoincrement())
+  acc_id        Int    @id @default(autoincrement())
   profile_image String
-  first_name  String
-  last_name   String
-  phone_number String @unique
-  user        user  @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+  first_name    String
+  last_name     String
+  phone_number  String @unique
+  user          user   @relation(fields: [user_id], references: [id])
+  user_id       Int    @unique
 }
 
 model car {
-  carID                Int             @id @default(autoincrement())
-  onwerName            String
-  manufacture          String
-  registration_num     Int
-  features            String
-  no_of_seats          Int
-  fuel_Type            FuelType        @default(ELECTRIC)
-  color                String
-  Total_km             Float
-  Car_Images           car_image[]
-  bluebook_img         bluebook_image[]
-  insurance_img        insurance_image[]
-  pricing_per_hour     Int
-  pricing_per_four_hour Int
+  carID                  Int               @id @default(autoincrement())
+  onwerName              String
+  manufacture            String
+  registration_num       Int
+  features               String
+  no_of_seats            Int
+  fuel_Type              FuelType          @default(ELECTRIC)
+  color                  String
+  Total_km               Float
+  Car_Images             car_image[]
+  bluebook_img           bluebook_image[]
+  insurance_img          insurance_image[]
+  pricing_per_hour       Int
+  pricing_per_four_hour  Int
   pricing_per_eight_hour Int
-  pricing_per_day      Int
-  isBooked             Boolean         @default(false)
-  isVerified           Boolean         @default(false)
-  user                 user           @relation(fields: [user_id], references: [id])
-  category category @relation(fields: [category_id], references:[category_id])
-  category_id Int
-  location         location @relation(fields: [location_id], references:[location_id])
-  location_id    Int
-  user_id  Int
-  user_role            String
+  pricing_per_day        Int
+  isBooked               Boolean           @default(false)
+  isVerified             Boolean           @default(false)
+  user                   user              @relation(fields: [user_id], references: [id])
+  category               category          @relation(fields: [category_id], references: [category_id])
+  category_id            Int
+  location               location          @relation(fields: [location_id], references: [location_id])
+  location_id            Int
+  user_id                Int
+  user_role              String
 
-  booked_car   booked_car?
-
+  booked_car booked_car?
 }
-
 
 enum PaymentMethod {
   CASH
   KHALTI
 }
 
-
-model booked_car{
-booked_car_id Int @id @default(autoincrement())
-location_id Int
-pickUpDate DateTime
-pickUpTime String
-dropOffDate DateTime
-dropOffTime String
-totalPrice Int
-ServiceCharge Int
-serviceWithCharge Int
-pickUpLocation String
-dropOffLoction String
-is_shared Boolean @default(false)
-is_shared_accepted Boolean @default(false)
-sharingCharge Int
-user                 user           @relation(fields: [user_id], references: [id])
-user_id  Int
-  isPaid        Boolean @default(false)
-car        car  @relation(fields: [car_id], references: [carID])
-car_id Int @unique
-transaction transaction?
-car_shared      car_shared?
-
+model booked_car {
+  booked_car_id      Int          @id @default(autoincrement())
+  location_id        Int
+  pickUpDate         DateTime
+  pickUpTime         String
+  dropOffDate        DateTime
+  dropOffTime        String
+  totalPrice         Int
+  ServiceCharge      Int
+  serviceWithCharge  Int
+  pickUpLocation     String
+  dropOffLoction     String
+  is_shared          Boolean      @default(false)
+  is_shared_accepted Boolean      @default(false)
+  sharingCharge      Int
+  user               user         @relation(fields: [user_id], references: [id])
+  user_id            Int
+  isPaid             Boolean      @default(false)
+  car                car          @relation(fields: [car_id], references: [carID])
+  car_id             Int          @unique
+  transaction        transaction?
+  car_shared         car_shared?
 }
 
-
-
-model category{
-  category_id Int @id @default(autoincrement())
-  category_name String
+model category {
+  category_id    Int    @id @default(autoincrement())
+  category_name  String
   category_image String
-  car car[]
+  car            car[]
 }
 
 model location {
-  location_id Int @id @default(autoincrement())
-  location_name String
+  location_id    Int    @id @default(autoincrement())
+  location_name  String
   location_image String
-  car car[]
+  car            car[]
 }
 
 model car_image {
-  car_image_id Int @id @default(autoincrement())
-  car_image String
-  car_id Int
-  car car @relation(fields: [car_id], references: [carID])
+  car_image_id Int    @id @default(autoincrement())
+  car_image    String
+  car_id       Int
+  car          car    @relation(fields: [car_id], references: [carID])
 }
 
-
 model bluebook_image {
-  bluebook_image_id Int @id @default(autoincrement())
-  bluebook_image String
-  car_id Int
-  car car @relation(fields: [car_id], references: [carID])
+  bluebook_image_id Int    @id @default(autoincrement())
+  bluebook_image    String
+  car_id            Int
+  car               car    @relation(fields: [car_id], references: [carID])
 }
 
 model insurance_image {
-  insurance_image_id Int @id @default(autoincrement())
-  insurance_image String
-  car_id Int
-  car car @relation(fields: [car_id], references: [carID])
+  insurance_image_id Int    @id @default(autoincrement())
+  insurance_image    String
+  car_id             Int
+  car                car    @relation(fields: [car_id], references: [carID])
 }
+
 enum FuelType {
   DISEL
   GAS
   ELECTRIC
 }
 
-
 model transaction {
-    transaction_id  String  @id
-    pidx String? @unique
-    total_amount Int
-    status String
-    fee Int?
-    refunded Boolean?  @default(false)
-    user                 user           @relation(fields: [user_id], references: [id])
-    Date              DateTime
-    paymentMethod PaymentMethod @default(CASH)
-    user_id  Int
-    booked_car booked_car  @relation(fields:[bookedCarID], references:[booked_car_id])
-    bookedCarID    Int @unique
+  transaction_id String        @id
+  pidx           String?       @unique
+  total_amount   Int
+  status         String
+  fee            Int?
+  refunded       Boolean?      @default(false)
+  user           user          @relation(fields: [user_id], references: [id])
+  Date           DateTime
+  paymentMethod  PaymentMethod @default(CASH)
+  user_id        Int
+  booked_car     booked_car    @relation(fields: [bookedCarID], references: [booked_car_id])
+  bookedCarID    Int           @unique
 }
 
-
 model question {
-  quest_id Int @id @default(autoincrement())
+  quest_id Int     @id @default(autoincrement())
   question String
-  user                 user           @relation(fields: [user_id], references: [id])
+  user     user    @relation(fields: [user_id], references: [id])
   user_id  Int
   answer   Answer?
 }
 
 model Answer {
-  answer_id Int @id @default(autoincrement())
-  answer    String
-  question  question @relation(fields: [question_id], references: [quest_id])
-  question_id Int @unique
+  answer_id   Int      @id @default(autoincrement())
+  answer      String
+  question    question @relation(fields: [question_id], references: [quest_id])
+  question_id Int      @unique
 }
 
-model car_shared{
-  share_car_id Int @id @default(autoincrement())
+model car_shared {
+  share_car_id  Int        @id @default(autoincrement())
   sharind_price Int
-  user   user    @relation(fields: [user_id], references: [id])
-  user_id Int
-  booked_car booked_car  @relation(fields:[bookedCarID], references:[booked_car_id])
-  bookedCarID    Int @unique
+  user          user       @relation(fields: [user_id], references: [id])
+  user_id       Int
+  booked_car    booked_car @relation(fields: [bookedCarID], references: [booked_car_id])
+  bookedCarID   Int        @unique
 }
