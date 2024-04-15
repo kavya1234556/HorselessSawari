@@ -35,6 +35,9 @@ export async function GET(req: Request) {
       { status: 200 }
     );
   } catch (err) {
-    console.log(err);
+    return NextResponse.json(
+      { message: 'Enternal Server error', err },
+      { status: 200 }
+    );
   }
 }
