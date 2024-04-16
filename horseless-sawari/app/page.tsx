@@ -41,7 +41,7 @@ export default function Home() {
         setCategoryData(cat_data);
       }
     });
-  });
+  }, []);
   useEffect(() => {
     if (url && session?.data?.user?.role === 'ADMIN') {
       router.push('/dashboard');

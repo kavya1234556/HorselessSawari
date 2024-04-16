@@ -214,11 +214,11 @@ const CarHostingPage = () => {
                     render={({ field: { onChange, ...rest } }) => {
                       return (
                         <FormItem>
-                          <FormLabel> Manufacture </FormLabel>
+                          <FormLabel> Category </FormLabel>
                           <FormControl>
                             <Select onValueChange={(value) => onChange(value)}>
                               <SelectTrigger className='w-[180px]'>
-                                <SelectValue placeholder='Select Manufacture' />
+                                <SelectValue placeholder='Select Category' />
                               </SelectTrigger>
                               <SelectContent>
                                 {category?.Category?.map((item: any) => (

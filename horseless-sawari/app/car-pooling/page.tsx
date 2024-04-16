@@ -23,7 +23,7 @@ const CarpoolPage = () => {
     SharingData.then((data) => {
       setShareData(data);
     });
-  });
+  }, []);
   const HandleSharing = (item) => {
     useAddSharingDetail(item, UserId);
   };

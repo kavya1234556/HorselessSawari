@@ -29,7 +29,7 @@ const QuestionPage = () => {
   const Questions = useGetAllQuestion();
   useEffect(() => {
     Questions.then((data) => setQues(data));
-  });
+  }, []);
 
   const HandleViewQuestion = (questionId) => {
     console.log('🚀 ~ handleViewQuestion ~ questionId:', questionId);

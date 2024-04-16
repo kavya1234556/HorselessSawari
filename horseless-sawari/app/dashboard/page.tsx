@@ -55,7 +55,7 @@ const DashboardPage = () => {
     Cars.then((data) => setCar(data));
     locations.then((data) => setLocation(data));
     categories.then((data) => setCategory(data));
-  });
+  }, []);
   return (
     <div className='flex '>
       <div className='w-[25%]'>

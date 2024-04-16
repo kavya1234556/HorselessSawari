@@ -23,7 +23,7 @@ const TransactionHistoryPage = () => {
   const TransacDetail = useGetTransactionDetail(UserId);
   useEffect(() => {
     TransacDetail.then((data) => setDetail(data));
-  });
+  }, []);
   return (
     <>
       <div className='w-[25%]'>

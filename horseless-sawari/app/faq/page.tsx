@@ -16,7 +16,7 @@ const FAQPage = () => {
   const QuestionAnswers = useGetQuestionAnswsers();
   useEffect(() => {
     QuestionAnswers.then((data) => setData(data));
-  });
+  }, []);
   return (
     <div className='p-[40px]'>
       <h1 className='text-center text-[40px] text-slate-600 font-bold'>

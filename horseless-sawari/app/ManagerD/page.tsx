@@ -25,7 +25,7 @@ const DashboradMPage = () => {
   const car_detail = useGetCarDetail();
   useEffect(() => {
     car_detail.then((data) => setCarDetail(data));
-  });
+  }, []);
   const HandleVerification = (id: number) => {
     useEditVerfication(id);
   };

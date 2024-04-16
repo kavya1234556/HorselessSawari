@@ -27,6 +27,7 @@ import {
   setPhoneNumber,
 } from '@/redux/reducers/account';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -36,14 +37,31 @@ const ProfilePage = () => {
   );
   const [user_id, setUserId] = useState(null);
   const [profile_data, setprofileData] = useState(null);
-
+  console.log('🚀 ~ ProfilePage ~ profile_data:', profile_data);
+  dispatch(setAcountID(profile_data?.accountDetails?.acc_id));
+  const accountId = useSelector((state: any) => state.account.value.acc_id);
+  console.log('🚀 ~ ProfilePage ~ accountId:', accountId);
   const UserId = parseInt(localStorage.getItem('user_id'));
   const profile_image = useGetProfileImage(UserId);
+  useEffect(() => {
+    if (accountId !== 0) {
+      profile_image.then((data) => {
+        console.log('🚀 ~ profile_image.then ~ data:', data);
+        if (data.type === 'image/jpeg') {
+          setProfileImage({
+            id: uuidv4(),
+            image_path: URL.createObjectURL(data),
+            file: null,
+          });
+        }
+      });
+    }
+  }, []);
   const profileData = useGetProfileForm(UserId);
   useEffect(() => {
     profileData
       .then((data) => {
-        dispatch(setAcountID(data?.accountDetails?.acc_id));
+        console.log('🚀 ~ .then ~ data:', data);
         if (data) {
           form.setValue(
             'profile_image',
@@ -61,14 +79,7 @@ const ProfilePage = () => {
         console.log('inside catch', err);
       });
     setUserId(UserId);
-    profile_image.then((data) => {
-      setProfileImage({
-        id: uuidv4(),
-        image_path: URL.createObjectURL(data),
-        file: null,
-      });
-    });
-  }, [user_id]);
+  }, []);
   const { form, submit } = useAddProfileForm(user_id);
   const { update } = useEditProfileForm(user_id);
   const handleUpdateClick = async () => {

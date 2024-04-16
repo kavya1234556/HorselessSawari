@@ -22,7 +22,7 @@ const CashPaymentPage = () => {
   const BookingDetail = useGetAllBooking();
   useEffect(() => {
     BookingDetail.then((data) => setBookData(data));
-  });
+  }, []);
 
   const ConfirmPayment = (item) => {
     useMakeCashPayment(item);
