@@ -84,8 +84,8 @@ const VehiclesPage = () => {
 
           <div className='flex flex-col gap-3'>
             <h1 className='font-semibold'>Location</h1>
-            {locationData?.location_data_final?.map((item) => (
-              <div className='flex items-center gap-2 '>
+            {locationData?.location_data_final?.map((item, index) => (
+              <div key={index} className='flex items-center gap-2 '>
                 <Checkbox onClick={() => HandlelocaionChange(item)} />
                 <h1>{item.location_name}</h1>
               </div>
@@ -94,8 +94,8 @@ const VehiclesPage = () => {
           <hr className='w-64 h-1 my-8 bg-purple border-0 rounded' />
           <div className='flex flex-col gap-3'>
             <h1 className='font-semibold'>Category</h1>
-            {categoryData?.category_data_final?.map((item) => (
-              <div className='flex items-center gap-2 '>
+            {categoryData?.category_data_final?.map((item, index) => (
+              <div key={index} className='flex items-center gap-2 '>
                 <Checkbox onClick={() => HandleCategoryChange(item)} />
                 <h1>{item.category_name}</h1>
               </div>
