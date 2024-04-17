@@ -39,7 +39,7 @@ const Footer = () => {
   return (
     <>
       {session?.data?.user?.role === 'USER' ? (
-        <div className='flex flex-row justify-around text-neutral-500 items-center'>
+        <div className='flex flex-row justify-around text-black bg-theme items-center'>
           <div className='flex flex-col'>
             <Link href='/car-hosting'>Host Your Car</Link>
             <Link href='/profile'>My Profile</Link>
