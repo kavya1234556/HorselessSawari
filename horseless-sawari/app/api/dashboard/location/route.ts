@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     const cwd = process.cwd();
     await fs.promises.writeFile(
       //@ts-ignore
-      path.join('app/api/dashboard/location/location_images/', file.name),
+      path.join(cwd, 'app/api/dashboard/location/location_images/', file.name),
       bf,
       {
         encoding: 'binary',

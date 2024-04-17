@@ -77,7 +77,7 @@ const CarHostingPage = () => {
     category_data.then((data) => {
       setCategory(data);
     });
-  }, [location_data, category_data]);
+  }, []);
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))

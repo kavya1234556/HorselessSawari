@@ -68,14 +68,14 @@ const useAddCarForHosting = (user_id: number, role: string) => {
       if (response.ok) {
         toast({
           title: 'Success',
-          description: 'Your profile is added successfully',
+          description: 'Your car is sent for verification',
         });
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Something went wrong');
       }
     } catch (error) {
-      console.error('An error occurred in your Profile', error);
+      console.error('An error occurred while hosting', error);
     }
   };
 

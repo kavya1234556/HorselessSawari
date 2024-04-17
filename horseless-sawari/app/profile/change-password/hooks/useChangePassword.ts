@@ -36,7 +36,7 @@ const useChangePassword = (UserId) => {
           title: 'Success',
           description: 'Password changed successfully',
         });
-        form.reset();
+        window.location.reload();
         // router.push('/login');
       } else {
         const errorData = await response.json();
