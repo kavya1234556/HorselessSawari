@@ -39,7 +39,7 @@ const ChangeRoleModal = ({ handleToggleModal, open, item }) => {
     handleToggleModal();
     window.location.reload();
   };
-  const { submit } = useEditUserRole(item.id);
+  const { submit } = useEditUserRole(item?.id);
 
   return (
     <Modal

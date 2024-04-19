@@ -95,7 +95,12 @@ export async function GET(req: Request) {
       { message: 'Car fetched Successfully', car_data_final },
       { status: 200 }
     );
-  } catch (e) {}
+  } catch (e) {
+    return NextResponse.json(
+      { message: 'Internal Server Error', e },
+      { status: 200 }
+    );
+  }
 }
 export async function DELETE(req: Request) {
   const booking_id = new URL(req.url).searchParams.get('booking_id');
@@ -117,5 +122,10 @@ export async function DELETE(req: Request) {
       { message: 'Your Booking is Cancelled' },
       { status: 200 }
     );
-  } catch (e) {}
+  } catch (e) {
+    return NextResponse.json(
+      { message: 'Internal Server Error', e },
+      { status: 200 }
+    );
+  }
 }

@@ -101,17 +101,12 @@ const MyBookingPage = () => {
   };
   return (
     <>
-      <div className='w-[25%]'>
-        <h1 className='font-light text-[20px] text-white bg-gray p-[30px] text-center'>
-          Profile
-        </h1>
-      </div>
       <div className='flex '>
         <div className='w-[25%]'>
           <ProfileLinks />
         </div>
-        <div className='bg-theme w-[75%]'>
-          <Table className='m-[10px]'>
+        <div className='bg-theme p-[10px] w-[75%]'>
+          <Table className='m-[10px] '>
             <TableCaption>A list of your bookings.</TableCaption>
             <TableHeader className='border border-black'>
               <TableRow>

@@ -1,9 +1,5 @@
 'use client';
-
-import DeleteModal from '@/components/modal/delete-modal';
-import ViewBooking from '@/components/modal/view-booking';
 import ProfileLinks from '@/components/profileLinks';
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -30,7 +26,7 @@ const VehicleBookingPage = () => {
   const BookingDetail = useGetMyVehicleBooking(UserId);
   useEffect(() => {
     BookingDetail.then((data) => setBookData(data));
-  });
+  }, []);
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
@@ -46,12 +42,7 @@ const VehicleBookingPage = () => {
   // }
   return (
     <>
-      <div className='w-[25%]'>
-        <h1 className='font-light text-[20px] text-white bg-gray p-[30px] text-center'>
-          Profile
-        </h1>
-      </div>
-      <div className='flex '>
+      <div className='flex p-[10px]'>
         <div className='w-[25%]'>
           <ProfileLinks />
         </div>

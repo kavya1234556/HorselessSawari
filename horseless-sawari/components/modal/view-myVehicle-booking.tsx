@@ -4,20 +4,12 @@ import useGetEachBookingDetail from '@/app/profile/my-booking/hooks/useGetEachBo
 
 const ViewMyVehichleBooking = ({ handleToggleModal, open, data }) => {
   console.log(data);
-  const [BookData, setBookData] = useState(null);
-  console.log('BookData', BookData);
-  const BookingData = useGetEachBookingDetail(data?.car_id);
-  useEffect(() => {
-    BookingData.then((item) => {
-      setBookData(item);
-    });
-  }, []);
   const handleCLose = () => {
     handleToggleModal();
   };
   return (
     <Modal
-      title='Booking Detail'
+      title='My Vehicle Booking Detail'
       className='font-bold  h-[75%] overflow-auto'
       isOpen={open}
       onClose={handleCLose}

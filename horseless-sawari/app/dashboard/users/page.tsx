@@ -17,12 +17,14 @@ import ChangeRoleModal from '@/components/modal/changeRole-modal';
 const UserPage = () => {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
-  console.log('🚀 ~ UserPage ~ users:', users?.data?.AllUsers);
+  const [selectedUser, setSelectedUser] = useState(null);
+  console.log('🚀 ~ UserPage ~ selectedUser:', selectedUser);
   const AllUserData = useGettAllUsers();
   useEffect(() => {
     AllUserData.then((data) => setUsers(data));
-  });
-  const handleToggleModal = () => {
+  }, []);
+  const handleToggleModal = (item) => {
+    setSelectedUser(item);
     setOpen((prev) => !prev);
   };
   return (
@@ -51,13 +53,17 @@ const UserPage = () => {
                 <TableCell>{item.createdAt.split('T')[0]}</TableCell>
                 <TableCell>{item.role}</TableCell>
                 <TableCell>
-                  <Button onClick={handleToggleModal}>Edit Role</Button>
+                  <Button onClick={() => handleToggleModal(item)}>
+                    Edit Role
+                  </Button>
                 </TableCell>
-                <ChangeRoleModal
-                  handleToggleModal={handleToggleModal}
-                  open={open}
-                  item={item}
-                />
+                <TableCell>
+                  <ChangeRoleModal
+                    handleToggleModal={handleToggleModal}
+                    open={open}
+                    item={selectedUser}
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
