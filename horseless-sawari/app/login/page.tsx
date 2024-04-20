@@ -53,7 +53,11 @@ const LoginPage = () => {
                     <FormItem>
                       <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder='Enter username' {...field} />
+                        <Input
+                          data-cy='username'
+                          placeholder='Enter username'
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -66,7 +70,7 @@ const LoginPage = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <InputPassword field={field} />
+                        <InputPassword data-cy='password' field={field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -82,6 +86,7 @@ const LoginPage = () => {
                 </div>
                 <div className='flex justify-center '>
                   <Button
+                    data-cy='submit'
                     variant='secondary'
                     className=' bg-purple border-2 sm:mt-[0px] mt-[10px]'
                   >

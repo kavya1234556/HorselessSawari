@@ -104,6 +104,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 
             <div className='flex gap-6 justify-end'>
               <Button
+                data-cy='submit'
                 type='submit'
                 className='border border-purple '
                 variant='outline'

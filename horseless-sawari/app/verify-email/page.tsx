@@ -17,7 +17,24 @@ const VerifyEmailPage: React.FC<VerifyEmailPageProps> = async ({
       },
     });
     if (!user) {
-      return <div>Invalid token</div>;
+      return (
+        <div className='min-h-[100vh] flex items-start justify-center pt-20 sm:px-6 lg:px-8'>
+          <div className='max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg text-center'>
+            <h3 className='text-3xl text-gray-800 font-semibold mb-4'>
+              Invalid Token
+            </h3>
+            <div className='flex justify-center'>
+              <Image
+                width={100}
+                height={100}
+                src='/images/unsucces.png'
+                alt=' Successfull Image'
+                className='object-contain max-w-full h-auto'
+              />
+            </div>
+          </div>
+        </div>
+      );
     }
 
     await db.user.update({

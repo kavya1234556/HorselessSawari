@@ -527,7 +527,10 @@ const CarHostingPage = () => {
                   />
                 </div>
                 <div className='flex justify-    center mt-[10px]'>
-                  <Button className='  border-2 sm:mt-[0px] mt-[10px]'>
+                  <Button
+                    data-cy='submit'
+                    className='  border-2 sm:mt-[0px] mt-[10px]'
+                  >
                     Submit
                   </Button>
                 </div>
