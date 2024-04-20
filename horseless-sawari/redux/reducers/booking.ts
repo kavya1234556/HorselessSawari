@@ -20,9 +20,9 @@ const initialState = {
   value: {
     location_id: 1,
     pickUpDate: initialPickUpDate,
-    pickUpTime: '',
+    pickUpTime: '11:00 AM',
     dropOffDate: initialDropOffDate,
-    dropOffTime: '',
+    dropOffTime: '12:00 PM',
     payablePrice: 0,
     totalPrice: 0,
     servicePrice: 0,

@@ -115,49 +115,46 @@ const BookingCard = () => {
 
   return (
     <Form {...form}>
-      <div className='pt-[10px] pl-[20px]'>Book a vehicle</div>
       <form onSubmit={form.handleSubmit(submit)}>
-        <div className='flex gap-[10px] p-[20px]'>
+        <div className='flex-col gap-[30px] p-[20px] mb-6 sm:mb-0 sm:flex sm:flex-row sm:overflow-auto'>
           <FormField
             control={form.control}
             name='location_id'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
-                        <SelectValue placeholder='Select Location' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {location?.location_data_final.map((item: any) => (
-                          <SelectItem
-                            key={item.location_id}
-                            value={`${item.location_id}`}
-                          >
-                            {item.location_name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+            render={({ field }) => (
+              <FormItem className='mb-3 sm:mb-0'>
+                <FormControl>
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger className='w-full sm:w-300  bg-white h-10'>
+                      <SelectValue placeholder='Select Location' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {location?.location_data_final.map((item: any) => (
+                        <SelectItem
+                          key={item.location_id}
+                          value={`${item.location_id}`}
+                        >
+                          {item.location_name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
           <FormField
             control={form.control}
             name='pickUpDate'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='mb-3 sm:mb-0'>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full sm:w-300  pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground'
                         )}
                       >
@@ -191,10 +188,10 @@ const BookingCard = () => {
             name='pickUpTime'
             render={({ field }) => {
               return (
-                <FormItem>
+                <FormItem className='mb-3 sm:mb-0'>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
+                      <SelectTrigger className=' w-full sm:w-300  bg-white1 h-[40px]'>
                         <SelectValue placeholder='Pick up Time' />
                       </SelectTrigger>
                       <SelectContent>
@@ -215,14 +212,14 @@ const BookingCard = () => {
             control={form.control}
             name='dropOffDate'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='mb-3 sm:mb-0'>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full sm:w-300  pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground'
                         )}
                       >
@@ -256,10 +253,10 @@ const BookingCard = () => {
             name='dropOffTime'
             render={({ field }) => {
               return (
-                <FormItem>
+                <FormItem className='mb-3 sm:mb-0'>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className='w-[180px] bg-white1 h-[40px]'>
+                      <SelectTrigger className=' w-full sm:w-300 bg-white1 h-[40px]'>
                         <SelectValue placeholder='Drop off Time' />
                       </SelectTrigger>
                       <SelectContent>

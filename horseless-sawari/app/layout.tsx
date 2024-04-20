@@ -24,7 +24,7 @@ export default function RootLayout({
       <Provider>
         <body className={inter.className}>
           <Navbar />
-          <main>
+          <main className='w-[100%]'>
             <ReduxProvider>{children}</ReduxProvider>
           </main>
           <Footer />

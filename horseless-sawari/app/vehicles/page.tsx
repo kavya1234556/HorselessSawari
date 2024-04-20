@@ -75,11 +75,11 @@ const VehiclesPage = () => {
   };
   return (
     <>
-      <div className='w-[95%] m-auto bg-white1 p-[15px]'>
+      <div className='w-[87%] m-auto  p-[15px] bg-theme'>
         <BookingCard />
       </div>
-      <div className='flex gap-4 p-[30px] w-[100%]'>
-        <div className='w-[25%] bg-theme p-[24px]'>
+      <div className='flex flex-col sm:flex-row gap-4 p-[30px] w-[100%]'>
+        <div className='w-[100%] sm:w-[25%] bg-theme p-[24px]'>
           <h1 className='font-bold text-center'>Filters</h1>
 
           <div className='flex flex-col gap-3'>
@@ -102,7 +102,7 @@ const VehiclesPage = () => {
             ))}
           </div>
         </div>
-        <div className=' w-[75%]  grid grid-cols-2 gap-4'>
+        <div className='w-full lg:w-[75%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4'>
           {locData?.car_data_final?.map((item: any, index) => (
             <div
               key={index}

@@ -56,11 +56,11 @@ export default function Home() {
       {/* {session.data ? <ReservationPage /> : null} */}
       <ReservationPage />
       <div className='bg-gray pb-20'>
-        <div className='flex items-center flex-col pt-10'>
-          <h1 className='text-[24px] font-semibold'>
+        <div className='flex flex-col items-center pt-10 px-4 '>
+          <h1 className='text-2xl font-semibold text-center sm:text-left sm:mr-4'>
             Find rental cars based on destination.
           </h1>
-          <p>
+          <p className='text-sm sm:text-[18px] pt-[0px] sm:pt-[10px] text-center sm:text-left'>
             Discover car rental options in Nepal, always offering the perfect
             price for you.
           </p>
@@ -71,12 +71,12 @@ export default function Home() {
         </div>
       </div>
       <Hero />
-      <div className='bg-gray pb-20'>
-        <div className='flex items-center flex-col pt-10'>
-          <h1 className='text-[24px] font-semibold'>
+      <div className='bg-gray pb-20 '>
+        <div className='flex flex-col items-center pt-10 px-4 '>
+          <h1 className='text-2xl font-semibold text-center sm:text-left sm:mr-4'>
             Find rental cars based on Category.
           </h1>
-          <p>
+          <p className='text-sm sm:text-[18px] pt-[0px] sm:pt-[10px] text-center sm:text-left'>
             Discover car rental options in Nepal, always offering the perfect
             price for you.
           </p>
