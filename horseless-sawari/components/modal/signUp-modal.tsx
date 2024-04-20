@@ -35,7 +35,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
   return (
     <Modal
       title='Sign Up'
-      className='font-bold max-w-[750px] sm:h-[] h-[652px] '
+      className='font-bold max-w-[750px] sm:h-[] h-[652px] overflow-auto '
       isOpen={open}
       onClose={handleCLose}
     >
