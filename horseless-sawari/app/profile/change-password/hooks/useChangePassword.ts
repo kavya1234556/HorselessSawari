@@ -25,10 +25,10 @@ const useChangePassword = (UserId) => {
           NewPassword: values.NewPassword,
         }),
       });
-      if (response.status === 400) {
+      if (response.status === 409) {
         toast({
           title: 'Error',
-          description: 'Error has occurred',
+          description: 'Wrong Old Password',
         });
       }
       if (response.ok) {

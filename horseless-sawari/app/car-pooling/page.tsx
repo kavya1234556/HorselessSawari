@@ -28,8 +28,8 @@ const CarpoolPage = () => {
     useAddSharingDetail(item, UserId);
   };
   return (
-    <div className='bg-theme p-[20px]'>
-      <div className='py-[30px]'>
+    <div className='bg-white p-[20px]'>
+      <div className='py-[30px] bg-theme'>
         <h1 className=' font-semi-bold text-center text-[38px] '>
           &quot;Seamless Travel,Where Rides Meet Ease!&quot;
         </h1>
@@ -39,7 +39,7 @@ const CarpoolPage = () => {
           Cleaner Air and Clearer Roads!&quot;
         </h3>
       </div>
-      <h1 className='text-[18px] font-medium'>Carpool Request</h1>
+      <h1 className='text-[18px] font-medium mt-[15px]'>Carpool Request</h1>
       <div className='mt-4 grid grid-cols-2 gap-4'>
         {shareData?.share_car_data?.map((item, index) => (
           <Card key={index}>

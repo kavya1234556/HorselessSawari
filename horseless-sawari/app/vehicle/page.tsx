@@ -124,13 +124,7 @@ const VehiclePage = () => {
     pricing
   );
   console.log(serviceWithCharge);
-  const areValuesValid = () => {
-    isNaN(totalPrice);
-    return toast({
-      title: 'Error',
-      description: 'Please fill all the required value ',
-    });
-  };
+
   dispatch(setPayablePrice(serviceWithCharge));
   dispatch(setTotalPrice(totalPrice));
   dispatch(setServicePrice(ServiceCharge));
@@ -295,7 +289,7 @@ const VehiclePage = () => {
                     <Button
                       onClick={toggleModal}
                       className='w-[186px]'
-                      disabled={!areValuesValid()}
+                      disabled={!selectPostion && !pickUpSelectPostion}
                     >
                       Book Now
                     </Button>

@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   if (!passwordMatch) {
     return NextResponse.json(
-      { message: 'Old Password doesnot match new password' },
+      { message: 'Wrong Old Password ' },
       { status: 409 }
     );
   }

@@ -26,17 +26,12 @@ const TransactionHistoryPage = () => {
   }, []);
   return (
     <>
-      <div className='w-[25%]'>
-        <h1 className='font-light text-[20px] text-white bg-gray p-[30px] text-center'>
-          Profile
-        </h1>
-      </div>
       <div className='flex '>
         <div className='w-[25%]'>
           <ProfileLinks />
         </div>
         <div className='bg-theme w-[75%]'>
-          <Table className='m-[10px]'>
+          <Table className='m-[10px] p-[10px]'>
             <TableCaption>A list of your Transaction.</TableCaption>
             <TableHeader className='border border-black'>
               <TableRow>
