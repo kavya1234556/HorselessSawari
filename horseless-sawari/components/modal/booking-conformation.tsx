@@ -9,10 +9,11 @@ import { Checkbox } from '../ui/checkbox';
 import { useSelector } from 'react-redux';
 import generateSharingPrice from '../ui/generateSharingPrce';
 import { Button } from '../ui/button';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from '../ui/use-toast';
 
 const BookingConformation = ({ handleToggleModal, open }) => {
+  const router = useRouter();
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
@@ -111,6 +112,7 @@ const BookingConformation = ({ handleToggleModal, open }) => {
           title: 'Success',
           description: 'Your car is booked successfully',
         });
+        router.push('/');
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Something went wrong');
