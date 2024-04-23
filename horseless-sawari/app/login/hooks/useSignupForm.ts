@@ -12,7 +12,7 @@ interface ISignUpForm {
 
 const signUpSchema = yup.object().shape({
   email: yup.string().email().required('Email is required'),
-  password: yup.string().required('Password is required'),
+  password: yup.string().min(8).required('Password is required'),
   confirmPassword: yup
     .string()
     .required('Password is required')

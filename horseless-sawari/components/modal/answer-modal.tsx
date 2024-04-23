@@ -46,31 +46,35 @@ const AnswerModal = ({ handleToggleModal, open, id }: AnswerModalProps) => {
 
   return (
     <Modal
-      title='Change User Role'
+      title=' Answer Question'
       className='font-bold max-w-[300px] h-[50%]'
       isOpen={open}
       onClose={handleClose}
     >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(submit)}>
-          <FormField
-            control={form.control}
-            name='answer'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Answer</FormLabel>
-                <FormControl>
-                  <Textarea placeholder='Enter your answer' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type='submit'>Post</Button>
+      <div className='p-[20px]'>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(submit)}>
+            <FormField
+              control={form.control}
+              name='answer'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Answer</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder='Enter your answer' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className='flex gap-3 mt-[20px]'>
+              <Button type='submit'>Post</Button>
 
-          <Button onClick={handleClose}>Close</Button>
-        </form>
-      </Form>
+              <Button onClick={handleClose}>Close</Button>
+            </div>
+          </form>
+        </Form>
+      </div>
     </Modal>
   );
 };

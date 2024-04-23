@@ -102,6 +102,7 @@ const ProfilePage = () => {
             <div className='bg-white p-[20px] m-[30px]'>
               <Form {...form}>
                 <form
+                  data-testid='profile-form'
                   onSubmit={form.handleSubmit(submit)}
                   className='flex flex-col gap-[30px] '
                 >
@@ -181,6 +182,7 @@ const ProfilePage = () => {
                   ) : (
                     <div className='flex justify-    center mt-[10px]'>
                       <Button
+                        data-testId='updateBtn'
                         type='button'
                         variant='secondary'
                         className=' bg-purple border-2 sm:mt-[0px] mt-[10px]'

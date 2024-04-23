@@ -39,8 +39,8 @@ const CarpoolPage = () => {
           Cleaner Air and Clearer Roads!&quot;
         </h3>
       </div>
-      <h1 className='text-[18px] font-medium mt-[15px]'>Carpool Request</h1>
-      <div className='mt-4 grid grid-cols-2 gap-4'>
+      <h1 className='text-[18px] font-medium'>Carpool Request</h1>
+      <div className='mt-4 felx flex-col sm:grid sm:grid-cols-2 sm:gap-4'>
         {shareData?.share_car_data?.map((item, index) => (
           <Card key={index}>
             <CardHeader>

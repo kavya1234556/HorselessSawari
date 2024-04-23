@@ -1,7 +1,9 @@
 import { toast } from '@/components/ui/use-toast';
 import { ICarType } from '../page';
+import { useRouter } from 'next/navigation';
 
 const useAddCarForHosting = (user_id: number, role: string) => {
+  const router = useRouter();
   const formdata = new FormData();
   const submit = async (values: ICarType) => {
     console.log('Value', values);
@@ -70,6 +72,7 @@ const useAddCarForHosting = (user_id: number, role: string) => {
           title: 'Success',
           description: 'Your car is sent for verification',
         });
+        router.push('/');
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Something went wrong');

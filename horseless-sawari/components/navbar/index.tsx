@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { getServerSession } from 'next-auth';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import SignOut from './sign-out';
+import Links from './links';
 
 const Navbar = async () => {
   const session = await getServerSession(options);
@@ -23,30 +24,30 @@ const Navbar = async () => {
             <Logo />
           </Link>
         </div>
-
-        <div className='flex flex-row justify-end items-center px-4 py-3 gap-6 '>
-          {session?.user?.role == 'USER' ? (
-            <>
-              <Link href='/car-hosting'>Host Your Car</Link>
-              <Link href='/profile'>My Profile</Link>
-              <Link href='/car-pooling'>Carpool</Link>
-              <Link href='/faq'>FAQ</Link>
-              <SignOut />
-            </>
-          ) : (
-            <>
-              {session ? (
+        <Links />
+        {/* <div className='flex flex-row justify-end items-center px-4 py-3 gap-6 '>
+            {session?.user?.role == 'USER' ? (
+              <>
+                <Link href='/car-hosting'>Host Your Car</Link>
+                <Link href='/profile'>My Profile</Link>
+                <Link href='/car-pooling'>Carpool</Link>
+                <Link href='/faq'>FAQ</Link>
                 <SignOut />
-              ) : (
-                <Link href='/login'>
-                  <Button variant='outline' className='border-2 border-purple'>
-                    Sign in
-                  </Button>
-                </Link>
-              )}
-            </>
-          )}
-        </div>
+              </>
+            ) : (
+              <>
+                {session ? (
+                  <SignOut />
+                ) : (
+                  <Link href='/login'>
+                    <Button variant='outline' className='border-2 border-purple'>
+                      Sign in
+                    </Button>
+                  </Link>
+                )}
+              </>
+            )}
+          </div> */}
       </div>
     </div>
   );

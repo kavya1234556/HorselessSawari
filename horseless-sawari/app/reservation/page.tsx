@@ -25,7 +25,8 @@ const ReservationPage = () => {
           Budget Nepal Car Rental
         </div>
       </div>
-      <div className='w-[95%] m-auto bg-gray p-[15px]'>
+      <div className='w-[80%] m-auto bg-gray p-[15px]'>
+        <div className='pt-[10px] pl-[20px]'>Book a vehicle</div>
         <BookingCard />
       </div>
     </div>

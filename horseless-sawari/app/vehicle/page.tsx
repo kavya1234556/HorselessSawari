@@ -158,12 +158,6 @@ const VehiclePage = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>{item.features}</CardContent>
-                  {/* <CardFooter>
-                      <div className='w-[100%] pr-[10px]'>
-                        <hr />
-                        <p>0 trips</p>
-                      </div>
-                    </CardFooter> */}
                 </Card>
               </div>
               <div className='w-[35%]  '>
@@ -289,7 +283,7 @@ const VehiclePage = () => {
                     <Button
                       onClick={toggleModal}
                       className='w-[186px]'
-                      disabled={!selectPostion && !pickUpSelectPostion}
+                      disabled={!pickUpSelectPostion && !selectPostion}
                     >
                       Book Now
                     </Button>
