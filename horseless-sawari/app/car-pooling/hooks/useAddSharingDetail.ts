@@ -19,9 +19,9 @@ const useAddSharingDetail = async (item, id) => {
     if (response.ok) {
       toast({
         title: 'Success',
-        description: 'Password changed successfully',
+        description: 'The share request has been accepted successfully',
       });
-      // router.push('/login');
+      // window.location.reload();
     } else {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Something went wrong');

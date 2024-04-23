@@ -103,11 +103,16 @@ export async function GET(req: Request) {
   }
 }
 export async function DELETE(req: Request) {
+  console.log('Hello');
   const booking_id = new URL(req.url).searchParams.get('booking_id');
+  console.log(booking_id);
   try {
     const deleteBooking = await db.booked_car.delete({
       where: {
         booked_car_id: Number(booking_id),
+      },
+      include: {
+        car_shared: true,
       },
     });
     await db.car.update({
@@ -119,7 +124,7 @@ export async function DELETE(req: Request) {
       },
     });
     return NextResponse.json(
-      { message: 'Your Booking is Cancelled' },
+      { message: 'Your Booking is Cancelled', deleteBooking },
       { status: 200 }
     );
   } catch (e) {

@@ -49,12 +49,15 @@ const MyBookingPage = () => {
   const toggleModal = () => {
     setOpen((prev) => !prev);
   };
-  function handleDeleteModalToggle() {
+  const [carbookingId, setCarBookingId] = useState(null);
+  console.log('🚀 ~ MyBookingPage ~ carbookingId:', carbookingId);
+  function handleDeleteModalToggle(id) {
+    setCarBookingId(id);
     setDeleteOpen((prev) => !prev);
   }
-  function HandleDeleteOffers(item) {
-    useDeleteBooking(item.booked_car_id);
-    handleDeleteModalToggle();
+  function HandleDeleteOffers(id) {
+    useDeleteBooking(id);
+    handleDeleteModalToggle(id);
     window.location.reload();
   }
 
@@ -136,14 +139,20 @@ const MyBookingPage = () => {
                     </TableCell>
                     <TableCell className='text-right'>
                       <div className='flex gap-3'>
-                        <Button onClick={handleDeleteModalToggle}>
+                        <Button
+                          onClick={() =>
+                            handleDeleteModalToggle(item.booked_car_id)
+                          }
+                        >
                           Cancel Booking
                         </Button>
                         <DeleteModal
-                          onClose={handleDeleteModalToggle}
+                          onClose={() =>
+                            handleDeleteModalToggle(item.booked_car_id)
+                          }
                           open={deleteOpen}
                           title='booking'
-                          onDelete={() => HandleDeleteOffers(item)}
+                          onDelete={() => HandleDeleteOffers(carbookingId)}
                         />
                         <Button
                           disabled={item.isPaid}

@@ -28,8 +28,8 @@ const CarpoolPage = () => {
     useAddSharingDetail(item, UserId);
   };
   return (
-    <div className='bg-theme p-[20px]'>
-      <div className='py-[30px]'>
+    <div className='bg-white p-[20px]'>
+      <div className='py-[30px] bg-theme'>
         <h1 className=' font-semi-bold text-center text-[38px] '>
           &quot;Seamless Travel,Where Rides Meet Ease!&quot;
         </h1>

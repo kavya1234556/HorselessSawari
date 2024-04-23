@@ -1,11 +1,13 @@
 import { toast } from '@/components/ui/use-toast';
 
 const useDeleteBooking = async (id: Number) => {
+  console.log(id);
   try {
     console.log('Booking');
     const response = await fetch(`/api/car-booking?booking_id=${id}`, {
       method: 'DELETE',
     });
+    console.log('🚀 ~ useDeleteBooking ~ response:', response);
     if (response.ok) {
       toast({
         title: 'Success',
