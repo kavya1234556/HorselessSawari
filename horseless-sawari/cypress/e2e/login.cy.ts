@@ -32,13 +32,13 @@ describe('login page', () => {
     cy.url().should('match', /\/$/);
   });
 
-  // it('shouldnot redirect to the admin to the ManagerDashboard page after clicking submit', () => {
-  //   cy.visit('http://localhost:3000/login');
-  //   cy.wait(1000);
-  //   cy.get('[data-cy="username"]').type('kavya');
-  //   cy.wait(1000);
-  //   cy.get('[data-cy="password"]').type('19980408@Ab');
-  //   cy.get('[data-cy="submit"]').click();
-  //   cy.url().should('match', /\/ManagerD$/);
-  // });
+  it('shouldnot redirect to the admin to the ManagerDashboard page after clicking submit', () => {
+    cy.visit('http://localhost:3000/login');
+    cy.wait(1000);
+    cy.get('[data-cy="username"]').type('kavya');
+    cy.wait(1000);
+    cy.get('[data-cy="password"]').type('19980408@Ab');
+    cy.get('[data-cy="submit"]').click();
+    cy.url().should('match', /\/ManagerD$/);
+  });
 });

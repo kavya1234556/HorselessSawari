@@ -91,11 +91,15 @@ const CarHostingPage = () => {
   const carSchema = yup.object().shape({
     ownerName: yup.string().required(),
     manufacture: yup.string().required(),
-    registration_num: yup.number().required('Registration number is required'),
+    registration_num: yup
+      .number()
+      .required('Registration number is required')
+      .positive()
+      .min(1),
     features: yup.string().required(),
-    no_of_seats: yup.number().required(),
+    no_of_seats: yup.number().required().positive().min(1),
     color: yup.string().required(),
-    Total_km: yup.number().required(),
+    Total_km: yup.number().required().positive().min(1),
     car_images: yup
       .mixed()
       .required('Please select car images')
@@ -117,10 +121,10 @@ const CarHostingPage = () => {
         if (Number(value.length) > 0) return true;
         return false;
       }),
-    pricing_per_hour: yup.number().required(),
-    pricing_per_four_hour: yup.number().required(),
-    pricing_per_eight_hour: yup.number().required(),
-    pricing_per_day: yup.number().required(),
+    pricing_per_hour: yup.number().required().positive().min(1),
+    pricing_per_four_hour: yup.number().required().positive().min(1),
+    pricing_per_eight_hour: yup.number().required().positive().min(1),
+    pricing_per_day: yup.number().required().positive().min(1),
     is_booked: yup.bool().required(),
     is_verified: yup.bool().required(),
     fuel_Type: yup.string().required(),
