@@ -11,7 +11,11 @@ const InputPassword = ({ field }: { field: any }) => {
   };
   return (
     <div className='relative'>
-      <Input {...field} type={hidden ? 'password' : 'text'} />
+      <Input
+        data-cy='password'
+        {...field}
+        type={hidden ? 'password' : 'text'}
+      />
       <button
         className='absolute right-0 -translate-y-1/2 shrink-0 top-1/2'
         onClick={toggleModal}
