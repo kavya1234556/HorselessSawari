@@ -140,12 +140,12 @@ const VehiclePage = () => {
         {carData?.car_data_final.map((item: any, index) => (
           <div key={index}>
             <h1 className='text-[30px]'>{item.manufacture}</h1>
-            <div className='flex w-full gap-4'>
-              <div className='w-[65%]'>
-                <div className='w-[100%] '>
+            <div className='flex flex-col md:flex-row w-full gap-4'>
+              <div className='md:w-[65%]'>
+                <div className='w-full'>
                   <CarImageCarousel itemData={carData?.car_data_final} />
                 </div>
-                <Card className='w-[95%]'>
+                <Card className='w-full md:w-[95%]'>
                   <CardHeader>
                     <CardTitle>Included in the Price</CardTitle>
                     <CardDescription>
@@ -160,103 +160,91 @@ const VehiclePage = () => {
                   <CardContent>{item.features}</CardContent>
                 </Card>
               </div>
-              <div className='w-[35%]  '>
+              <div className='md:w-[35%]'>
                 <div>
                   <Card>
                     <CardHeader>
                       <CardTitle>Pricing Information</CardTitle>
                       <CardDescription className='flex flex-col gap-4'>
                         <hr />
-                        <div className=' flex justify-between '>
+                        <div className='flex justify-between'>
                           <label>4 hours</label>
                           <p>{item.pricing_per_four_hour}</p>
                         </div>
-                        <label>
-                          <hr />
-                          <div className=' flex justify-between'>
-                            <label>8 hours</label>
-                            <p>{item.pricing_per_eight_hour}</p>
-                          </div>
-                        </label>
-                        <label>
-                          <hr />
-                          <div className=' flex justify-between'>
-                            <label>1 Day</label>
-                            <p>{item.pricing_per_day}</p>
-                          </div>
-                        </label>
+                        <hr />
+                        <div className='flex justify-between'>
+                          <label>8 hours</label>
+                          <p>{item.pricing_per_eight_hour}</p>
+                        </div>
+                        <hr />
+                        <div className='flex justify-between'>
+                          <label>1 Day</label>
+                          <p>{item.pricing_per_day}</p>
+                        </div>
                       </CardDescription>
                     </CardHeader>
                   </Card>
                 </div>
-                <div className='mt-[40px]'>
+                <div className='mt-10'>
                   <Card>
                     <CardHeader>
                       <CardTitle>Search Detail</CardTitle>
                       <CardDescription className='flex flex-col gap-4'>
                         <hr />
-                        <div className=' flex justify-between'>
+                        <div className='flex justify-between'>
                           <label>City</label>
                           <p>{location_id}</p>
                         </div>
-                        <label>
-                          <hr />
-                          <div className=' flex justify-between'>
-                            <label>Pickup Date</label>
-                            <div className='flex gap-2'>
-                              <DateFormatter date={pickUpDate} />
-                              {pickUpTime}
-                            </div>
+                        <hr />
+                        <div className='flex justify-between'>
+                          <label>Pickup Date</label>
+                          <div className='flex gap-2'>
+                            <DateFormatter date={pickUpDate} />
+                            {pickUpTime}
                           </div>
-                        </label>
-                        <label>
-                          <hr />
-                          <div className=' flex justify-between'>
-                            <label>DropOff Date</label>
-                            <div className='flex gap-2'>
-                              <DateFormatter date={dropOffDate} />
-                              {dropOffTime}
-                            </div>
+                        </div>
+                        <hr />
+                        <div className='flex justify-between'>
+                          <label>DropOff Date</label>
+                          <div className='flex gap-2'>
+                            <DateFormatter date={dropOffDate} />
+                            {dropOffTime}
                           </div>
-                        </label>
+                        </div>
                       </CardDescription>
                     </CardHeader>
                   </Card>
                 </div>
-                <div className='mt-[40px]'>
+                <div className='mt-10'>
                   <Card>
                     <CardHeader>
-                      <CardTitle>Pricing Summary </CardTitle>
+                      <CardTitle>Pricing Summary</CardTitle>
                       <CardDescription className='flex flex-col gap-4'>
                         <hr />
-                        <div className=' flex justify-between '>
-                          <label>Total Amount </label>
+                        <div className='flex justify-between'>
+                          <label>Total Amount</label>
                           <p>{totalPrice}</p>
                         </div>
-                        <label>
-                          <hr />
-                          <div className=' flex justify-between '>
-                            <label>Service Amount </label>
-                            <p>{ServiceCharge}</p>
-                          </div>
-                        </label>
-                        <label>
-                          <hr />
-                          <div className=' flex justify-between'>
-                            <label>Payable Amount</label>
-                            <p>{serviceWithCharge}</p>
-                          </div>
-                        </label>
+                        <hr />
+                        <div className='flex justify-between'>
+                          <label>Service Amount</label>
+                          <p>{ServiceCharge}</p>
+                        </div>
+                        <hr />
+                        <div className='flex justify-between'>
+                          <label>Payable Amount</label>
+                          <p>{serviceWithCharge}</p>
+                        </div>
                       </CardDescription>
                     </CardHeader>
                   </Card>
                 </div>
               </div>
             </div>
-            <div className='mt-[40px]'>
+            <div className='mt-10'>
               <Card>
                 <CardContent>
-                  <div className='grid grid-cols-2  gap-[40px] pt-[15px]'>
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
                     <PickSearchBox
                       selectPostion={pickUpSelectPostion}
                       setSelectedPosition={setPickUpSelectedPosition}
@@ -267,7 +255,7 @@ const VehiclePage = () => {
                     />
                   </div>
                   <div
-                    className='w-[100%] h-[250px]'
+                    className='w-full h-[250px] mt-4'
                     style={{
                       border: '2px solid black',
                       position: 'relative',
@@ -279,11 +267,11 @@ const VehiclePage = () => {
                       pickUpPosition={pickUpSelectPostion}
                     />
                   </div>
-                  <div className='flex justify-end mt-[20px]'>
+                  <div className='flex justify-end mt-4'>
                     <Button
                       onClick={toggleModal}
-                      className='w-[186px]'
-                      disabled={!pickUpSelectPostion && !selectPostion}
+                      className='w-48'
+                      disabled={!pickUpSelectPostion || !selectPostion}
                     >
                       Book Now
                     </Button>

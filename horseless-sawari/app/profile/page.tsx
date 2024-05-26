@@ -92,11 +92,11 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className='flex '>
-        <div className='w-[25%]'>
+      <div className='flex flex-col md:flex-row'>
+        <div className='w-full md:w-1/4 '>
           <ProfileLinks />
         </div>
-        <div className='bg-theme w-[75%]'>
+        <div className='bg-theme w-[100%]'>
           <div className=' flex justify-center items-center'>
             <hr />
             <div className='bg-white p-[20px] m-[30px]'>

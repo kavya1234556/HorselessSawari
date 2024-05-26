@@ -155,33 +155,31 @@ const CarHostingPage = () => {
   });
   const { submit } = useAddCarForHosting(UserId, userRole);
   return (
-    <div className='p-[20px]'>
-      <h1 className='text-[24px] font-medium'>Topics</h1>
-      <div className='flex my-[10px] gap-8'>
-        <div className='flex flex-col gap-4 w-[30%] bg-gray h-[40%] p-4'>
-          <label className='font-semibold text-[16px]'>
+    <div className='p-4 md:p-8'>
+      <h1 className='text-2xl font-medium'>Topics</h1>
+      <div className='flex flex-col md:flex-row my-4 gap-8'>
+        <div className='flex flex-col gap-4 h-[30%] w-full md:w-1/3 bg-gray p-4'>
+          <label className='font-semibold text-lg'>
             1. General Information
           </label>
-          <label className='font-semibold text-[16px]'>2. Vehicle Image</label>
-          <label className='font-semibold text-[16px]'>
+          <label className='font-semibold text-lg'>2. Vehicle Image</label>
+          <label className='font-semibold text-lg'>
             3. Address Information
           </label>
-          <label className='font-semibold text-[16px]'>
+          <label className='font-semibold text-lg'>
             4. Pricing Information
           </label>
-          <label className='font-semibold text-[16px]'>
-            5. Guest Information
-          </label>
+          <label className='font-semibold text-lg'>5. Guest Information</label>
         </div>
-        <div className='w-[60%] bg-gray py-[10px]'>
+        <div className='w-full md:w-2/3 bg-gray py-4'>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(submit)}
-              className='flex flex-col gap-[30px]  '
+              className='flex flex-col gap-8'
             >
-              <div className=' p-[15px] ml-[20px]'>
-                <h1 className='mb-[10px] font-bold'>General Information</h1>
-                <div className='gap-[20px] grid grid-cols-2'>
+              <div className='p-4'>
+                <h1 className='mb-4 font-bold'>General Information</h1>
+                <div className='gap-4 grid grid-cols-1 md:grid-cols-2'>
                   <FormField
                     control={form.control}
                     name='ownerName'
@@ -272,7 +270,7 @@ const CarHostingPage = () => {
                     </FormItem>
                   )}
                 />
-                <div className='gap-[20px] grid grid-cols-2 my-3'>
+                <div className='gap-4 grid grid-cols-1 md:grid-cols-2 my-3'>
                   <FormField
                     control={form.control}
                     name='fuel_Type'
@@ -288,7 +286,6 @@ const CarHostingPage = () => {
                               onValueChange={(val: string) => {
                                 console.log(val, 'val');
                                 onChange(val);
-                                //form.setValue('isBrandSelected', val === 'SELECTED');
                               }}
                             >
                               <div className='flex items-center space-x-2'>
@@ -456,17 +453,18 @@ const CarHostingPage = () => {
                     </FormItem>
                   )}
                 />
-                <div className='gap-[20px] grid grid-cols-2 my-3'>
+                <h1 className='mt-8 mb-4 font-bold'>Pricing Information</h1>
+                <div className='gap-4 grid grid-cols-1 md:grid-cols-2 my-3'>
                   <FormField
                     control={form.control}
                     name='pricing_per_hour'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel> Pricing per hour </FormLabel>
+                        <FormLabel>Per hour</FormLabel>
                         <FormControl>
                           <Input
                             type='number'
-                            placeholder='Enter your email'
+                            placeholder='Enter price per hour'
                             {...field}
                           />
                         </FormControl>
@@ -479,11 +477,11 @@ const CarHostingPage = () => {
                     name='pricing_per_four_hour'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel> Pricing per four hour </FormLabel>
+                        <FormLabel>Per four hour</FormLabel>
                         <FormControl>
                           <Input
                             type='number'
-                            placeholder='Enter your email'
+                            placeholder='Enter price per four hour'
                             {...field}
                           />
                         </FormControl>
@@ -491,16 +489,18 @@ const CarHostingPage = () => {
                       </FormItem>
                     )}
                   />
+                </div>
+                <div className='gap-4 grid grid-cols-1 md:grid-cols-2 my-3'>
                   <FormField
                     control={form.control}
                     name='pricing_per_eight_hour'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel> Pricing per eight hour </FormLabel>
+                        <FormLabel>Per eight hour</FormLabel>
                         <FormControl>
                           <Input
                             type='number'
-                            placeholder='Enter your email'
+                            placeholder='Enter price per eight hour'
                             {...field}
                           />
                         </FormControl>
@@ -513,11 +513,11 @@ const CarHostingPage = () => {
                     name='pricing_per_day'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel> Pricing per day </FormLabel>
+                        <FormLabel>Per day</FormLabel>
                         <FormControl>
                           <Input
                             type='number'
-                            placeholder='Enter your email'
+                            placeholder='Enter price per day'
                             {...field}
                           />
                         </FormControl>
