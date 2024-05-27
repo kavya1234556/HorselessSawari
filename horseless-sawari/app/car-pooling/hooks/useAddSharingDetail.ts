@@ -3,13 +3,16 @@ import React from 'react';
 
 const useAddSharingDetail = async (item, id) => {
   try {
-    const response = await fetch(`/api/sharing?id=${id}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        share_price: item.ServiceCharge,
-        booked_car_id: item.booked_car_id,
-      }),
-    });
+    const response = await fetch(
+      `/api/sharing?id=${id}&car_id=${item.booked_car_id}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          share_price: item.ServiceCharge,
+          booked_car_id: item.booked_car_id,
+        }),
+      }
+    );
     if (response.status === 400) {
       toast({
         title: 'Error',

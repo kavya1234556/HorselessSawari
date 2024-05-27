@@ -6,6 +6,7 @@ export async function GET(req: Request) {
     console.log('Hello');
     const share_car_data = await db.booked_car.findMany({
       where: {
+        isPaid: false,
         is_shared: true,
         is_shared_accepted: false,
       },
@@ -41,9 +42,16 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const userID = new URL(req.url).searchParams.get('id');
+    const carID = new URL(req.url).searchParams.get('car_id');
     const body = await req.json();
     const { booked_car_id, share_price } = body;
-
+    const bookedDetail = await db.booked_car.findUnique({
+      where: {
+        booked_car_id: Number(carID),
+        is_shared: true,
+      },
+    });
+    const newPrice = bookedDetail.totalPrice - bookedDetail.sharingCharge;
     const shareDetail = await db.car_shared.create({
       data: {
         sharind_price: share_price,
@@ -62,6 +70,7 @@ export async function POST(req: Request) {
       data: {
         is_shared: false,
         is_shared_accepted: true,
+        totalPrice: newPrice,
       },
     });
     return NextResponse.json(

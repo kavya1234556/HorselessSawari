@@ -8,10 +8,10 @@ export const options: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   pages: {
     signIn: '/login',
-  },
+  }, //replacing the default login page provided by the auth with custom login page
   session: {
     strategy: 'jwt',
-  },
+  }, //use token for storing the user deatil
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -23,7 +23,7 @@ export const options: NextAuthOptions = {
       //     response_type: 'code',
       //   },
       // },
-    }),
+    }), //use the google provider for sign in
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -37,30 +37,28 @@ export const options: NextAuthOptions = {
           type: 'password',
           placeholder: 'Your Password',
         },
-      },
+      }, //use the username and password for login
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
           // console.log("Missing username or password");
           return null;
-        }
+        } //returning notting if detail is not provided
 
         const existingUser = await db.user.findUnique({
           where: { username: credentials?.username, isVerified: true },
-        });
-
-        // console.log("Existing user:", existingUser);
+        }); // if the user is verified through email and filtering user through username for finding the user is exist
 
         if (!existingUser) {
           console.log('User not found or Email is not verfied');
           return null;
-        }
+        } //in case user is not varified or user is not founf
 
         const passwordMatch = await compare(
           credentials.password,
           existingUser.password
         );
-
-        // console.log("Password match:", passwordMatch);
+        //comparing the password user input and password while registering
+        //compare method is provided by the bycrpt
 
         if (!passwordMatch) {
           console.log('Password does not match');
@@ -72,7 +70,7 @@ export const options: NextAuthOptions = {
           username: existingUser.username,
           email: existingUser.email,
           role: existingUser.role,
-        };
+        }; //if user is found and email is verified
       },
     }),
   ],
@@ -81,10 +79,10 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) token.role = user.role;
       return token;
-    },
+    }, //returning token with user detail
     async session({ session, token }) {
       if (session?.user) session.user.role = token.role;
       return session;
-    },
+    }, //returning session with user detail
   },
 };

@@ -15,7 +15,6 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useGetCarByCarID from './hooks/useGetCarByCarID';
 import { Button } from '@/components/ui/button';
-import Maps from '@/components/Maps';
 import PickSearchBox from '@/components/PickSearchBox';
 import DropSearchBox from '@/components/DropSearchBox';
 import { useDispatch } from 'react-redux';
@@ -29,8 +28,9 @@ import {
   setServicePrice,
   setTotalPrice,
 } from '@/redux/reducers/booking';
-import { toast } from '@/components/ui/use-toast';
 import dynamic from 'next/dynamic';
+import ReactPaginate from 'react-paginate';
+import '@/app/pagination.css';
 
 const DynamicMap = dynamic(() => import('@/components/Maps'), {
   ssr: false,
@@ -51,6 +51,7 @@ const VehiclePage = () => {
   const [selectPostion, setSelectedPosition] = useState(null);
   const car_id = parseInt(searchParams.get('car_id'));
   const carDatas = useGetCarByCarID(car_id);
+
   useEffect(() => {
     carDatas.then((data) => {
       setCarData(data);
@@ -88,13 +89,13 @@ const VehiclePage = () => {
   const dropOffTime = useSelector(
     (state: any) => state.booking.value.dropOffTime
   );
-  function formatDate(dateString) {
+  function formatDate(dateString: Date) {
     const date = new Date(dateString);
     const isoDate = date.toISOString().split('T')[0]; // Extracting YYYY-MM-DD
 
     return isoDate;
   }
-  function formatTime(timeString) {
+  function formatTime(timeString: any) {
     const [time, period] = timeString.split(' ');
     const [hours, minutes] = time.split(':');
     let formattedHours = parseInt(hours);

@@ -19,7 +19,7 @@ interface Account {
   phone_number: string;
   user_id: number;
 }
-
+// schema for defining what the value should like
 const accountSchema = yup.object().shape({
   profile_image: yup.mixed(),
   first_name: yup.string().required(),
@@ -34,14 +34,14 @@ import path from 'path';
 export async function POST(req: Request) {
   try {
     // console.log(req);
-    const body = await req.formData();
+    const body = await req.formData(); //getting the data from the form
     const first_name = body.get('first_name');
     const last_name = body.get('last_name');
     const phone_number = body.get('phone_number');
     const user_id = body.get('user_id');
 
     const file = body.get('profile_image');
-    const ab = await file.arrayBuffer();
+    const ab = await file.arrayBuffer(); //proccesing the image into image buffer
     const bf = Buffer.from(ab);
     const cwd = process.cwd();
     await fs.promises.writeFile(
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       {
         encoding: 'binary',
       }
-    );
+    ); //storing the image in the file system
     const profile_image = 'app/api/account/images/' + file.name;
     const body_ = {
       first_name: String(first_name),
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
     await accountSchema.validate(body_);
     const createdAccount: any = await db.account.create({
       data: body_,
-    });
+    }); //creating a new account for the user
     console.log('Post Request');
     return NextResponse.json(
       { message: 'Account added Successfully', createdAccount },
@@ -93,23 +93,20 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   console.log('Get Request');
   try {
-    const id = new URL(req.url).searchParams.get('id');
-
-    console.log(id);
-
+    const id = new URL(req.url).searchParams.get('id'); //extracting id
+    // console.log(id);
     if (!id) {
       return NextResponse.json(
         { error: 'Missing or undefined ID parameter' },
         { status: 400 }
       );
-    }
+    } //checking if id is passed
 
-    // Use the id parameter as needed
     const accountDetails = await db.account.findUnique({
       where: {
-        acc_id: Number(id), // Adjust the field based on your database schema
+        acc_id: Number(id),
       },
-    });
+    }); //finding the account details using the id
 
     if (!accountDetails) {
       return NextResponse.json({ error: 'Account not found' }, { status: 404 });
@@ -118,10 +115,10 @@ export async function GET(req: Request) {
     return NextResponse.json(
       { message: 'Account retrieved successfully', accountDetails },
       { status: 200 }
-    );
+    ); //in case of success
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  } //in case of error
 }
 
 // @ts-nocheck
@@ -136,8 +133,6 @@ export async function GET(req: Request) {
  */
 
 export async function PUT(req: Request) {
-  console.log('Put Request');
-
   try {
     const body = await req.formData();
     const first_name = body.get('first_name');
@@ -154,10 +149,9 @@ export async function PUT(req: Request) {
       {
         encoding: 'binary',
       }
-    );
+    ); //storing the updated image in the above path
     const profile_image = 'app/api/account/images/' + file.name;
 
-    const id = new URL(req.url).searchParams.get('id');
     const body_ = {
       first_name: String(first_name),
       last_name: String(last_name),
@@ -171,15 +165,14 @@ export async function PUT(req: Request) {
         user_id: Number(user_id),
       },
       data: body_,
-    });
+    }); //updating the data using the user_id
 
     return NextResponse.json(
       { message: 'Account updated successfully', updatedAccount },
       { status: 200 }
-    );
+    ); //in success
   } catch (error) {
     if (error instanceof yup.ValidationError) {
-      // Validation error
       return NextResponse.json(
         { error: 'Validation failed', details: error.errors },
         { status: 400 }
@@ -187,6 +180,6 @@ export async function PUT(req: Request) {
     } else {
       // Other errors
       return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    } //
   }
 }
