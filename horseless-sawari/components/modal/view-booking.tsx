@@ -89,23 +89,23 @@ const ViewBooking = ({ handleToggleModal, open, data }) => {
               <th className='border border-gray-400 py-2 px-4 font-light'>
                 Total Charge
               </th>
-              <th className='border border-gray-400 py-2 px-4 font-light'>
+              {/* <th className='border border-gray-400 py-2 px-4 font-light'>
                 Service Charge
               </th>
               <th className='border border-gray-400 py-2 px-4 font-light'>
                 Total With Service Charge
-              </th>
+              </th> */}
             </tr>
             <tr>
               <td className='border border-gray-400 text-[14px] font-normal  text-center py-2 px-4'>
                 {data?.totalPrice}
               </td>
-              <td className='border border-gray-400 text-[14px] font-normal py-2 px-4 text-center'>
+              {/* <td className='border border-gray-400 text-[14px] font-normal py-2 px-4 text-center'>
                 {data?.sharingCharge}
               </td>
               <td className='border border-gray-400 text-[14px] font-normal  py-2 px-4 text-center'>
                 {data?.serviceWithCharge}
-              </td>
+              </td> */}
             </tr>
           </table>
         </div>
