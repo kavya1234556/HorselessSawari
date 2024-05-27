@@ -11,15 +11,15 @@ import { NextResponse } from 'next/server';
  */
 export async function GET(req: Request) {
   try {
-    const Category = await db.category.findMany();
+    const Category = await db.category.findMany(); //using findMany to find all the category that exists
     return NextResponse.json(
       { message: 'Categories fetched Successfully', Category },
       { status: 200 }
-    );
+    ); // in success
   } catch (err) {
     return NextResponse.json(
       { message: 'Enternal Server error', err },
       { status: 200 }
-    );
+    ); //in error
   }
 }

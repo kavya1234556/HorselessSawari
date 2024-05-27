@@ -5,15 +5,19 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import React, { useEffect, useState } from 'react';
 import useGetSharingDetail from './hooks/useGetSharingDetail';
 import { Button } from '@/components/ui/button';
 import useAddSharingDetail from './hooks/useAddSharingDetail';
+import ReactPaginate from 'react-paginate';
+import '@/app/pagination.css';
 
 const CarpoolPage = () => {
-  const [shareData, setShareData] = useState(null);
+  const [shareData, setShareData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 2;
+
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
@@ -22,13 +26,21 @@ const CarpoolPage = () => {
 
   useEffect(() => {
     SharingData.then((data) => {
-      setShareData(data);
+      setShareData(data?.share_car_data || []);
     });
   }, []);
 
   const HandleSharing = (item) => {
     useAddSharingDetail(item, UserId);
   };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageData = shareData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(shareData.length / itemsPerPage);
 
   return (
     <div className='bg-theme p-4 md:p-8'>
@@ -46,7 +58,7 @@ const CarpoolPage = () => {
       </div>
       <h1 className='text-lg md:text-xl font-medium'>Carpool Request</h1>
       <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4'>
-        {shareData?.share_car_data?.map((item, index) => (
+        {currentPageData.map((item, index) => (
           <Card key={index}>
             <CardHeader>
               <CardDescription>
@@ -105,6 +117,18 @@ const CarpoolPage = () => {
           </Card>
         ))}
       </div>
+      <ReactPaginate
+        previousLabel={'Previous'}
+        nextLabel={'Next'}
+        breakLabel={'...'}
+        breakClassName={'break-me'}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName={'pagination'}
+        activeClassName={'active'}
+      />
     </div>
   );
 };

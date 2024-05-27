@@ -5,20 +5,20 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-//   // directUrl = env("DATABASE_URL_UNPOOLED")
-// }
-
 datasource db {
-  provider  = "postgresql"
-  // Uses connection pooling
-  url       = env("POSTGRES_PRISMA_URL")
-  // Uses direct connection, ⚠️ make sure to keep this to `POSTGRES_URL_NON_POOLING`
-  // or you'll have dangling databases from migrations
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
+
+// datasource db {
+//   provider  = "postgresql"
+//   // Uses connection pooling
+//   url       = env("POSTGRES_PRISMA_URL")
+//   // Uses direct connection, ⚠️ make sure to keep this to `POSTGRES_URL_NON_POOLING`
+//   // or you'll have dangling databases from migrations
+//   directUrl = env("POSTGRES_URL_NON_POOLING")
+// }
 
 model user {
   id                           Int           @id @default(autoincrement())
@@ -53,7 +53,7 @@ model account {
   first_name    String
   last_name     String
   phone_number  String @unique
-  user          user   @relation(fields: [user_id], references: [id])
+  user          user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id       Int    @unique
 }
 
@@ -77,9 +77,9 @@ model car {
   isBooked               Boolean           @default(false)
   isVerified             Boolean           @default(false)
   user                   user              @relation(fields: [user_id], references: [id])
-  category               category          @relation(fields: [category_id], references: [category_id])
+  category               category          @relation(fields: [category_id], references: [category_id], onDelete: Cascade)
   category_id            Int
-  location               location          @relation(fields: [location_id], references: [location_id])
+  location               location          @relation(fields: [location_id], references: [location_id], onDelete: Cascade)
   location_id            Int
   user_id                Int
   user_role              String
@@ -192,6 +192,6 @@ model car_shared {
   sharind_price Int
   user          user       @relation(fields: [user_id], references: [id])
   user_id       Int
-  booked_car    booked_car @relation(fields: [bookedCarID], references: [booked_car_id])
+  booked_car    booked_car @relation(fields: [bookedCarID], references: [booked_car_id], onDelete: Cascade)
   bookedCarID   Int        @unique
 }
