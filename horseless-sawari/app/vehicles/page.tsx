@@ -1,8 +1,6 @@
 'use client';
 import '@/app/pagination.css';
-import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import useGetCarByLocation from './hooks/useGetCarByLocation';
+import BookingCard from '@/components/bookingCard';
 import {
   Card,
   CardContent,
@@ -11,17 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import BookingCard from '@/components/bookingCard';
-import useGetCarByCategory from './hooks/useGetCarByCategory';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import NotAvailablePage from '../not-available/page';
+import useGetCarByCategory from './hooks/useGetCarByCategory';
+import useGetCarByLocation from './hooks/useGetCarByLocation';
 
 const VehiclesPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const location_id = parseInt(searchParams.get('location_id'));
-  const category_id = parseInt(searchParams.get('category_id'));
+  const location_id = parseInt(searchParams.get('location_id')); //getting the location Id from the header
+  const category_id = parseInt(searchParams.get('category_id')); //getting the category Id from the header
 
   const [locationData, setLocationData] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
@@ -29,9 +29,7 @@ const VehiclesPage = () => {
   console.log('🚀 ~ VehiclesPage ~ locData:', locData);
   const [catData, setCatData] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 2;
-
-  console.log('🚀 ~ VehiclesPage ~ categoryData:', categoryData);
+  const itemsPerPage = 2; //for pagination
 
   useEffect(() => {
     const fetchLocationData = async () => {
@@ -50,8 +48,8 @@ const VehiclesPage = () => {
     fetchCategoryData();
   }, []);
 
-  const locationDatas = useGetCarByLocation(location_id);
-  const categoryDatas = useGetCarByCategory(category_id);
+  const locationDatas = useGetCarByLocation(location_id); //fetech data through hook
+  const categoryDatas = useGetCarByCategory(category_id); //fetech data through hook
 
   useEffect(() => {
     locationDatas.then((data) => {
@@ -71,7 +69,7 @@ const VehiclesPage = () => {
   };
 
   const combinedData = locData?.car_data_final || catData?.car_data_final || [];
-  const pageCount = Math.ceil(combinedData.length / itemsPerPage);
+  const pageCount = Math.ceil(combinedData.length / itemsPerPage); //for pagination
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -80,12 +78,12 @@ const VehiclesPage = () => {
   const displayCars = combinedData.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
-  );
-  console.log(displayCars.length, 'displayCars');
+  ); //for pagination
   return (
     <>
       <div className='w-[87%] m-auto p-[15px] bg-theme'>
         <BookingCard />
+        {/* for changing the value in the form */}
       </div>
       <div className='flex flex-col sm:flex-row gap-4 p-[30px] w-[100%]'>
         <div className='w-[100%] sm:w-[25%] bg-theme p-[24px]'>
@@ -99,6 +97,7 @@ const VehiclesPage = () => {
                 <h1>{item.location_name}</h1>
               </div>
             ))}
+            {/* for location filter */}
           </div>
           <hr className='w-64 h-1 my-8 bg-purple border-0 rounded' />
           <div className='flex flex-col gap-3'>
@@ -109,6 +108,7 @@ const VehiclesPage = () => {
                 <h1>{item.category_name}</h1>
               </div>
             ))}
+            {/* for category filter  */}
           </div>
         </div>
         <div className='w-full lg:w-[75%]'>
@@ -151,6 +151,7 @@ const VehiclesPage = () => {
                 </div>
               ))
             )}
+            {/* for displaying the available cars in the location or according to the category */}
           </div>
           <ReactPaginate
             previousLabel={'Previous'}
@@ -164,6 +165,7 @@ const VehiclesPage = () => {
             containerClassName={'pagination'}
             activeClassName={'active'}
           />
+          {/* for pagination */}
         </div>
       </div>
     </>

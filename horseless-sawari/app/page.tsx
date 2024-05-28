@@ -1,21 +1,21 @@
 'use client';
 
-import { getSession, useSession } from 'next-auth/react';
+import Hero from '@/components/hero/hero';
+import CategoryImageCarousel from '@/components/ui/ImageCarousel/CategoryImageCarousel';
+import LocationImageCarousel from '@/components/ui/ImageCarousel/LocationImageCarousel';
+import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReservationPage from './reservation/page';
-import LocationImageCarousel from '@/components/ui/ImageCarousel/LocationImageCarousel';
-import Hero from '@/components/hero/hero';
-import CategoryImageCarousel from '@/components/ui/ImageCarousel/CategoryImageCarousel';
 
 export default function Home() {
   const [locationData, setLocationData] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
-  const session = useSession();
-  const router = useRouter();
+  const session = useSession(); //client side session
+  const router = useRouter(); //to navigate the user to a certain page
 
   const searchParams = useSearchParams();
-  const url = searchParams.has('url');
+  const url = searchParams.has('url'); //return if the url is present or not in boolean
   useEffect(() => {
     const location_data = async () => {
       const response = await fetch('/api/dashboard/location');
@@ -26,8 +26,8 @@ export default function Home() {
     data.then((loc_data) => {
       if (loc_data) {
         setLocationData(loc_data);
-      }
-    });
+      } //resolving the promise
+    }); //only runs ones when the project is run once and the value is set yo setLocationData
 
     const category_data = async () => {
       const response = await fetch('/api/manufacture');
@@ -50,11 +50,11 @@ export default function Home() {
     } else {
       router.push('/');
     }
-  }, [url, session?.data?.user?.role]);
+  }, [url, session?.data?.user?.role]); //redirecting the user to thier homepage according to their role
   return (
     <>
-      {/* {session.data ? <ReservationPage /> : null} */}
       <ReservationPage />
+      {/* for the booking card where can input the pickup-date... */}
       <div className='bg-gray pb-20'>
         <div className='flex flex-col items-center pt-10 px-4 '>
           <h1 className='text-2xl font-semibold text-center sm:text-left sm:mr-4'>
@@ -68,9 +68,11 @@ export default function Home() {
         {/* <div className='grid grid-cols-4 gap-4 mx-10'> */}
         <div className='items-center border border-gray-300 rounded-lg  p-4 mt-8 mx-10'>
           <LocationImageCarousel itemData={locationData?.location_data_final} />
+          {/* location slider */}
         </div>
       </div>
       <Hero />
+      {/* Hero section contains static details about the application */}
       <div className='bg-gray pb-20 '>
         <div className='flex flex-col items-center pt-10 px-4 '>
           <h1 className='text-2xl font-semibold text-center sm:text-left sm:mr-4'>
@@ -84,6 +86,7 @@ export default function Home() {
         {/* <div className='grid grid-cols-4 gap-4 mx-10'> */}
         <div className='items-center border border-gray-300 rounded-lg  p-4 mt-8 mx-10'>
           <CategoryImageCarousel itemData={categoryData?.category_data_final} />
+          {/* location slider */}
         </div>
       </div>
     </>

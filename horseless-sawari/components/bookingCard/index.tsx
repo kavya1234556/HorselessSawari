@@ -57,12 +57,12 @@ const RegisterSchema = yup.object().shape({
 });
 const BookingCard = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //for setting value in the reducer
   const [location, setLocation] = useState(null);
   const interval = 30;
   const startDate = 60 * 7;
   const endDate = 60 * 21;
-  const dateList = generateHoursInterval(startDate, endDate, interval);
+  const dateList = generateHoursInterval(startDate, endDate, interval); //for the 11:00, 11:130,... list
   const form = useForm({
     resolver: yupResolver(RegisterSchema),
   });
@@ -88,6 +88,7 @@ const BookingCard = () => {
 
     router.push(`/vehicles?location_id=${values.location_id}`);
   };
+  //setting the value in the state of the booking reducer
 
   const location_id = useSelector(
     (state: any) => state.booking.value.location_id
@@ -104,14 +105,14 @@ const BookingCard = () => {
   );
   const dropOffTime = useSelector(
     (state: any) => state.booking.value.dropOffTime
-  );
+  ); //for using the value initialized in the booking reducer
   useEffect(() => {
     form.setValue('location_id', location_id);
     form.setValue('pickUpDate', pickUpDate);
     form.setValue('pickUpTime', pickUpTime);
     form.setValue('dropOffDate', dropOffDate);
     form.setValue('dropOffTime', dropOffTime);
-  }, [location_id]);
+  }, [location_id]); //setting the value in the form
 
   return (
     <Form {...form}>

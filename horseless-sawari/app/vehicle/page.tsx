@@ -43,36 +43,35 @@ export interface IBookingType {
 
 const VehiclePage = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //for setting value in the state
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const [carData, setCarData] = useState(null);
   const [pickUpSelectPostion, setPickUpSelectedPosition] = useState(null);
   const [selectPostion, setSelectedPosition] = useState(null);
-  const car_id = parseInt(searchParams.get('car_id'));
-  const carDatas = useGetCarByCarID(car_id);
+  const car_id = parseInt(searchParams.get('car_id')); //getting the car_id form the url
+  const carDatas = useGetCarByCarID(car_id); //fetching value from the hook
 
   useEffect(() => {
     carDatas.then((data) => {
       setCarData(data);
     });
-  }, [searchParams]);
+  }, [searchParams]); //this use state runs when the car_id changes
   dispatch(setpickUpLocation(pickUpSelectPostion?.display_name));
   dispatch(setdropOffLoction(selectPostion?.display_name));
   const UserId =
     typeof window !== 'undefined' && localStorage
       ? parseInt(localStorage.getItem('user_id'))
       : null;
-  console.log(UserId);
-
-  const pricing = [];
+  //getting the value from the local storage
+  const pricing = []; //empty array for storing the pricing
 
   carData?.car_data_final.map((item: any) => {
     pricing.push(item.pricing_per_four_hour);
     pricing.push(item.pricing_per_eight_hour);
     pricing.push(item.pricing_per_day);
   });
-
+  //setting the pricing value in the pricing array
   const location_id = useSelector(
     (state: any) => state.booking.value.location_id
   );
@@ -88,13 +87,14 @@ const VehiclePage = () => {
   );
   const dropOffTime = useSelector(
     (state: any) => state.booking.value.dropOffTime
-  );
+  ); //getting the initial value of the state from the booking reducer
+
   function formatDate(dateString: Date) {
     const date = new Date(dateString);
     const isoDate = date.toISOString().split('T')[0]; // Extracting YYYY-MM-DD
-
     return isoDate;
-  }
+  } //function for converting the date into iso format
+
   function formatTime(timeString: any) {
     const [time, period] = timeString.split(' ');
     const [hours, minutes] = time.split(':');
@@ -111,7 +111,7 @@ const VehiclePage = () => {
       .padStart(2, '0')}:${minutes}`;
 
     return formattedTime;
-  }
+  } //formating the time to acceptable time format
   const pickUPDate = formatDate(pickUpDate);
   const dropOFFDate = formatDate(dropOffDate);
   const pickUPTime = formatTime(pickUpTime);
@@ -124,12 +124,12 @@ const VehiclePage = () => {
     dropOFFTime,
     pricing
   );
-  console.log(serviceWithCharge);
+  console.log(serviceWithCharge); //generate price is self definef function which calculates the price for the user
 
   dispatch(setPayablePrice(serviceWithCharge));
   dispatch(setTotalPrice(totalPrice));
   dispatch(setServicePrice(ServiceCharge));
-
+  //setting the value in the
   const toggleModal = () => {
     isNaN(UserId) ? router.push('/login') : setOpen((prev) => !prev);
     isNaN(totalPrice);
@@ -281,6 +281,7 @@ const VehiclePage = () => {
               </Card>
             </div>
             <BookingConformation open={open} handleToggleModal={toggleModal} />
+            {/* booking conformation */}
           </div>
         ))}
       </div>
